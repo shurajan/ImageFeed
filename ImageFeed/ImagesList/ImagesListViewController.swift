@@ -12,6 +12,9 @@ final class ImagesListViewController: UIViewController {
     // MARK: - IB Outlets
     @IBOutlet private var tableView: UITableView!
     
+    // MARK: - Private variables
+    private let photosName: [String] = Array(0..<20).map{"\($0)"}
+    
     // MARK: - View Life Cycles
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,13 +23,13 @@ final class ImagesListViewController: UIViewController {
         tableView.dataSource = self
         
         tableView.rowHeight = 200
+        tableView.contentInset = UIEdgeInsets(top: 12, left: 0, bottom: 12, right: 0)
     }
     
     // MARK: - Private Functions
-    private func configCell(for cell: ImagesListCell) {
-        
+    func configCell(for cell: ImagesListCell, with indexPath: IndexPath) {
+       
     }
-
 
 }
 
@@ -40,7 +43,7 @@ extension ImagesListViewController: UITableViewDelegate {
 
 extension ImagesListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
+        return photosName.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -50,7 +53,7 @@ extension ImagesListViewController: UITableViewDataSource {
             return UITableViewCell()
         }
         
-        configCell(for: imageListCell)
+        configCell(for: imageListCell, with: indexPath)
         
         return imageListCell
     }
