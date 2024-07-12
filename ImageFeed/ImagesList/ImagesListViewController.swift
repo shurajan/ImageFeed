@@ -30,8 +30,12 @@ final class ImagesListViewController: UIViewController {
     
     // MARK: - Private Functions
     func configCell(for cell: ImagesListCell, with indexPath: IndexPath) {
+        guard let image = UIImage(named: photosName[indexPath.row]) else {
+            return
+        }
+        
         cell.dateLabel.text = Date().dateString
-        cell.cellImage.image = UIImage(named: photosName[indexPath.item]) ?? UIImage()
+        cell.cellImage.image = image
         
         if indexPath.item % 2 == 0 {
             cell.likeButton.setImage(activeImage, for: UIControl.State.normal)
@@ -42,19 +46,24 @@ final class ImagesListViewController: UIViewController {
     
 }
 
-// MARK: - TableView Extensions
+
+// MARK: - UITableViewDelegate Implementation
 extension ImagesListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        let image = UIImage(named: photosName[indexPath.item]) ?? UIImage()
-        return image.size.height * ((tableView.frame.width-16) / image.size.width)
+        guard let image = UIImage(named: photosName[indexPath.row]) else {
+            return 0
+        }
+        
+        return image.size.height * ((tableView.bounds.width-32) / image.size.width) + 8
     }
     
 }
 
+// MARK: - UITableViewDataSource Implementation
 extension ImagesListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return photosName.count
