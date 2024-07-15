@@ -14,8 +14,8 @@ final class ImagesListViewController: UIViewController {
     
     // MARK: - Private variables
     private let photosName: [String] = Array(0..<20).map{"\($0)"}
-    private let activeImage: UIImage = UIImage(named: "Active") ?? UIImage()
-    private let noActiveImage: UIImage = UIImage(named: "No Active") ?? UIImage()
+    private let activeImage: UIImage? = UIImage(named: "LikeIsOn")
+    private let noActiveImage: UIImage? = UIImage(named: "LikeIsOff")
     
     
     // MARK: - View Life Cycles
@@ -37,7 +37,7 @@ final class ImagesListViewController: UIViewController {
         cell.dateLabel.text = Date().dateString
         cell.cellImage.image = image
         
-        if indexPath.item % 2 == 0 {
+        if indexPath.row % 2 == 0 {
             cell.likeButton.setImage(activeImage, for: UIControl.State.normal)
         } else {
             cell.likeButton.setImage(noActiveImage, for: UIControl.State.normal)
@@ -58,7 +58,11 @@ extension ImagesListViewController: UITableViewDelegate {
             return 0
         }
         
-        return image.size.height * ((tableView.bounds.width-32) / image.size.width) + 8
+        let imageViewWidth = tableView.bounds.width - 32
+        let imageWidth = image.size.width
+        let factor = imageViewWidth / imageWidth
+        let cellHeight = image.size.height * factor + 8
+        return cellHeight
     }
     
 }
