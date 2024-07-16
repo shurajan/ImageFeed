@@ -8,14 +8,14 @@
 import UIKit
 
 final class ImagesListViewController: UIViewController {
-
+    
     // MARK: - IB Outlets
     @IBOutlet private var tableView: UITableView!
     
     // MARK: - Private variables
     private let photosName: [String] = Array(0..<20).map{"\($0)"}
-    private let activeImage: UIImage? = UIImage(named: "LikeIsOn")
-    private let noActiveImage: UIImage? = UIImage(named: "LikeIsOff")
+    private let activeImage: UIImage? = UIImage(named: "LikeButtonOn")
+    private let noActiveImage: UIImage? = UIImage(named: "LikeButtonOff")
     
     
     // MARK: - View Life Cycles
@@ -24,8 +24,11 @@ final class ImagesListViewController: UIViewController {
         
         tableView.delegate = self
         tableView.dataSource = self
-        
         tableView.contentInset = UIEdgeInsets(top: 12, left: 0, bottom: 12, right: 0)
+    }
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
     }
     
     // MARK: - Private Functions
@@ -34,18 +37,11 @@ final class ImagesListViewController: UIViewController {
             return
         }
         
-        cell.dateLabel.text = Date().dateString
-        cell.cellImage.image = image
+        let isLikeOn = indexPath.row % 2 == 1
+        cell.configure(image: image, date: Date(), isLikeOn: isLikeOn)
         
-        if indexPath.row % 2 == 1 {
-            cell.likeButton.setImage(activeImage, for: UIControl.State.normal)
-        } else {
-            cell.likeButton.setImage(noActiveImage, for: UIControl.State.normal)
-        }
     }
-    
 }
-
 
 // MARK: - UITableViewDelegate Implementation
 extension ImagesListViewController: UITableViewDelegate {
