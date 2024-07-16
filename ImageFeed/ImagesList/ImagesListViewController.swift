@@ -37,7 +37,7 @@ final class ImagesListViewController: UIViewController {
         cell.dateLabel.text = Date().dateString
         cell.cellImage.image = image
         
-        if indexPath.row % 2 == 0 {
+        if indexPath.row % 2 == 1 {
             cell.likeButton.setImage(activeImage, for: UIControl.State.normal)
         } else {
             cell.likeButton.setImage(noActiveImage, for: UIControl.State.normal)
