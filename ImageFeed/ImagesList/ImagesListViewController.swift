@@ -15,9 +15,6 @@ final class ImagesListViewController: UIViewController {
     
     // MARK: - Private variables
     private let photosName: [String] = Array(0..<20).map{"\($0)"}
-    private let activeImage: UIImage? = UIImage(named: "LikeButtonOn")
-    private let noActiveImage: UIImage? = UIImage(named: "LikeButtonOff")
-    
     
     // MARK: - View Life Cycles
     override func viewDidLoad() {

@@ -17,6 +17,7 @@ final class SingleImageViewController: UIViewController {
     
     // MARK: - IBOutlets
     @IBOutlet private var imageView: UIImageView!
+    @IBOutlet private var backButton: UIButton!
     
     // MARK: - View Life Cycles
     override func viewDidLoad() {
@@ -27,5 +28,11 @@ final class SingleImageViewController: UIViewController {
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
     }
+    
+    // MARK: - Actions
+    @IBAction func didTapBackButton(_ sender: Any) {
+        dismiss(animated: true, completion: nil)
+    }
+    
 }
 
