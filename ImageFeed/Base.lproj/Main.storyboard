@@ -90,14 +90,15 @@
                             <constraint firstItem="zbl-pK-zjh" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="aPX-W1-0xP"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="" image="tab_editorial_active" id="04N-Vf-gX5"/>
+                    <navigationItem key="navigationItem" id="KXB-bu-lLR"/>
                     <connections>
                         <outlet property="tableView" destination="zbl-pK-zjh" id="oxF-pN-dtq"/>
+                        <segue destination="hbA-Wv-BWk" kind="show" identifier="ShowSingleImage" id="Gjr-sG-eAK"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="935" y="-121"/>
+            <point key="canvasLocation" x="1860.3053435114502" y="-121.12676056338029"/>
         </scene>
         <!--Profile Scene-->
         <scene sceneID="fiH-Cy-a0W">
@@ -182,13 +183,68 @@
                         </tabBarAppearance>
                     </tabBar>
                     <connections>
-                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="viewControllers" id="ZPs-tv-rML"/>
+                        <segue destination="key-YB-jRn" kind="relationship" relationship="viewControllers" id="ZPs-tv-rML"/>
                         <segue destination="cNx-GP-YTD" kind="relationship" relationship="viewControllers" id="0Ar-Oc-vHK"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lL7-2A-2xE" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-195" y="249"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="Gjy-OL-bjA">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="key-YB-jRn" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="" image="tab_editorial_active" id="04N-Vf-gX5"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="OYO-y4-6s4">
+                        <rect key="frame" x="0.0" y="59" width="393" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" name="YP Black (iOS)"/>
+                        <color key="tintColor" name="YP White (iOS)"/>
+                        <color key="barTintColor" name="YP White (iOS)"/>
+                        <navigationBarAppearance key="standardAppearance">
+                            <color key="backgroundColor" name="YP Black (iOS)"/>
+                        </navigationBarAppearance>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="kG3-oh-Wag"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="V6V-7k-guO" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="933.58778625954199" y="-121.12676056338029"/>
+        </scene>
+        <!--Single Image View Controller-->
+        <scene sceneID="PsJ-4p-hiL">
+            <objects>
+                <viewController id="hbA-Wv-BWk" customClass="SingleImageViewController" customModule="ImageFeed" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Vf9-4U-8EE">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="0" translatesAutoresizingMaskIntoConstraints="NO" id="v5E-Cw-bmG">
+                                <rect key="frame" x="0.0" y="103" width="393" height="666"/>
+                            </imageView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="H1V-Bi-Wke"/>
+                        <color key="backgroundColor" name="YP Black (iOS)"/>
+                        <constraints>
+                            <constraint firstItem="v5E-Cw-bmG" firstAttribute="top" secondItem="H1V-Bi-Wke" secondAttribute="top" id="Qoq-by-GkG"/>
+                            <constraint firstItem="v5E-Cw-bmG" firstAttribute="bottom" secondItem="H1V-Bi-Wke" secondAttribute="bottom" id="bHz-Jc-JXv"/>
+                            <constraint firstItem="v5E-Cw-bmG" firstAttribute="leading" secondItem="H1V-Bi-Wke" secondAttribute="leading" id="hZr-G0-LhO"/>
+                            <constraint firstItem="v5E-Cw-bmG" firstAttribute="trailing" secondItem="H1V-Bi-Wke" secondAttribute="trailing" id="thI-8v-vOm"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="GDy-23-MYC"/>
+                    <connections>
+                        <outlet property="imageView" destination="v5E-Cw-bmG" id="hTr-u2-Yny"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="3cD-FC-T2q" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2844" y="-121"/>
         </scene>
     </scenes>
     <resources>
