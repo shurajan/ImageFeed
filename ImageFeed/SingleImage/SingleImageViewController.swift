@@ -11,8 +11,9 @@ final class SingleImageViewController: UIViewController {
     var image: UIImage? {
         didSet {
             guard isViewLoaded, let image else { return }
-            imageView.frame.size = image.size
+            
             imageView.image = image
+            imageView.frame.size = image.size
             rescaleAndCenterImageInScrollView(image: image)
         }
     }
@@ -25,11 +26,14 @@ final class SingleImageViewController: UIViewController {
     // MARK: - View Life Cycles
     override func viewDidLoad() {
         super.viewDidLoad()
-        imageView.image = image
         scrollView.delegate = self
-        
         scrollView.minimumZoomScale = 0.1
         scrollView.maximumZoomScale = 1.25
+        
+        guard let image else { return }
+        imageView.image = image
+        imageView.frame.size = image.size
+        rescaleAndCenterImageInScrollView(image: image)
     }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
@@ -52,6 +56,7 @@ final class SingleImageViewController: UIViewController {
         let x = (newContentSize.width - visibleRectSize.width) / 2
         let y = (newContentSize.height - visibleRectSize.height) / 2
         scrollView.setContentOffset(CGPoint(x: x, y: y), animated: false)
+
     }
     
     // MARK: - Actions
@@ -66,22 +71,5 @@ extension SingleImageViewController: UIScrollViewDelegate {
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
         imageView
     }
-    
-    func scrollViewDidZoom(_ scrollView: UIScrollView) {
-        let offsetX = max((scrollView.bounds.width - scrollView.contentSize.width) * 0.5, 0)
-        let offsetY = max((scrollView.bounds.height - scrollView.contentSize.height) * 0.5, 0)
-        scrollView.contentInset = UIEdgeInsets(top: offsetY, left: offsetX, bottom: 0, right: 0)
-    }
-    
-    /*func scrollViewDidEndZooming(_ scrollView: UIScrollView, with view: UIView?, atScale scale: CGFloat) {
-        //let newContentSize = scrollView.contentSize
-        //let visibleRectSize = scrollView.bounds.size
-        //let x = (newContentSize.width - visibleRectSize.width) / 2
-        //let y = (newContentSize.height - visibleRectSize.height) / 2
-        
-        scrollView.contentInset = UIEdgeInsets(top: 50, left: 50, bottom: 50, right: 50)
-        view?.layoutIfNeeded()
-    }*/
-    
 }
 
