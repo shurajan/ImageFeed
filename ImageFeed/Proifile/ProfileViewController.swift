@@ -13,7 +13,6 @@ final class ProfileViewController: BasicViewController {
     // MARK: - UI Controls
     private var profileImageView: UIImageView!
     private var exitButton: UIButton!
-    
     private var nameLabel: UILabel!
     private var loginNameLabel: UILabel!
     private var descriptionLabel: UILabel!

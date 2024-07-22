@@ -45,7 +45,7 @@ final class SingleImageViewController: BasicViewController {
         let imageSize = image.size
         let hScale = visibleRectSize.width / imageSize.width
         let vScale = visibleRectSize.height / imageSize.height
-        let scale = min(maxZoomScale, max(minZoomScale, min(hScale, vScale)))
+        let scale = min(maxZoomScale, max(minZoomScale, max(hScale, vScale)))
         scrollView.setZoomScale(scale, animated: false)
         scrollView.layoutIfNeeded()
         let newContentSize = scrollView.contentSize
@@ -59,7 +59,6 @@ final class SingleImageViewController: BasicViewController {
     @IBAction func didTapBackButton(_ sender: Any) {
         dismiss(animated: true, completion: nil)
     }
-    
     
     @IBAction func didTapShareButton(_ sender: Any) {
         guard let image else {return}
@@ -85,7 +84,7 @@ extension SingleImageViewController: UIScrollViewDelegate {
         let scale = scrollView.zoomScale
         
         let left = max((visibleRectSize.width - imageSize.width*scale) / 2, 0)
-        let top = max ((visibleRectSize.height - imageSize.height*scale) / 2, 0)
+        let top = max((visibleRectSize.height - imageSize.height*scale) / 2, 0)
         
         scrollView.contentInset = UIEdgeInsets(top: top, left: left, bottom: top, right: left)
     }

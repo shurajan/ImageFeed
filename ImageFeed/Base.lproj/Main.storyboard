@@ -134,7 +134,7 @@
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bFD-8J-cDm">
                                 <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                                 <subviews>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="0" translatesAutoresizingMaskIntoConstraints="NO" id="v5E-Cw-bmG">
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="0" translatesAutoresizingMaskIntoConstraints="NO" id="v5E-Cw-bmG">
                                         <rect key="frame" x="0.0" y="0.0" width="354" height="487"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     </imageView>
@@ -173,10 +173,10 @@
                         <constraints>
                             <constraint firstItem="Qii-qE-K2M" firstAttribute="centerX" secondItem="H1V-Bi-Wke" secondAttribute="centerX" id="5hK-rw-4kh"/>
                             <constraint firstItem="H1V-Bi-Wke" firstAttribute="bottom" secondItem="Qii-qE-K2M" secondAttribute="bottom" constant="16" id="6k2-MU-2j1"/>
-                            <constraint firstItem="H1V-Bi-Wke" firstAttribute="trailing" secondItem="bFD-8J-cDm" secondAttribute="trailing" id="B5N-6c-t9n"/>
+                            <constraint firstAttribute="trailing" secondItem="bFD-8J-cDm" secondAttribute="trailing" id="B5N-6c-t9n"/>
                             <constraint firstItem="bFD-8J-cDm" firstAttribute="top" secondItem="Vf9-4U-8EE" secondAttribute="top" id="DGa-LS-4aa"/>
                             <constraint firstItem="v3T-rL-SuG" firstAttribute="leading" secondItem="H1V-Bi-Wke" secondAttribute="leading" constant="8" id="EzC-ZG-b4V"/>
-                            <constraint firstItem="bFD-8J-cDm" firstAttribute="leading" secondItem="H1V-Bi-Wke" secondAttribute="leading" id="Kc8-lO-EQV"/>
+                            <constraint firstItem="bFD-8J-cDm" firstAttribute="leading" secondItem="Vf9-4U-8EE" secondAttribute="leading" id="Kc8-lO-EQV"/>
                             <constraint firstItem="bFD-8J-cDm" firstAttribute="bottom" secondItem="Vf9-4U-8EE" secondAttribute="bottom" id="LPf-gL-5Rv"/>
                             <constraint firstItem="v3T-rL-SuG" firstAttribute="top" secondItem="H1V-Bi-Wke" secondAttribute="top" constant="8" id="i1W-y4-tsW"/>
                         </constraints>
