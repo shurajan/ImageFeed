@@ -14,8 +14,19 @@ final class ImagesListCell: UITableViewCell {
     static let reuseIdentifier = "ImagesListCell"
     
     // MARK: - IB Outlets
-    @IBOutlet var cellImage: UIImageView!
-    @IBOutlet var likeButton: UIButton!
-    @IBOutlet var dateLabel: UILabel!
+    @IBOutlet private var cellImage: UIImageView!
+    @IBOutlet private var likeButton: UIButton!
+    @IBOutlet private var dateLabel: UILabel!
+    
+    // MARK: - Private variables
+    private let likeOn: UIImage? = UIImage(named: "like_button_on")
+    private let likeOff: UIImage? = UIImage(named: "like_button_off")
         
+    func configure(image: UIImage, date: Date, isLikeOn: Bool) {
+        dateLabel.text = date.dateString
+        cellImage.image = image
+        let likeButtonImage = isLikeOn ? likeOn : likeOff
+        
+        likeButton.setImage(likeButtonImage, for: UIControl.State.normal)
+    }
 }
