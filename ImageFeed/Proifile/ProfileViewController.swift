@@ -98,6 +98,7 @@ final class ProfileViewController: BasicViewController {
         descriptionLabel.text = "Hello, world!"
         descriptionLabel.font = UIFont.systemFont(ofSize: 18)
         descriptionLabel.textColor = UIColor.ypWhiteIOS
+        descriptionLabel.numberOfLines = 0
         addControl(descriptionLabel)
         
         return[descriptionLabel.topAnchor.constraint(equalTo: loginNameLabel.bottomAnchor, constant: 8),
