@@ -39,7 +39,7 @@
                                     <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
                                 </userDefinedRuntimeAttributes>
                                 <connections>
-                                    <segue destination="gDx-Dv-ilV" kind="show" identifier="ShowWebView" id="ZCS-gB-Ihp"/>
+                                    <segue destination="gDx-Dv-ilV" kind="presentation" identifier="ShowWebView" modalPresentationStyle="overFullScreen" id="ZCS-gB-Ihp"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -63,30 +63,52 @@
         <scene sceneID="YOZ-bw-26y">
             <objects>
                 <viewController id="gDx-Dv-ilV" customClass="WebViewViewController" customModule="ImageFeed" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="htc-Ne-7j9" customClass="ImagesListCell" customModule="ImageFeed" customModuleProvider="target">
+                    <view key="view" contentMode="scaleToFill" id="htc-Ne-7j9" customClass="View">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <wkWebView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wJL-LS-Rsk">
-                                <rect key="frame" x="0.0" y="103" width="393" height="749"/>
+                                <rect key="frame" x="0.0" y="44" width="393" height="808"/>
                                 <color key="backgroundColor" name="YP White (iOS)"/>
                                 <wkWebViewConfiguration key="configuration">
                                     <audiovisualMediaTypes key="mediaTypesRequiringUserActionForPlayback" none="YES"/>
                                     <wkPreferences key="preferences"/>
                                 </wkWebViewConfiguration>
                             </wkWebView>
+                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="0Ro-a4-IKt">
+                                <rect key="frame" x="0.0" y="44" width="393" height="4"/>
+                                <color key="progressTintColor" name="YP Black (iOS)"/>
+                            </progressView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pIA-or-ITT">
+                                <rect key="frame" x="0.0" y="0.0" width="44" height="44"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="44" id="Pm9-XC-zYP"/>
+                                    <constraint firstAttribute="width" constant="44" id="iaz-DJ-WeF"/>
+                                </constraints>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <state key="normal" image="backward_black"/>
+                                <connections>
+                                    <action selector="didTapBackButton:" destination="gDx-Dv-ilV" eventType="touchUpInside" id="Mnd-mg-1ql"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="Q50-5c-w6c"/>
                         <color key="backgroundColor" name="YP White (iOS)"/>
                         <constraints>
                             <constraint firstItem="wJL-LS-Rsk" firstAttribute="trailing" secondItem="htc-Ne-7j9" secondAttribute="trailing" id="9JV-Oy-4ka"/>
-                            <constraint firstItem="wJL-LS-Rsk" firstAttribute="top" secondItem="Q50-5c-w6c" secondAttribute="top" id="XEh-qh-S0m"/>
+                            <constraint firstItem="pIA-or-ITT" firstAttribute="top" secondItem="Q50-5c-w6c" secondAttribute="top" id="ASI-bp-2ZW"/>
+                            <constraint firstItem="Q50-5c-w6c" firstAttribute="trailing" secondItem="0Ro-a4-IKt" secondAttribute="trailing" id="E6P-Lz-RW1"/>
+                            <constraint firstItem="0Ro-a4-IKt" firstAttribute="leading" secondItem="Q50-5c-w6c" secondAttribute="leading" id="Iac-Dr-FbR"/>
+                            <constraint firstItem="0Ro-a4-IKt" firstAttribute="top" secondItem="pIA-or-ITT" secondAttribute="bottom" id="Ozf-nz-Vfa"/>
+                            <constraint firstItem="wJL-LS-Rsk" firstAttribute="top" secondItem="pIA-or-ITT" secondAttribute="bottom" id="XEh-qh-S0m"/>
+                            <constraint firstItem="pIA-or-ITT" firstAttribute="leading" secondItem="Q50-5c-w6c" secondAttribute="leading" id="fc8-YN-iUQ"/>
                             <constraint firstAttribute="bottom" secondItem="wJL-LS-Rsk" secondAttribute="bottom" id="hHc-iM-ffe"/>
                             <constraint firstItem="wJL-LS-Rsk" firstAttribute="leading" secondItem="htc-Ne-7j9" secondAttribute="leading" id="xb1-UH-Fti"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="lmu-JG-qbc"/>
                     <connections>
+                        <outlet property="progressView" destination="0Ro-a4-IKt" id="AuA-ta-Xbw"/>
                         <outlet property="webView" destination="wJL-LS-Rsk" id="XAl-qQ-Mu9"/>
                     </connections>
                 </viewController>
@@ -316,6 +338,7 @@
         <image name="Active" width="30" height="30"/>
         <image name="Logo_of_Unsplash" width="60" height="60"/>
         <image name="backward" width="24" height="24"/>
+        <image name="backward_black" width="24" height="24"/>
         <image name="like_button_on" width="42" height="42"/>
         <image name="sharing" width="51" height="51"/>
         <image name="tab_editorial_active" width="30" height="30"/>
