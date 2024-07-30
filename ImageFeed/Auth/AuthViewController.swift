@@ -7,8 +7,21 @@
 
 import UIKit
 
+//MARK: - Protocols
+protocol AuthViewControllerDelegate: AnyObject {
+    func didAuthenticate(_ vc: AuthViewController)
+} 
+
+protocol WebViewViewControllerDelegate: AnyObject  {
+    func webViewViewController(_ vc: WebViewViewController, didAuthenticateWithCode code: String)
+    func webViewViewControllerDidCancel(_ vc: WebViewViewController)
+}
+
+//MARK: - AuthViewController
 final class AuthViewController: BasicViewController {
     private let ShowWebViewSegueIdentifier = "ShowWebView"
+    
+    weak var delegate: AuthViewControllerDelegate?
     
     // MARK: - View Life Cycles
     override func viewDidLoad() {
@@ -27,10 +40,26 @@ final class AuthViewController: BasicViewController {
     }
 }
 
-
+//MARK: - WebViewViewControllerDelegate
 extension AuthViewController: WebViewViewControllerDelegate {
     func webViewViewController(_ vc: WebViewViewController, didAuthenticateWithCode code: String) {
-        //TODO: process code
+        vc.dismiss(animated: true)
+        OAuth2Service.shared.fetchOAuthToken(for: code) { result in
+            switch result{
+            case .success(let data):
+                let decoder = JSONDecoder()
+                do {
+                    let response = try decoder.decode(OAuthTokenResponseBody.self, from: data)
+                    OAuth2TokenStorage.shared.token = response.accessToken
+                    self.delegate?.didAuthenticate(self)
+                } catch {
+                    print(error)
+                }
+                
+            case .failure(let error):
+                print(error)
+            }
+        }
     }
     
     func webViewViewControllerDidCancel(_ vc: WebViewViewController) {

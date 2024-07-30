@@ -8,9 +8,6 @@
 import UIKit
 import WebKit
 
-enum WebViewConstants {
-    static let unsplashAuthorizeURLString = "https://unsplash.com/oauth/authorize"
-}
 
 final class WebViewViewController: UIViewController {
     // MARK: - IBOutlets
@@ -47,7 +44,6 @@ final class WebViewViewController: UIViewController {
         context: UnsafeMutableRawPointer?
     ) {
         if keyPath == #keyPath(WKWebView.estimatedProgress) {
-            print("change")
             updateProgress()
         } else {
             super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
@@ -61,7 +57,7 @@ final class WebViewViewController: UIViewController {
     }
     
     private func loadAuthView() {
-        guard var urlComponents = URLComponents(string: WebViewConstants.unsplashAuthorizeURLString) else {
+        guard var urlComponents = URLComponents(string: UnsplashURLConstants.authorizeURLString) else {
             return
         }
         
@@ -87,6 +83,7 @@ final class WebViewViewController: UIViewController {
     
 }
 
+// MARK: - WKNavigationDelegate Extension
 extension WebViewViewController: WKNavigationDelegate {
     func webView(_ webView: WKWebView,
                  decidePolicyFor navigationAction: WKNavigationAction,
