@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class ImagesListViewController: BasicViewController {
+final class ImagesListViewController: LightStatusBarViewController {
     private let showSingleImageSegueIdentifier = "ShowSingleImage"
     
     // MARK: - IB Outlets

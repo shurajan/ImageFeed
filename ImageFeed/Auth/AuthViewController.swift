@@ -8,17 +8,13 @@
 import UIKit
 
 //MARK: - Protocols
-protocol AuthViewControllerDelegate: AnyObject {
-    func didAuthenticate(_ vc: AuthViewController)
-} 
-
 protocol WebViewViewControllerDelegate: AnyObject  {
     func webViewViewController(_ vc: WebViewViewController, didAuthenticateWithCode code: String)
     func webViewViewControllerDidCancel(_ vc: WebViewViewController)
 }
 
 //MARK: - AuthViewController
-final class AuthViewController: BasicViewController {
+final class AuthViewController: LightStatusBarViewController {
     private let ShowWebViewSegueIdentifier = "ShowWebView"
     
     weak var delegate: AuthViewControllerDelegate?

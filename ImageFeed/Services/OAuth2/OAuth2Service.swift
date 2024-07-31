@@ -7,6 +7,7 @@
 
 import Foundation
 
+//MARK: - OAuthTokenResponseBody struct
 struct OAuthTokenResponseBody: Codable {
     let accessToken: String
     let tokenType: String
@@ -21,17 +22,15 @@ struct OAuthTokenResponseBody: Codable {
     }
 }
 
+//MARK: - OAuth2Service
 final class OAuth2Service {
     static let shared = OAuth2Service()
     
-    private let networkService: NetworkRouting
-    
     private init() {
-        networkService = NetworkService()
     }
     
     private func makeOAuthTokenRequest(for code: String) -> URLRequest? {
-        guard var urlComponents = URLComponents(string: UnsplashURLConstants.tokenURLString) else {
+        guard var urlComponents = URLComponents(string: URLConstants.tokenURLString) else {
             return nil
         }
         
@@ -53,11 +52,10 @@ final class OAuth2Service {
         return request
     }
     
-    func fetchOAuthToken(for code: String, handler: @escaping (Result<Data, Error>) -> Void) {
+    func fetchOAuthToken(for code: String, completion: @escaping (Result<Data, Error>) -> Void) {
         guard let request = makeOAuthTokenRequest(for: code) else {return}
-        let task = URLSession.shared.data(for: request, handler: handler)
+        let task = URLSession.shared.data(for: request, handler: completion)
         task.resume()
-        
     }
 }
 

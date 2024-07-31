@@ -9,7 +9,7 @@ import UIKit
 import WebKit
 
 
-final class WebViewViewController: UIViewController {
+final class WebViewViewController: DarkStatusBarViewController {
     // MARK: - IBOutlets
     @IBOutlet var webView: WKWebView!
     @IBOutlet var progressView: UIProgressView!
@@ -57,7 +57,7 @@ final class WebViewViewController: UIViewController {
     }
     
     private func loadAuthView() {
-        guard var urlComponents = URLComponents(string: UnsplashURLConstants.authorizeURLString) else {
+        guard var urlComponents = URLComponents(string: URLConstants.authorizeURLString) else {
             return
         }
         

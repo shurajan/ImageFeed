@@ -13,6 +13,7 @@ final class OAuth2TokenStorage {
     private init(){
     }
     
+    //TODO: - replace with secure storage
     private let storage: UserDefaults = .standard
     
     private enum Keys: String {

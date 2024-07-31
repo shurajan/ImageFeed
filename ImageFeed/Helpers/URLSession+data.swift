@@ -7,12 +7,14 @@
 
 import Foundation
 
+//MARK: - Network Error
 enum NetworkError: Error {
     case httpStatusCode(Int)
     case urlRequestError(Error)
     case urlSessionError
 }
 
+//MARK: - URLSession extension to load data in main thread
 extension URLSession {
     func data(for request: URLRequest,
               handler: @escaping (Result<Data, Error>) -> Void) -> URLSessionTask {
@@ -32,7 +34,7 @@ extension URLSession {
                 } else {
                     fulfillCompletionOnTheMainThread(.failure(NetworkError.httpStatusCode(statusCode)))
                 }
-            } else if let error = error {
+            } else if let error {
                 fulfillCompletionOnTheMainThread(.failure(NetworkError.urlRequestError(error)))
             } else {
                 fulfillCompletionOnTheMainThread(.failure(NetworkError.urlSessionError))

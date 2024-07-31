@@ -8,7 +8,7 @@
 
 import UIKit
 
-final class ProfileViewController: BasicViewController {
+final class ProfileViewController: LightStatusBarViewController {
    
     // MARK: - UI Controls
     private var profileImageView: UIImageView!
