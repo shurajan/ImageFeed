@@ -16,7 +16,7 @@ protocol AuthViewControllerDelegate: AnyObject {
 final class SplashViewController: LightStatusBarViewController {
     private let showAuthViewSegueIdentifier = "ShowAuthView"
     
-    // MARK: - View Life Cycles
+//MARK: - View Life Cycles
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         

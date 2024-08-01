@@ -31,6 +31,8 @@ final class OAuth2Service {
     
     private func makeOAuthTokenRequest(for code: String) -> URLRequest? {
         guard var urlComponents = URLComponents(string: URLConstants.tokenURLString) else {
+            assertionFailure("Can not build url components")
+            print("Can not build url components")
             return nil
         }
         
@@ -43,6 +45,8 @@ final class OAuth2Service {
         ]
         
         guard let url = urlComponents.url else {
+            assertionFailure("Can not build url")
+            print("Can not build url")
             return nil
         }
         

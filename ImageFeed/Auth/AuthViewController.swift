@@ -49,11 +49,12 @@ extension AuthViewController: WebViewViewControllerDelegate {
                     OAuth2TokenStorage.shared.token = response.accessToken
                     self.delegate?.didAuthenticate(self)
                 } catch {
-                    print(error)
+                    assertionFailure("Can not decode data - \(error)")
+                    print("Can not decode data - \(error)")
                 }
                 
             case .failure(let error):
-                print(error)
+                print("Can not receive token for code with - \(error)")
             }
         }
     }
