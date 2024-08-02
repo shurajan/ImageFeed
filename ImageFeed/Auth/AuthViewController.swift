@@ -40,21 +40,15 @@ final class AuthViewController: LightStatusBarViewController {
 extension AuthViewController: WebViewViewControllerDelegate {
     func webViewViewController(_ vc: WebViewViewController, didAuthenticateWithCode code: String) {
         vc.dismiss(animated: true)
-        OAuth2Service.shared.fetchOAuthToken(for: code) { result in
+        OAuth2Service.shared.fetchOAuthToken(for: code) {[weak self] result in
+            guard let self = self else {return}
+                    
             switch result{
-            case .success(let data):
-                let decoder = JSONDecoder()
-                do {
-                    let response = try decoder.decode(OAuthTokenResponseBody.self, from: data)
-                    OAuth2TokenStorage.shared.token = response.accessToken
-                    self.delegate?.didAuthenticate(self)
-                } catch {
-                    assertionFailure("Can not decode data - \(error)")
-                    print("Can not decode data - \(error)")
-                }
-                
+            case .success(let token):
+                OAuth2TokenStorage.shared.token = token
+                self.delegate?.didAuthenticate(self)
             case .failure(let error):
-                print("Can not receive token for code with - \(error)")
+                print("Can not receive token for code : \(error.localizedDescription)")
             }
         }
     }

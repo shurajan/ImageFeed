@@ -20,7 +20,7 @@ final class SplashViewController: LightStatusBarViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        if let token = OAuth2TokenStorage.shared.token {
+        if OAuth2TokenStorage.shared.token != nil {
             switchToTabBarController()
         } else {
             performSegue(withIdentifier:  showAuthViewSegueIdentifier, sender: self)

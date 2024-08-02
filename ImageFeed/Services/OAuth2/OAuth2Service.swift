@@ -56,9 +56,24 @@ final class OAuth2Service {
         return request
     }
     
-    func fetchOAuthToken(for code: String, completion: @escaping (Result<Data, Error>) -> Void) {
+    func fetchOAuthToken(for code: String, completion: @escaping (Result<String, Error>) -> Void) {
         guard let request = makeOAuthTokenRequest(for: code) else {return}
-        let task = URLSession.shared.data(for: request, handler: completion)
+        
+        let task = URLSession.shared.data(for: request) { result in
+            switch result{
+            case .success(let data):
+                let decoder = JSONDecoder()
+                do {
+                    let response = try decoder.decode(OAuthTokenResponseBody.self, from: data)
+                    completion(.success(response.accessToken))
+                } catch {
+                    print("Can not decode response from unsplash: \(error)")
+                    completion(.failure(error))
+                }
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        }
         task.resume()
     }
 }

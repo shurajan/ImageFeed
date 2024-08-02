@@ -8,7 +8,7 @@
 import Foundation
 
 enum URLConstants {
-    static let defaultBaseURL = URL(string: "https://api.unsplash.com")!
+    static let defaultBaseURL = URL(string: "https://api.unsplash.com")
     static let tokenURLString = "https://unsplash.com/oauth/token"
     static let authorizeURLString = "https://unsplash.com/oauth/authorize"
 }

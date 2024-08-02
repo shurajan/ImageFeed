@@ -25,8 +25,11 @@
                                 </constraints>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cPP-DS-zyd">
-                                <rect key="frame" x="16" y="727.66666666666663" width="361" height="34.333333333333371"/>
+                                <rect key="frame" x="16" y="714" width="361" height="48"/>
                                 <color key="backgroundColor" name="YP White (iOS)"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="48" id="R4d-75-ZGM"/>
+                                </constraints>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" title="Войти">
                                     <fontDescription key="titleFontDescription" type="boldSystem" pointSize="17"/>
