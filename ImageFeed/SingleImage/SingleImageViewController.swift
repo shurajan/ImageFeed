@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class SingleImageViewController: BasicViewController {
+final class SingleImageViewController: LightStatusBarViewController {
     var image: UIImage? {
         didSet {
             guard isViewLoaded, let image else { return }
