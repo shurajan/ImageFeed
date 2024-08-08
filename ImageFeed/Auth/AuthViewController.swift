@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import ProgressHUD
 
 //MARK: - Protocols
 protocol WebViewViewControllerDelegate: AnyObject  {
@@ -40,6 +41,7 @@ final class AuthViewController: LightStatusBarViewController {
 extension AuthViewController: WebViewViewControllerDelegate {
     func webViewViewController(_ vc: WebViewViewController, didAuthenticateWithCode code: String) {
         vc.dismiss(animated: true)
+        UIBlockingProgressHUD.show()
         OAuth2Service.shared.fetchOAuthToken(for: code) {[weak self] result in
             guard let self = self else {return}
                     
@@ -50,6 +52,7 @@ extension AuthViewController: WebViewViewControllerDelegate {
             case .failure(let error):
                 print("Can not receive token for code : \(error.localizedDescription)")
             }
+            UIBlockingProgressHUD.dismiss()
         }
     }
     

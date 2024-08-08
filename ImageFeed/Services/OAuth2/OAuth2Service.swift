@@ -7,6 +7,22 @@
 
 import Foundation
 
+//MARK: - Network Error
+enum AuthServiceError: Error {
+    case invalidRequest, authTokenAlreadyObtained, duplicateRequest
+    
+    var description: String? {
+        switch self {
+        case .duplicateRequest:
+            return "Request duplication"
+        case .authTokenAlreadyObtained:
+            return "Auth token already obtained"
+        case .invalidRequest:
+            return "Invalid request"
+        }
+    }
+}
+
 //MARK: - OAuthTokenResponseBody struct
 struct OAuthTokenResponseBody: Codable {
     let accessToken: String
@@ -24,7 +40,13 @@ struct OAuthTokenResponseBody: Codable {
 
 //MARK: - OAuth2Service
 final class OAuth2Service {
+    //MARK: - Singleton
     static let shared = OAuth2Service()
+    
+    //MARK: - Private variables
+    private let urlSession = URLSession.shared
+    private var task: URLSessionTask?
+    private var lastCode: String?
     
     private init() {
     }
@@ -57,9 +79,32 @@ final class OAuth2Service {
     }
     
     func fetchOAuthToken(for code: String, completion: @escaping (Result<String, Error>) -> Void) {
-        guard let request = makeOAuthTokenRequest(for: code) else {return}
+        assert(Thread.isMainThread)
         
-        let task = URLSession.shared.data(for: request) { result in
+        if task != nil {
+            if lastCode != code {
+                task?.cancel()
+            } else {
+                print("Trying to send a new request for the same code")
+                completion(.failure(AuthServiceError.duplicateRequest))
+                return
+            }
+        } else if lastCode == code {
+            print("Auth token already received")
+            completion(.failure(AuthServiceError.authTokenAlreadyObtained))
+            return
+        }
+        
+        lastCode = code
+        guard let request = makeOAuthTokenRequest(for: code) else {
+            print("Can not make the request for code")
+            completion(.failure(AuthServiceError.invalidRequest))
+            return
+        }
+        
+        //Handler запускается в main thread см Helpers\URLSession+data 
+        let task = urlSession.data(for: request) {[weak self] result in
+            assert(Thread.isMainThread)
             switch result{
             case .success(let data):
                 let decoder = JSONDecoder()
@@ -73,7 +118,10 @@ final class OAuth2Service {
             case .failure(let error):
                 completion(.failure(error))
             }
+            self?.task = nil
+            self?.lastCode = nil
         }
+        self.task = task
         task.resume()
     }
 }
