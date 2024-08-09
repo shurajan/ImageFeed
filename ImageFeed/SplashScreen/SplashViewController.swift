@@ -20,8 +20,8 @@ final class SplashViewController: LightStatusBarViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        if OAuth2TokenStorage.shared.token != nil {
-            switchToTabBarController()
+        if let token = OAuth2TokenStorage.shared.token {
+            fetchProfile(token: token)
         } else {
             performSegue(withIdentifier:  showAuthViewSegueIdentifier, sender: self)
         }
@@ -57,14 +57,31 @@ final class SplashViewController: LightStatusBarViewController {
         
         window.rootViewController = tabBarController
     }
+    
+    private func fetchProfile(token: String) {
+        UIBlockingProgressHUD.show()
+        ProfileService.shared.fetchProfile(token) { [weak self] result in
+            UIBlockingProgressHUD.dismiss()
+            guard let self = self else {return}
+            switch result{
+            case .success(let profile):  
+                self.switchToTabBarController()
+            case .failure(let error):
+                print("Can not load profile for token : \(error.localizedDescription)")
+            }
+        }
+    }
 }
 
 // MARK: - AuthViewControllerDelegate Extension
 extension SplashViewController: AuthViewControllerDelegate {
     func didAuthenticate(_ vc: AuthViewController) {
         vc.dismiss(animated: true)
-        switchToTabBarController()
+        
+        guard let token = OAuth2TokenStorage.shared.token else {
+            return
+        }
+        
+        fetchProfile(token: token)
     }
-    
-    
 }

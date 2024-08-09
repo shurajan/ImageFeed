@@ -7,7 +7,7 @@
 
 import Foundation
 
-//MARK: - Network Error
+//MARK: - AuthService Error
 enum AuthServiceError: Error {
     case invalidRequest, authTokenAlreadyObtained, duplicateRequest
     

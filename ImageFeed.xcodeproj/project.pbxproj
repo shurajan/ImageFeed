@@ -29,6 +29,7 @@
 		D9C4F9282C5A4D9E004A08DF /* DarkStatusBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9C4F9272C5A4D9E004A08DF /* DarkStatusBarViewController.swift */; };
 		D9D7E8052C64ADD6004CBC66 /* ProgressHUD in Frameworks */ = {isa = PBXBuildFile; productRef = D9D7E8042C64ADD6004CBC66 /* ProgressHUD */; };
 		D9D7E8072C65389E004CBC66 /* UIBlockingProgressHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D7E8062C65389E004CBC66 /* UIBlockingProgressHUD.swift */; };
+		D9D7E8092C6628B2004CBC66 /* ProfileService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D7E8082C6628B2004CBC66 /* ProfileService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -55,6 +56,7 @@
 		D9C4F9232C5904BD004A08DF /* SplashViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
 		D9C4F9272C5A4D9E004A08DF /* DarkStatusBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DarkStatusBarViewController.swift; sourceTree = "<group>"; };
 		D9D7E8062C65389E004CBC66 /* UIBlockingProgressHUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIBlockingProgressHUD.swift; sourceTree = "<group>"; };
+		D9D7E8082C6628B2004CBC66 /* ProfileService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -156,6 +158,7 @@
 			children = (
 				D9C4F9252C5A3C2A004A08DF /* OAuth2 */,
 				D9C4F91D2C580291004A08DF /* NetworkService.swift */,
+				D9D7E8082C6628B2004CBC66 /* ProfileService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -277,6 +280,7 @@
 				D9B75FEE2C3706F10022F490 /* AppDelegate.swift in Sources */,
 				D947AEB52C4E8FB100742DD3 /* LightStatusBarViewController.swift in Sources */,
 				D96D0B242C411B08008FD358 /* Date+Extensions.swift in Sources */,
+				D9D7E8092C6628B2004CBC66 /* ProfileService.swift in Sources */,
 				D9C4F9222C58F509004A08DF /* OAuth2TokenStorage.swift in Sources */,
 				D9B75FF02C3706F10022F490 /* SceneDelegate.swift in Sources */,
 				D9C4F9122C52463D004A08DF /* Constants.swift in Sources */,

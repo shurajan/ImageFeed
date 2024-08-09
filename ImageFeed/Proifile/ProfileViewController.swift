@@ -16,7 +16,6 @@ final class ProfileViewController: LightStatusBarViewController {
     private var nameLabel: UILabel!
     private var loginNameLabel: UILabel!
     private var descriptionLabel: UILabel!
-    
 
     // MARK: - View Life Cycles
     override func viewDidLoad() {
@@ -29,6 +28,9 @@ final class ProfileViewController: LightStatusBarViewController {
         constraints += placeNameLabelAndGetConstraints()
         constraints += placeLoginNameLabelAndGetConstraints()
         constraints += placeDescriptionLabelAndGetConstraints()
+        if let profile = ProfileService.shared.profile {
+            updateProfileDetails(profile: profile)
+        }
                         
         NSLayoutConstraint.activate(constraints)
         
@@ -67,7 +69,7 @@ final class ProfileViewController: LightStatusBarViewController {
     
     private func placeNameLabelAndGetConstraints()-> [NSLayoutConstraint] {
         nameLabel = UILabel()
-        nameLabel.text = "Екатерина Новикова"
+        nameLabel.text = "unknown"
         nameLabel.font = UIFont.boldSystemFont(ofSize: 23.0)
         nameLabel.textColor = UIColor.ypWhiteIOS
         addControl(nameLabel)
@@ -81,7 +83,7 @@ final class ProfileViewController: LightStatusBarViewController {
     
     private func placeLoginNameLabelAndGetConstraints()-> [NSLayoutConstraint] {
         loginNameLabel = UILabel()
-        loginNameLabel.text = "@ekaterina_nov"
+        loginNameLabel.text = "unknown"
         loginNameLabel.font = UIFont.systemFont(ofSize: 18)
         loginNameLabel.textColor = UIColor.ypGrayIOS
         addControl(loginNameLabel)
@@ -95,7 +97,7 @@ final class ProfileViewController: LightStatusBarViewController {
     
     private func placeDescriptionLabelAndGetConstraints()-> [NSLayoutConstraint] {
         descriptionLabel = UILabel()
-        descriptionLabel.text = "Hello, world!"
+        descriptionLabel.text = "not available"
         descriptionLabel.font = UIFont.systemFont(ofSize: 18)
         descriptionLabel.textColor = UIColor.ypWhiteIOS
         descriptionLabel.numberOfLines = 0
@@ -109,6 +111,12 @@ final class ProfileViewController: LightStatusBarViewController {
     }
     
     
+    //MARK: - Private methods
+    private func updateProfileDetails(profile: Profile){
+        nameLabel.text = profile.name
+        loginNameLabel.text = profile.loginName
+        descriptionLabel.text = profile.bio
+    }
     
 }
     
