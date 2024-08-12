@@ -40,17 +40,68 @@ struct OAuthTokenResponseBody: Codable {
 
 //MARK: - OAuth2Service
 final class OAuth2Service {
-    //MARK: - Singleton
     static let shared = OAuth2Service()
     
-    //MARK: - Private variables
+    //MARK: - Dependency injections and constants
     private let urlSession = URLSession.shared
+    
+    //MARK: - Private variables
     private var task: URLSessionTask?
     private var lastCode: String?
     
+    //MARK: - Init
     private init() {
     }
     
+    //MARK: - Public functions
+    func fetchOAuthToken(for code: String, completion: @escaping (Result<String, Error>) -> Void) {
+        assert(Thread.isMainThread)
+        
+        if task != nil {
+            if lastCode != code {
+                task?.cancel()
+            } else {
+                print("Trying to send a new request for the same code")
+                completion(.failure(AuthServiceError.duplicateRequest))
+                return
+            }
+        } else if lastCode == code {
+            print("Auth token already received")
+            completion(.failure(AuthServiceError.authTokenAlreadyObtained))
+            return
+        }
+        
+        lastCode = code
+        guard let request = makeOAuthTokenRequest(for: code) else {
+            print("Can not make the request for code")
+            completion(.failure(AuthServiceError.invalidRequest))
+            return
+        }
+        
+        //Handler запускается в main thread см Helpers\URLSession+data
+        let task = urlSession.data(for: request) {[weak self] result in
+            assert(Thread.isMainThread)
+            switch result{
+            case .success(let data):
+                let decoder = JSONDecoder()
+                do {
+                    let response = try decoder.decode(OAuthTokenResponseBody.self, from: data)
+                    completion(.success(response.accessToken))
+                } catch {
+                    print("Can not decode response from unsplash: \(error)")
+                    completion(.failure(error))
+                }
+            case .failure(let error):
+                completion(.failure(error))
+            }
+            self?.task = nil
+            self?.lastCode = nil
+        }
+        self.task = task
+        task.resume()
+    }
+    
+    //MARK: - Private functions
     private func makeOAuthTokenRequest(for code: String) -> URLRequest? {
         guard var urlComponents = URLComponents(string: URLConstants.tokenURLString) else {
             assertionFailure("Can not build url components")
@@ -77,53 +128,7 @@ final class OAuth2Service {
         
         return request
     }
-    
-    func fetchOAuthToken(for code: String, completion: @escaping (Result<String, Error>) -> Void) {
-        assert(Thread.isMainThread)
-        
-        if task != nil {
-            if lastCode != code {
-                task?.cancel()
-            } else {
-                print("Trying to send a new request for the same code")
-                completion(.failure(AuthServiceError.duplicateRequest))
-                return
-            }
-        } else if lastCode == code {
-            print("Auth token already received")
-            completion(.failure(AuthServiceError.authTokenAlreadyObtained))
-            return
-        }
-        
-        lastCode = code
-        guard let request = makeOAuthTokenRequest(for: code) else {
-            print("Can not make the request for code")
-            completion(.failure(AuthServiceError.invalidRequest))
-            return
-        }
-        
-        //Handler запускается в main thread см Helpers\URLSession+data 
-        let task = urlSession.data(for: request) {[weak self] result in
-            assert(Thread.isMainThread)
-            switch result{
-            case .success(let data):
-                let decoder = JSONDecoder()
-                do {
-                    let response = try decoder.decode(OAuthTokenResponseBody.self, from: data)
-                    completion(.success(response.accessToken))
-                } catch {
-                    print("Can not decode response from unsplash: \(error)")
-                    completion(.failure(error))
-                }
-            case .failure(let error):
-                completion(.failure(error))
-            }
-            self?.task = nil
-            self?.lastCode = nil
-        }
-        self.task = task
-        task.resume()
-    }
+
 }
 
 

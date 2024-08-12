@@ -9,7 +9,7 @@
 import UIKit
 
 final class ProfileViewController: LightStatusBarViewController {
-   
+    
     // MARK: - UI Controls
     private var profileImageView: UIImageView!
     private var exitButton: UIButton!
@@ -17,9 +17,23 @@ final class ProfileViewController: LightStatusBarViewController {
     private var loginNameLabel: UILabel!
     private var descriptionLabel: UILabel!
 
+    // MARK: - Private Variables
+    private var profileImageServiceObserver: NSObjectProtocol?
+    
     // MARK: - View Life Cycles
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        profileImageServiceObserver = NotificationCenter.default    // 2
+            .addObserver(
+                forName: ProfileImageService.didChangeNotification, // 3
+                object: nil,                                        // 4
+                queue: .main                                        // 5
+            ) { [weak self] _ in
+                guard let self = self else { return }
+                self.updateAvatar()                                 // 6
+            }
+        updateAvatar()
         
         view.backgroundColor = UIColor.ypBlackIOS
         
@@ -116,6 +130,15 @@ final class ProfileViewController: LightStatusBarViewController {
         nameLabel.text = profile.name
         loginNameLabel.text = profile.loginName
         descriptionLabel.text = profile.bio
+    }
+    
+    private func updateAvatar() {                                   // 8
+        guard
+            let profileImageURL = ProfileImageService.shared.avatarURL,
+            let url = URL(string: profileImageURL)
+        else { return }
+        // TODO [Sprint 11] Обновить аватар, используя Kingfisher
+        print("Updating avatar called")
     }
     
 }

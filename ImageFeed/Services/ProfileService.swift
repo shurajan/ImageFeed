@@ -53,41 +53,21 @@ struct Profile {
 final class ProfileService {
     static let shared = ProfileService()
     
+    //MARK: - Dependency injections and constants
+    private let urlSession = URLSession.shared
+    private let baseURL = URLConstants.defaultBaseURL
+    
+    //MARK: - Private(set) variables
     private(set) var profile: Profile?
     
-    private let urlSession = URLSession.shared
+    //MARK: - Private variables
     private var task: URLSessionTask?
 
+    //MARK: - Init
     private init(){
     }
     
-    private func makeProfileURL(from baseURL :URL) -> URL {
-        if #available(iOS 16, *) {
-            return baseURL.appending(path: "me")
-        }
-        else {
-            return baseURL.appendingPathComponent("me")
-        }
-    }
-    
-    private func makeProfileRequest(for token: String) -> URLRequest? {
-        
-        guard let baseURL = URLConstants.defaultBaseURL
-        else {
-            assertionFailure("Can not build url request")
-            print("Can not build url request")
-            return nil
-        }
-        
-        let profileURL = makeProfileURL(from: baseURL)
-        var request = URLRequest(url: profileURL)
-        
-        request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
-        request.httpMethod = "GET"
-        
-        return request
-    }
-    
+    //MARK: - Public functions
     func fetchProfile(_ token: String, completion: @escaping (Result<Profile, Error>) -> Void) {
         assert(Thread.isMainThread)
         
@@ -121,9 +101,38 @@ final class ProfileService {
                 completion(.failure(error))
             }
             self?.task = nil
-
+            
         }
         self.task = task
         task.resume()
     }
+    
+    //MARK: - Private functions
+    private func makeProfileURL(from baseURL :URL) -> URL {
+        if #available(iOS 16, *) {
+            return baseURL.appending(path: "me")
+        }
+        else {
+            return baseURL.appendingPathComponent("me")
+        }
+    }
+    
+    private func makeProfileRequest(for token: String) -> URLRequest? {
+        
+        guard let baseURL
+        else {
+            assertionFailure("Can not build url request")
+            print("Can not build url request")
+            return nil
+        }
+        
+        let profileURL = makeProfileURL(from: baseURL)
+        var request = URLRequest(url: profileURL)
+        
+        request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        request.httpMethod = "GET"
+        
+        return request
+    }
+
 }

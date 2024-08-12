@@ -16,7 +16,7 @@ protocol AuthViewControllerDelegate: AnyObject {
 final class SplashViewController: LightStatusBarViewController {
     private let showAuthViewSegueIdentifier = "ShowAuthView"
     
-//MARK: - View Life Cycles
+    //MARK: - View Life Cycles
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
@@ -60,16 +60,26 @@ final class SplashViewController: LightStatusBarViewController {
     
     private func fetchProfile(token: String) {
         UIBlockingProgressHUD.show()
-        ProfileService.shared.fetchProfile(token) { [weak self] result in
+        ProfileService.shared.fetchProfile(token) {[weak self] result in
             UIBlockingProgressHUD.dismiss()
             guard let self = self else {return}
+            
             switch result{
-            case .success(let profile):  
+            case .success(_):
                 self.switchToTabBarController()
+                ProfileImageService.shared.fetchProfileImageURL(token) {result in
+                    switch result{
+                    case .success(let avatarURL):
+                        print(avatarURL)
+                    case .failure(let error):
+                        print("Can not load profile image for token : \(error.localizedDescription)")
+                    }
+                }
             case .failure(let error):
                 print("Can not load profile for token : \(error.localizedDescription)")
             }
         }
+        
     }
 }
 
