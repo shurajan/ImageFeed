@@ -33,6 +33,7 @@
 		D9D7E80B2C6A21CC004CBC66 /* ProfileImageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D7E80A2C6A21CC004CBC66 /* ProfileImageService.swift */; };
 		D9D7E8102C6BB715004CBC66 /* AlertModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D7E80F2C6BB715004CBC66 /* AlertModel.swift */; };
 		D9D7E8132C6BB752004CBC66 /* AlertPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D7E8122C6BB752004CBC66 /* AlertPresenter.swift */; };
+		D9D7E8152C6BCF37004CBC66 /* Log.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D7E8142C6BCF37004CBC66 /* Log.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -63,6 +64,7 @@
 		D9D7E80A2C6A21CC004CBC66 /* ProfileImageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileImageService.swift; sourceTree = "<group>"; };
 		D9D7E80F2C6BB715004CBC66 /* AlertModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertModel.swift; sourceTree = "<group>"; };
 		D9D7E8122C6BB752004CBC66 /* AlertPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertPresenter.swift; sourceTree = "<group>"; };
+		D9D7E8142C6BCF37004CBC66 /* Log.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Log.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -92,6 +94,7 @@
 				D96D0B232C411B08008FD358 /* Date+Extensions.swift */,
 				D9C4F91F2C58D19F004A08DF /* URLSession+Extentions.swift */,
 				D9D7E8062C65389E004CBC66 /* UIBlockingProgressHUD.swift */,
+				D9D7E8142C6BCF37004CBC66 /* Log.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -292,6 +295,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D96D0B272C46795F008FD358 /* ProfileViewController.swift in Sources */,
+				D9D7E8152C6BCF37004CBC66 /* Log.swift in Sources */,
 				D9D7E8132C6BB752004CBC66 /* AlertPresenter.swift in Sources */,
 				D9B75FF22C3706F10022F490 /* ImagesListViewController.swift in Sources */,
 				D9C4F9282C5A4D9E004A08DF /* DarkStatusBarViewController.swift in Sources */,

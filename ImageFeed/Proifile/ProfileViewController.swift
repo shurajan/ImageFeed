@@ -138,7 +138,7 @@ final class ProfileViewController: LightStatusBarViewController {
             let url = URL(string: profileImageURL)
         else { return }
         // TODO [Sprint 11] Обновить аватар, используя Kingfisher
-        print("Updating avatar called")
+        Log.info(message: "Avatar url - \(url.absoluteString)")
     }
     
 }
