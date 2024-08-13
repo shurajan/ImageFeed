@@ -78,25 +78,18 @@ final class OAuth2Service {
             return
         }
         
-        //Handler запускается в main thread см Helpers\URLSession+data
-        let task = urlSession.data(for: request) {[weak self] result in
+        let task = urlSession.objectTask(for: request) { [weak self] (result: Result<OAuthTokenResponseBody, Error>) in
             assert(Thread.isMainThread)
-            switch result{
-            case .success(let data):
-                let decoder = JSONDecoder()
-                do {
-                    let response = try decoder.decode(OAuthTokenResponseBody.self, from: data)
-                    completion(.success(response.accessToken))
-                } catch {
-                    print("Can not decode response from unsplash: \(error)")
-                    completion(.failure(error))
-                }
+            switch result {
+            case .success(let response):
+                completion(.success(response.accessToken))
             case .failure(let error):
                 completion(.failure(error))
             }
             self?.task = nil
             self?.lastCode = nil
         }
+        
         self.task = task
         task.resume()
     }

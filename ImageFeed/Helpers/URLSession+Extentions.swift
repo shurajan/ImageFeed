@@ -62,3 +62,29 @@ extension URLSession {
         return task
     }
 }
+
+//MARK: - URLSession extension to parse data into Decodable type
+extension URLSession {
+    func objectTask<T: Decodable> (
+        for request: URLRequest,
+        completion: @escaping (Result<T, Error>) -> Void )
+    -> URLSessionTask {
+        let task = data(for: request) { (result: Result<Data, Error>) in
+            switch result{
+            case .success(let data):
+                let decoder = JSONDecoder()
+                do {
+                    let response = try decoder.decode(T.self, from: data)
+                    completion(.success(response))
+                } catch {
+                    print("Decoding error: \(error.localizedDescription), Type: \(type(of: T.self)), Data: \(String(data: data, encoding: .utf8) ?? "")")
+                    completion(.failure(error))
+                }
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        }
+        
+        return task
+    }
+}

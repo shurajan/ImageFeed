@@ -67,33 +67,25 @@ final class ProfileImageService {
             return
         }
         
-        //Handler запускается в main thread см Helpers\URLSession+data
-        let task = urlSession.data(for: request) {[weak self] result in
+        let task = urlSession.objectTask(for: request) { [weak self] (result: Result<UserResult, Error>) in
             assert(Thread.isMainThread)
-            switch result{
-            case .success(let data):
-                let decoder = JSONDecoder()
-                do {
-                    let response = try decoder.decode(UserResult.self, from: data)
-                    let avatarURL = response.profileImage.small
-                    self?.avatarURL = avatarURL
-                    completion(.success(avatarURL))
-                    NotificationCenter.default                                     // 1
-                        .post(                                                     // 2
-                            name: ProfileImageService.didChangeNotification,       // 3
-                            object: self,                                          // 4
-                            userInfo: ["URL": avatarURL])                    // 5
-                    
-                } catch {
-                    print("Can not decode response from unsplash: \(error)")
-                    completion(.failure(error))
-                }
+            switch result {
+            case .success(let response):
+                let avatarURL = response.profileImage.small
+                self?.avatarURL = avatarURL
+                completion(.success(avatarURL))
+                NotificationCenter.default
+                    .post(
+                        name: ProfileImageService.didChangeNotification,
+                        object: self,
+                        userInfo: ["URL": avatarURL])
+                
             case .failure(let error):
                 completion(.failure(error))
             }
             self?.task = nil
-            
         }
+        
         self.task = task
         task.resume()
     }

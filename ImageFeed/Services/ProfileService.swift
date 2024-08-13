@@ -62,7 +62,7 @@ final class ProfileService {
     
     //MARK: - Private variables
     private var task: URLSessionTask?
-
+    
     //MARK: - Init
     private init(){
     }
@@ -82,27 +82,19 @@ final class ProfileService {
             return
         }
         
-        //Handler запускается в main thread см Helpers\URLSession+data
-        let task = urlSession.data(for: request) {[weak self] result in
+        let task = urlSession.objectTask(for: request) { [weak self] (result: Result<ProfileResult, Error>) in
             assert(Thread.isMainThread)
-            switch result{
-            case .success(let data):
-                let decoder = JSONDecoder()
-                do {
-                    let response = try decoder.decode(ProfileResult.self, from: data)
-                    let profile = Profile(from: response)
-                    self?.profile = profile
-                    completion(.success(profile))
-                } catch {
-                    print("Can not decode response from unsplash: \(error)")
-                    completion(.failure(error))
-                }
+            switch result {
+            case .success(let response):
+                let profile = Profile(from: response)
+                self?.profile = profile
+                completion(.success(profile))
             case .failure(let error):
                 completion(.failure(error))
             }
             self?.task = nil
-            
         }
+        
         self.task = task
         task.resume()
     }
@@ -134,5 +126,5 @@ final class ProfileService {
         
         return request
     }
-
+    
 }

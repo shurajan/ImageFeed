@@ -23,7 +23,7 @@
 		D9C4F9172C52C328004A08DF /* WebViewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9C4F9162C52C328004A08DF /* WebViewViewController.swift */; };
 		D9C4F91B2C57FD15004A08DF /* OAuth2Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9C4F91A2C57FD15004A08DF /* OAuth2Service.swift */; };
 		D9C4F91E2C580291004A08DF /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9C4F91D2C580291004A08DF /* NetworkService.swift */; };
-		D9C4F9202C58D19F004A08DF /* URLSession+data.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9C4F91F2C58D19F004A08DF /* URLSession+data.swift */; };
+		D9C4F9202C58D19F004A08DF /* URLSession+Extentions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9C4F91F2C58D19F004A08DF /* URLSession+Extentions.swift */; };
 		D9C4F9222C58F509004A08DF /* OAuth2TokenStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9C4F9212C58F509004A08DF /* OAuth2TokenStorage.swift */; };
 		D9C4F9242C5904BD004A08DF /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9C4F9232C5904BD004A08DF /* SplashViewController.swift */; };
 		D9C4F9282C5A4D9E004A08DF /* DarkStatusBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9C4F9272C5A4D9E004A08DF /* DarkStatusBarViewController.swift */; };
@@ -31,6 +31,8 @@
 		D9D7E8072C65389E004CBC66 /* UIBlockingProgressHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D7E8062C65389E004CBC66 /* UIBlockingProgressHUD.swift */; };
 		D9D7E8092C6628B2004CBC66 /* ProfileService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D7E8082C6628B2004CBC66 /* ProfileService.swift */; };
 		D9D7E80B2C6A21CC004CBC66 /* ProfileImageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D7E80A2C6A21CC004CBC66 /* ProfileImageService.swift */; };
+		D9D7E8102C6BB715004CBC66 /* AlertModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D7E80F2C6BB715004CBC66 /* AlertModel.swift */; };
+		D9D7E8132C6BB752004CBC66 /* AlertPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D7E8122C6BB752004CBC66 /* AlertPresenter.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -52,13 +54,15 @@
 		D9C4F9162C52C328004A08DF /* WebViewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewViewController.swift; sourceTree = "<group>"; };
 		D9C4F91A2C57FD15004A08DF /* OAuth2Service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuth2Service.swift; sourceTree = "<group>"; };
 		D9C4F91D2C580291004A08DF /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
-		D9C4F91F2C58D19F004A08DF /* URLSession+data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLSession+data.swift"; sourceTree = "<group>"; };
+		D9C4F91F2C58D19F004A08DF /* URLSession+Extentions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLSession+Extentions.swift"; sourceTree = "<group>"; };
 		D9C4F9212C58F509004A08DF /* OAuth2TokenStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuth2TokenStorage.swift; sourceTree = "<group>"; };
 		D9C4F9232C5904BD004A08DF /* SplashViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
 		D9C4F9272C5A4D9E004A08DF /* DarkStatusBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DarkStatusBarViewController.swift; sourceTree = "<group>"; };
 		D9D7E8062C65389E004CBC66 /* UIBlockingProgressHUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIBlockingProgressHUD.swift; sourceTree = "<group>"; };
 		D9D7E8082C6628B2004CBC66 /* ProfileService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileService.swift; sourceTree = "<group>"; };
 		D9D7E80A2C6A21CC004CBC66 /* ProfileImageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileImageService.swift; sourceTree = "<group>"; };
+		D9D7E80F2C6BB715004CBC66 /* AlertModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertModel.swift; sourceTree = "<group>"; };
+		D9D7E8122C6BB752004CBC66 /* AlertPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertPresenter.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -86,7 +90,7 @@
 			isa = PBXGroup;
 			children = (
 				D96D0B232C411B08008FD358 /* Date+Extensions.swift */,
-				D9C4F91F2C58D19F004A08DF /* URLSession+data.swift */,
+				D9C4F91F2C58D19F004A08DF /* URLSession+Extentions.swift */,
 				D9D7E8062C65389E004CBC66 /* UIBlockingProgressHUD.swift */,
 			);
 			path = Helpers;
@@ -127,6 +131,8 @@
 		D9B75FEC2C3706F10022F490 /* ImageFeed */ = {
 			isa = PBXGroup;
 			children = (
+				D9D7E8112C6BB73C004CBC66 /* Presentation */,
+				D9D7E80E2C6BB6B2004CBC66 /* Models */,
 				D9C4F9292C5A4E12004A08DF /* SplashScreen */,
 				D9C4F9262C5A4CCE004A08DF /* BasicViewControllers */,
 				D9C4F91C2C580282004A08DF /* Services */,
@@ -190,6 +196,22 @@
 				D9C4F9232C5904BD004A08DF /* SplashViewController.swift */,
 			);
 			path = SplashScreen;
+			sourceTree = "<group>";
+		};
+		D9D7E80E2C6BB6B2004CBC66 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				D9D7E80F2C6BB715004CBC66 /* AlertModel.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		D9D7E8112C6BB73C004CBC66 /* Presentation */ = {
+			isa = PBXGroup;
+			children = (
+				D9D7E8122C6BB752004CBC66 /* AlertPresenter.swift */,
+			);
+			path = Presentation;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -270,16 +292,18 @@
 			buildActionMask = 2147483647;
 			files = (
 				D96D0B272C46795F008FD358 /* ProfileViewController.swift in Sources */,
+				D9D7E8132C6BB752004CBC66 /* AlertPresenter.swift in Sources */,
 				D9B75FF22C3706F10022F490 /* ImagesListViewController.swift in Sources */,
 				D9C4F9282C5A4D9E004A08DF /* DarkStatusBarViewController.swift in Sources */,
 				D9C4F91B2C57FD15004A08DF /* OAuth2Service.swift in Sources */,
+				D9D7E8102C6BB715004CBC66 /* AlertModel.swift in Sources */,
 				D9C4F9242C5904BD004A08DF /* SplashViewController.swift in Sources */,
 				D9C4F9152C52BD01004A08DF /* AuthViewController.swift in Sources */,
 				D96D0B212C3EEC25008FD358 /* ImagesListCell.swift in Sources */,
 				D9C4F9172C52C328004A08DF /* WebViewViewController.swift in Sources */,
 				D9C4F91E2C580291004A08DF /* NetworkService.swift in Sources */,
 				D96D0B2A2C47C2CA008FD358 /* SingleImageViewController.swift in Sources */,
-				D9C4F9202C58D19F004A08DF /* URLSession+data.swift in Sources */,
+				D9C4F9202C58D19F004A08DF /* URLSession+Extentions.swift in Sources */,
 				D9B75FEE2C3706F10022F490 /* AppDelegate.swift in Sources */,
 				D947AEB52C4E8FB100742DD3 /* LightStatusBarViewController.swift in Sources */,
 				D96D0B242C411B08008FD358 /* Date+Extensions.swift in Sources */,
