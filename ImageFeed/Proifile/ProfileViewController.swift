@@ -7,6 +7,7 @@
 
 
 import UIKit
+import Kingfisher
 
 final class ProfileViewController: LightStatusBarViewController {
     
@@ -23,18 +24,6 @@ final class ProfileViewController: LightStatusBarViewController {
     // MARK: - View Life Cycles
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        profileImageServiceObserver = NotificationCenter.default    // 2
-            .addObserver(
-                forName: ProfileImageService.didChangeNotification, // 3
-                object: nil,                                        // 4
-                queue: .main                                        // 5
-            ) { [weak self] _ in
-                guard let self = self else { return }
-                self.updateAvatar()                                 // 6
-            }
-        updateAvatar()
-        
         view.backgroundColor = UIColor.ypBlackIOS
         
         var constraints = placeProfileImageAndGetConstraints()
@@ -48,6 +37,16 @@ final class ProfileViewController: LightStatusBarViewController {
                         
         NSLayoutConstraint.activate(constraints)
         
+        profileImageServiceObserver = NotificationCenter.default
+            .addObserver(
+                forName: ProfileImageService.didChangeNotification,
+                object: nil,
+                queue: .main
+            ) { [weak self] _ in
+                guard let self = self else { return }
+                self.updateAvatar()
+            }
+        updateAvatar()
     }
 
     //MARK: - View Layout methods
@@ -57,8 +56,8 @@ final class ProfileViewController: LightStatusBarViewController {
     }
     
     private func placeProfileImageAndGetConstraints() -> [NSLayoutConstraint] {
-        let profileImage = UIImage(named: "avatar")
-        profileImageView = UIImageView(image: profileImage)
+        //let profileImage = UIImage(named: "avatar")
+        profileImageView = UIImageView()
         addControl(profileImageView)
         
         return [profileImageView.widthAnchor.constraint(equalToConstant: 70),
@@ -132,13 +131,20 @@ final class ProfileViewController: LightStatusBarViewController {
         descriptionLabel.text = profile.bio
     }
     
-    private func updateAvatar() {                                   // 8
+    private func updateAvatar() {
         guard
             let profileImageURL = ProfileImageService.shared.avatarURL,
             let url = URL(string: profileImageURL)
-        else { return }
-        // TODO [Sprint 11] Обновить аватар, используя Kingfisher
-        Log.info(message: "Avatar url - \(url.absoluteString)")
+        else {
+            Log.warn(message: "Can not load avatar image")
+            return
+        }
+        profileImageView.kf.indicatorType = .activity
+        let processor = RoundCornerImageProcessor(cornerRadius: profileImageView.frame.width/2)
+        profileImageView.kf.setImage(with: url,
+                                     placeholder: UIImage(named: "stub"),
+                                     options: [.processor(processor)])
+        
     }
     
 }

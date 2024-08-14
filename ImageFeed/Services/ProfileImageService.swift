@@ -65,7 +65,7 @@ final class ProfileImageService {
             let error = ProfileImageServiceError.invalidRequest
             Log.error(error: error, message: error.description)
             completion(.failure(error))
-
+            
             return
         }
         
@@ -75,13 +75,12 @@ final class ProfileImageService {
             case .success(let response):
                 let avatarURL = response.profileImage.small
                 self?.avatarURL = avatarURL
-                completion(.success(avatarURL))
                 NotificationCenter.default
                     .post(
                         name: ProfileImageService.didChangeNotification,
                         object: self,
                         userInfo: ["URL": avatarURL])
-                
+                completion(.success(avatarURL))
             case .failure(let error):
                 Log.error(error: error)
                 completion(.failure(error))
