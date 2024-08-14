@@ -45,16 +45,16 @@ extension URLSession {
                     fulfillCompletionOnTheMainThread(.success(data))
                 } else {
                     let httpStatusError = NetworkError.httpStatusCode(statusCode)
-                    print(httpStatusError.localizedDescription)
+                    Log.error(error: httpStatusError, message: httpStatusError.description)
                     fulfillCompletionOnTheMainThread(.failure(httpStatusError))
                 }
             } else if let error {
                 let urlRequestError = NetworkError.urlRequestError(error)
-                print(urlRequestError)
+                Log.error(error: urlRequestError, message: error.localizedDescription)
                 fulfillCompletionOnTheMainThread(.failure(urlRequestError))
             } else {
                 let urlSessionError = NetworkError.urlSessionError
-                print(urlSessionError)
+                Log.error(error: urlSessionError)
                 fulfillCompletionOnTheMainThread(.failure(urlSessionError))
             }
         })
@@ -77,10 +77,16 @@ extension URLSession {
                     let response = try decoder.decode(T.self, from: data)
                     completion(.success(response))
                 } catch {
-                    print("Decoding error: \(error.localizedDescription), Type: \(type(of: T.self)), Data: \(String(data: data, encoding: .utf8) ?? "")")
+                    let message = """
+                    Decoding error: \(error.localizedDescription), \
+                    Type: \(type(of: T.self)), \
+                    Data: \(String(data: data, encoding: .utf8) ?? "")
+                    """
+                    Log.error(error: error, message: message)
                     completion(.failure(error))
                 }
             case .failure(let error):
+                Log.error(error: error)
                 completion(.failure(error))
             }
         }

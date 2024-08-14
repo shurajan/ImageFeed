@@ -62,8 +62,10 @@ final class ProfileImageService {
         }
         
         guard let request = makeUserProfileRequest(for: token) else {
-            print("Can not make the request for token")
-            completion(.failure(ProfileImageServiceError.invalidRequest))
+            let error = ProfileImageServiceError.invalidRequest
+            Log.error(error: error, message: error.description)
+            completion(.failure(error))
+
             return
         }
         
@@ -81,6 +83,7 @@ final class ProfileImageService {
                         userInfo: ["URL": avatarURL])
                 
             case .failure(let error):
+                Log.error(error: error)
                 completion(.failure(error))
             }
             self?.task = nil
@@ -108,8 +111,9 @@ final class ProfileImageService {
         guard let baseURL,
               let username
         else {
-            assertionFailure("Can not build url request")
-            print("Can not build url request")
+            let message = "Can not build url request"
+            Log.warn(message: message)
+            assertionFailure(message)
             return nil
         }
         

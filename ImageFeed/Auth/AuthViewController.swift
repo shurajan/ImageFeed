@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import ProgressHUD
 
 //MARK: - Protocols
 protocol WebViewViewControllerDelegate: AnyObject  {
@@ -19,14 +18,13 @@ final class AuthViewController: LightStatusBarViewController {
     private let ShowWebViewSegueIdentifier = "ShowWebView"
         
     weak var delegate: AuthViewControllerDelegate?
-    
-    //MARK: - Private Varibales
+
     private var alertPresenter: AlertPresenter?
     
     // MARK: - View Life Cycles
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         let alertPresenter = AlertPresenter()
         alertPresenter.delegate = self
         self.alertPresenter = alertPresenter
@@ -43,15 +41,11 @@ final class AuthViewController: LightStatusBarViewController {
         viewController.delegate = self
     }
     
-    //MARK: - Private Functions
-    func showAuthError() {
+    private func showAuthErrorAlert() {
         let alertModel = AlertModel(id: "AuthErrorAlert",
                                     title: "Что-то пошло не так(",
                                     message: "Не удалось войти в систему",
-                                    buttonText: "OK") {
-            print("OK")
-        }
-                                    
+                                    buttonText: "OK") {}
         self.alertPresenter?.showAlert(alertModel)
     }
 }
@@ -65,12 +59,11 @@ extension AuthViewController: WebViewViewControllerDelegate {
             guard let self = self else {return}
             switch result{
             case .success(let token):
-                showAuthError()
                 OAuth2TokenStorage.shared.token = token
                 self.delegate?.didAuthenticate(self)
             case .failure(let error):
-                showAuthError()
-                print("Can not receive token for code : \(error.localizedDescription)")
+                Log.error(error: error, message: "Can not receive token for code")
+                self.showAuthErrorAlert()
             }
             UIBlockingProgressHUD.dismiss()
         }
@@ -79,6 +72,5 @@ extension AuthViewController: WebViewViewControllerDelegate {
     func webViewViewControllerDidCancel(_ vc: WebViewViewController) {
         vc.dismiss(animated: true)
     }
-    
     
 }

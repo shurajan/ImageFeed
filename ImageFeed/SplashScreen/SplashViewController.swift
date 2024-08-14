@@ -33,8 +33,9 @@ final class SplashViewController: LightStatusBarViewController {
                 let navigationController = segue.destination as? UINavigationController,
                 let viewController = navigationController.viewControllers[0] as? AuthViewController
             else {
-                assertionFailure("Failed to prepare for \(showAuthViewSegueIdentifier)")
-                print("Failed to prepare for \(showAuthViewSegueIdentifier)")
+                let message = "Failed to prepare for \(showAuthViewSegueIdentifier)"
+                Log.warn(message: message)
+                assertionFailure(message)
                 return
             }
             viewController.delegate = self
@@ -47,8 +48,9 @@ final class SplashViewController: LightStatusBarViewController {
     // MARK: - Private functions
     private func switchToTabBarController() {
         guard let window = UIApplication.shared.windows.first else {
-            assertionFailure("Invalid window configuration")
-            print("Invalid window configuration")
+            let message = "Invalid window configuration"
+            Log.warn(message: message)
+            assertionFailure(message)
             return
         }
         
@@ -70,13 +72,13 @@ final class SplashViewController: LightStatusBarViewController {
                 ProfileImageService.shared.fetchProfileImageURL(token) {result in
                     switch result{
                     case .success(let avatarURL):
-                        print(avatarURL)
+                        Log.info(message: avatarURL)
                     case .failure(let error):
-                        print("Can not load profile image for token : \(error.localizedDescription)")
+                        Log.error(error: error)
                     }
                 }
             case .failure(let error):
-                print("Can not load profile for token : \(error.localizedDescription)")
+                Log.error(error: error, message: "Can not load profile for token")
             }
         }
         

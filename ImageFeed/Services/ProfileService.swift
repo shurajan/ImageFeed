@@ -77,8 +77,9 @@ final class ProfileService {
         }
         
         guard let request = makeProfileRequest(for: token) else {
-            print("Can not make the request for token")
-            completion(.failure(ProfileServiceError.invalidRequest))
+            let error = ProfileServiceError.invalidRequest
+            Log.error(error: error, message: error.description)
+            completion(.failure(error))
             return
         }
         
@@ -90,6 +91,7 @@ final class ProfileService {
                 self?.profile = profile
                 completion(.success(profile))
             case .failure(let error):
+                Log.error(error: error)
                 completion(.failure(error))
             }
             self?.task = nil
@@ -113,8 +115,9 @@ final class ProfileService {
         
         guard let baseURL
         else {
-            assertionFailure("Can not build url request")
-            print("Can not build url request")
+            let message = "Can not build url request"
+            Log.warn(message: message)
+            assertionFailure(message)
             return nil
         }
         

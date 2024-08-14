@@ -61,20 +61,24 @@ final class OAuth2Service {
             if lastCode != code {
                 task?.cancel()
             } else {
-                print("Trying to send a new request for the same code")
-                completion(.failure(AuthServiceError.duplicateRequest))
+                let error = AuthServiceError.duplicateRequest
+                Log.error(error: error, message: error.description)
+                completion(.failure(error))
                 return
             }
         } else if lastCode == code {
-            print("Auth token already received")
-            completion(.failure(AuthServiceError.authTokenAlreadyObtained))
+            let error = AuthServiceError.authTokenAlreadyObtained
+            Log.error(error: error, message: error.description)
+            completion(.failure(error))
             return
         }
         
         lastCode = code
         guard let request = makeOAuthTokenRequest(for: code) else {
-            print("Can not make the request for code")
-            completion(.failure(AuthServiceError.invalidRequest))
+            let error = AuthServiceError.invalidRequest
+            Log.error(error: error, message: error.description)
+            completion(.failure(error))
+            
             return
         }
         
@@ -84,6 +88,7 @@ final class OAuth2Service {
             case .success(let response):
                 completion(.success(response.accessToken))
             case .failure(let error):
+                Log.error(error: error)
                 completion(.failure(error))
             }
             self?.task = nil
@@ -97,8 +102,9 @@ final class OAuth2Service {
     //MARK: - Private functions
     private func makeOAuthTokenRequest(for code: String) -> URLRequest? {
         guard var urlComponents = URLComponents(string: URLConstants.tokenURLString) else {
-            assertionFailure("Can not build url components")
-            print("Can not build url components")
+            let message = "Can not build url components"
+            Log.warn(message: message)
+            assertionFailure(message)
             return nil
         }
         
@@ -111,8 +117,9 @@ final class OAuth2Service {
         ]
         
         guard let url = urlComponents.url else {
-            assertionFailure("Can not build url")
-            print("Can not build url")
+            let message = "Can not build url"
+            Log.warn(message: message)
+            assertionFailure(message)
             return nil
         }
         

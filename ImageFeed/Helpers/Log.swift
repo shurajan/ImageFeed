@@ -21,21 +21,34 @@ final class Log {
         
         print ("""
                \(Date().timeStampString)\
-               INFO: \(file):\(line) - \
-               \(function): \(message)
+               INFO: \(file):\(line) - \(function): \
+               \(message)
                """)
     }
     
     class func error(error: Error,
-                     message: String,
+                     message: String? = nil,
                      filePath: String = #file,
                      line: Int = #line,
                      function: String = #function) {
         let file = getFileName(from: filePath)
         print ("""
                \(Date().timeStampString) \
-               ERROR: \(file):\(line) - \
-               \(function): \(error.localizedDescription)  \(message)
+               ERROR: \(file):\(line) - \(function): \
+               \(error.localizedDescription)  \(message ?? "")
+               """)
+    }
+    
+    class func warn(message: String,
+                    filePath: String = #file,
+                    line: Int = #line,
+                    function: String = #function) {
+        let file = getFileName(from: filePath)
+        
+        print ("""
+               \(Date().timeStampString)\
+               WARN: \(file):\(line) - \(function): \
+               \(message)
                """)
     }
     
