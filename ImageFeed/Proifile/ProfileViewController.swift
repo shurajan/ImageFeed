@@ -56,8 +56,8 @@ final class ProfileViewController: LightStatusBarViewController {
     }
     
     private func placeProfileImageAndGetConstraints() -> [NSLayoutConstraint] {
-        //let profileImage = UIImage(named: "avatar")
         profileImageView = UIImageView()
+        profileImageView.backgroundColor = .ypBlackIOS
         addControl(profileImageView)
         
         return [profileImageView.widthAnchor.constraint(equalToConstant: 70),
@@ -140,7 +140,7 @@ final class ProfileViewController: LightStatusBarViewController {
             return
         }
         profileImageView.kf.indicatorType = .activity
-        let processor = RoundCornerImageProcessor(cornerRadius: profileImageView.frame.width/2)
+        let processor = RoundCornerImageProcessor(cornerRadius:61)
         profileImageView.kf.setImage(with: url,
                                      placeholder: UIImage(named: "stub"),
                                      options: [.processor(processor)])

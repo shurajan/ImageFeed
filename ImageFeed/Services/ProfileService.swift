@@ -23,8 +23,8 @@ enum ProfileServiceError: Error {
 struct ProfileResult: Codable {
     let username : String
     let firstName: String
-    let lastName : String
-    let bio      : String
+    let lastName : String?
+    let bio      : String?
     
     private enum CodingKeys : String, CodingKey {
         case username = "username"
@@ -42,10 +42,14 @@ struct Profile {
     let bio       : String
     
     init(from response: ProfileResult) {
+        if let lastName = response.lastName {
+            self.name = "\(response.firstName) \(lastName)"
+        } else {
+            self.name = response.firstName
+        }
         self.username = response.username
-        self.name = "\(response.firstName) \(response.lastName)"
         self.loginName = "@\(response.username)"
-        self.bio = response.bio
+        self.bio = response.bio ?? ""
     }
 }
 

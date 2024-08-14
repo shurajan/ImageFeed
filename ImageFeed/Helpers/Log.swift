@@ -20,7 +20,7 @@ final class Log {
         let file = getFileName(from: filePath)
         
         print ("""
-               \(Date().timeStampString)\
+               \(Date().timeStampString) \
                INFO: \(file):\(line) - \(function): \
                \(message)
                """)
@@ -46,7 +46,7 @@ final class Log {
         let file = getFileName(from: filePath)
         
         print ("""
-               \(Date().timeStampString)\
+               \(Date().timeStampString) \
                WARN: \(file):\(line) - \(function): \
                \(message)
                """)
