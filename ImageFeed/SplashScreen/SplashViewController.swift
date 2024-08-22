@@ -19,6 +19,9 @@ final class SplashViewController: LightStatusBarViewController {
     // MARK: - UI Controls
     private var logoImageView: UIImageView!
     
+    // MARK: - Private Variables
+    private var isAuthenticated = false
+    
     //MARK: - View Life Cycles
     override func viewDidLoad() {
         super.viewDidLoad()        
@@ -40,6 +43,10 @@ final class SplashViewController: LightStatusBarViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        
+        if self.isAuthenticated {
+            return
+        }
         
         if let token = OAuth2TokenStorage.shared.token {
             fetchProfile(token: token)
@@ -105,6 +112,7 @@ final class SplashViewController: LightStatusBarViewController {
 // MARK: - AuthViewControllerDelegate Extension
 extension SplashViewController: AuthViewControllerDelegate {
     func didAuthenticate(_ vc: AuthViewController) {
+        self.isAuthenticated = true
         vc.dismiss(animated: true)
         
         guard let token = OAuth2TokenStorage.shared.token else {

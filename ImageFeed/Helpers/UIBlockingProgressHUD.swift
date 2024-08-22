@@ -18,7 +18,7 @@ final class UIBlockingProgressHUD {
     static func show() {
         window?.isUserInteractionEnabled = false
         ProgressHUD.colorBackground = .ypGrayIOS
-        ProgressHUD.mediaSize = 51
+        ProgressHUD.mediaSize = 25
         ProgressHUD.animate()
     }
     
