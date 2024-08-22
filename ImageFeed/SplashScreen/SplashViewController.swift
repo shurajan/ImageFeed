@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SwiftKeychainWrapper
 
 //MARK: - Protocols
 protocol AuthViewControllerDelegate: AnyObject {
@@ -14,38 +15,54 @@ protocol AuthViewControllerDelegate: AnyObject {
 
 //MARK: - SplashViewController
 final class SplashViewController: LightStatusBarViewController {
-    private let showAuthViewSegueIdentifier = "ShowAuthView"
+    
+    // MARK: - UI Controls
+    private var logoImageView: UIImageView!
     
     //MARK: - View Life Cycles
+    override func viewDidLoad() {
+        super.viewDidLoad()        
+        view.backgroundColor = UIColor.ypBlackIOS
+        
+        logoImageView = UIImageView()
+        logoImageView.backgroundColor = .ypBlackIOS
+        logoImageView.image = UIImage(named: "vector")
+        addControl(logoImageView)
+        
+        let constraints = [logoImageView.widthAnchor.constraint(equalToConstant: 72),
+                           logoImageView.heightAnchor.constraint(equalToConstant: 75),
+                           logoImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+                           logoImageView.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+        ]
+        
+        NSLayoutConstraint.activate(constraints)
+    }
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
         if let token = OAuth2TokenStorage.shared.token {
             fetchProfile(token: token)
         } else {
-            performSegue(withIdentifier:  showAuthViewSegueIdentifier, sender: self)
-        }
-    }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == showAuthViewSegueIdentifier {
-            guard
-                let navigationController = segue.destination as? UINavigationController,
-                let viewController = navigationController.viewControllers[0] as? AuthViewController
-            else {
-                let message = "Failed to prepare for \(showAuthViewSegueIdentifier)"
-                Log.warn(message: message)
-                assertionFailure(message)
-                return
+            let storyboard = UIStoryboard(name: "Main", bundle: .main)
+            if let authViewController = storyboard.instantiateViewController(
+                withIdentifier: "AuthViewController"
+            ) as? AuthViewController {
+                authViewController.delegate = self
+                authViewController.modalPresentationStyle = .fullScreen
+                present(authViewController, animated: true, completion: nil)
+            } else {
+                Log.warn(message: "Can not create Auth Controller")
             }
-            viewController.delegate = self
-            
-        } else {
-            super.prepare(for: segue, sender: sender)
         }
     }
-    
+
     // MARK: - Private functions
+    private func addControl(_ newControl: UIView) {
+        newControl.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(newControl)
+    }
+    
     private func switchToTabBarController() {
         guard let window = UIApplication.shared.windows.first else {
             let message = "Invalid window configuration"

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="cJu-Jl-rL0">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
@@ -12,7 +12,7 @@
         <!--Auth View Controller-->
         <scene sceneID="cfB-bj-HX8">
             <objects>
-                <viewController id="DER-TX-ihF" customClass="AuthViewController" customModule="ImageFeed" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="AuthViewController" id="DER-TX-ihF" customClass="AuthViewController" customModule="ImageFeed" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Jbc-K7-nRj">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -25,7 +25,7 @@
                                 </constraints>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cPP-DS-zyd">
-                                <rect key="frame" x="16" y="714" width="361" height="48"/>
+                                <rect key="frame" x="16" y="680" width="361" height="48"/>
                                 <color key="backgroundColor" name="YP White (iOS)"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="48" id="R4d-75-ZGM"/>
@@ -299,56 +299,6 @@
             </objects>
             <point key="canvasLocation" x="-819" y="1200"/>
         </scene>
-        <!--Navigation Controller-->
-        <scene sceneID="Hfg-E9-lW3">
-            <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="1Jy-p1-veX" sceneMemberID="viewController">
-                    <toolbarItems/>
-                    <navigationItem key="navigationItem" id="hYr-9P-82O"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="U1e-TQ-m60">
-                        <rect key="frame" x="0.0" y="0.0" width="393" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="DER-TX-ihF" kind="relationship" relationship="rootViewController" id="vUK-dP-F3m"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="EaI-t2-fwG" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-3425" y="249"/>
-        </scene>
-        <!--Splash View Controller-->
-        <scene sceneID="G0y-Au-05d">
-            <objects>
-                <viewController id="cJu-Jl-rL0" customClass="SplashViewController" customModule="ImageFeed" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="gox-Ie-qct">
-                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="vector" translatesAutoresizingMaskIntoConstraints="NO" id="NL3-ae-9mg">
-                                <rect key="frame" x="160.66666666666666" y="388.66666666666669" width="72" height="75"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="72" id="KH8-M3-X17"/>
-                                    <constraint firstAttribute="height" constant="75" id="ahX-JR-yog"/>
-                                </constraints>
-                            </imageView>
-                        </subviews>
-                        <viewLayoutGuide key="safeArea" id="5Up-Ea-HUo"/>
-                        <color key="backgroundColor" name="YP Black (iOS)"/>
-                        <constraints>
-                            <constraint firstItem="NL3-ae-9mg" firstAttribute="centerY" secondItem="gox-Ie-qct" secondAttribute="centerY" id="8cK-TT-dLZ"/>
-                            <constraint firstItem="NL3-ae-9mg" firstAttribute="centerX" secondItem="gox-Ie-qct" secondAttribute="centerX" id="bN7-M7-gtg"/>
-                        </constraints>
-                    </view>
-                    <connections>
-                        <segue destination="1Jy-p1-veX" kind="presentation" identifier="ShowAuthView" modalPresentationStyle="fullScreen" modalTransitionStyle="coverVertical" id="5al-yd-3sF"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="5uk-hu-bnT" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-5027" y="249"/>
-        </scene>
     </scenes>
     <resources>
         <image name="0" width="1600" height="1059"/>
@@ -359,7 +309,6 @@
         <image name="like_button_on" width="42" height="42"/>
         <image name="sharing" width="51" height="51"/>
         <image name="tab_editorial_active" width="30" height="30"/>
-        <image name="vector" width="72.666664123535156" height="75.333335876464844"/>
         <namedColor name="YP Black (iOS)">
             <color red="0.10196078431372549" green="0.10588235294117647" blue="0.13333333333333333" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
