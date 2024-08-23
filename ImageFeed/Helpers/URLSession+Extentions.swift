@@ -25,7 +25,6 @@ enum NetworkError: Error {
     }
 }
 
-
 //MARK: - URLSession extension to load data in main thread
 extension URLSession {
     func data(for request: URLRequest,

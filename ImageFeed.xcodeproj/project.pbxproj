@@ -103,28 +103,18 @@
 			path = Helpers;
 			sourceTree = "<group>";
 		};
-		D96D0B252C46794F008FD358 /* Proifile */ = {
+		D99A440A2C787C2F002309E9 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				D9C4F9262C5A4CCE004A08DF /* BasicViewControllers */,
+				D9C4F9232C5904BD004A08DF /* SplashViewController.swift */,
+				D9C4F9132C52BCEA004A08DF /* Auth */,
+				D96D0B1F2C3EEC02008FD358 /* ImagesList */,
 				D96D0B262C46795F008FD358 /* ProfileViewController.swift */,
-			);
-			path = Proifile;
-			sourceTree = "<group>";
-		};
-		D96D0B2B2C47C6A7008FD358 /* SingleImage */ = {
-			isa = PBXGroup;
-			children = (
+				D988F01F2C774F8600164D47 /* TabBarController.swift */,
 				D96D0B292C47C2CA008FD358 /* SingleImageViewController.swift */,
 			);
-			path = SingleImage;
-			sourceTree = "<group>";
-		};
-		D988F01E2C774F5C00164D47 /* TabBarViewController */ = {
-			isa = PBXGroup;
-			children = (
-				D988F01F2C774F8600164D47 /* TabBarController.swift */,
-			);
-			path = TabBarViewController;
+			path = ViewControllers;
 			sourceTree = "<group>";
 		};
 		D9B75FE12C3706F10022F490 = {
@@ -146,17 +136,11 @@
 		D9B75FEC2C3706F10022F490 /* ImageFeed */ = {
 			isa = PBXGroup;
 			children = (
-				D988F01E2C774F5C00164D47 /* TabBarViewController */,
+				D99A440A2C787C2F002309E9 /* ViewControllers */,
 				D9D7E8112C6BB73C004CBC66 /* Presentation */,
 				D9D7E80E2C6BB6B2004CBC66 /* Models */,
-				D9C4F9292C5A4E12004A08DF /* SplashScreen */,
-				D9C4F9262C5A4CCE004A08DF /* BasicViewControllers */,
 				D9C4F91C2C580282004A08DF /* Services */,
-				D9C4F9132C52BCEA004A08DF /* Auth */,
-				D96D0B2B2C47C6A7008FD358 /* SingleImage */,
-				D96D0B252C46794F008FD358 /* Proifile */,
 				D96D0B222C411AD6008FD358 /* Helpers */,
-				D96D0B1F2C3EEC02008FD358 /* ImagesList */,
 				D9B75FED2C3706F10022F490 /* AppDelegate.swift */,
 				D9B75FEF2C3706F10022F490 /* SceneDelegate.swift */,
 				D9C4F9112C52463D004A08DF /* Constants.swift */,
@@ -203,14 +187,6 @@
 				D9C4F9272C5A4D9E004A08DF /* DarkStatusBarViewController.swift */,
 			);
 			path = BasicViewControllers;
-			sourceTree = "<group>";
-		};
-		D9C4F9292C5A4E12004A08DF /* SplashScreen */ = {
-			isa = PBXGroup;
-			children = (
-				D9C4F9232C5904BD004A08DF /* SplashViewController.swift */,
-			);
-			path = SplashScreen;
 			sourceTree = "<group>";
 		};
 		D9D7E80E2C6BB6B2004CBC66 /* Models */ = {
