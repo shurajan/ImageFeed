@@ -15,6 +15,9 @@
 		D988F01A2C6CD50600164D47 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = D988F0192C6CD50600164D47 /* Kingfisher */; };
 		D988F01D2C772DC700164D47 /* SwiftKeychainWrapper in Frameworks */ = {isa = PBXBuildFile; productRef = D988F01C2C772DC700164D47 /* SwiftKeychainWrapper */; };
 		D988F0202C774F8600164D47 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D988F01F2C774F8600164D47 /* TabBarController.swift */; };
+		D9B1358D2C78BD1F00756E75 /* ProfileModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9B1358C2C78BD1F00756E75 /* ProfileModels.swift */; };
+		D9B1358F2C78BD9400756E75 /* OAuthTokenResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9B1358E2C78BD9400756E75 /* OAuthTokenResponseModel.swift */; };
+		D9B135912C78FB4800756E75 /* BasicViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9B135902C78FB4800756E75 /* BasicViewController.swift */; };
 		D9B75FEE2C3706F10022F490 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9B75FED2C3706F10022F490 /* AppDelegate.swift */; };
 		D9B75FF02C3706F10022F490 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9B75FEF2C3706F10022F490 /* SceneDelegate.swift */; };
 		D9B75FF22C3706F10022F490 /* ImagesListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9B75FF12C3706F10022F490 /* ImagesListViewController.swift */; };
@@ -45,6 +48,9 @@
 		D96D0B262C46795F008FD358 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		D96D0B292C47C2CA008FD358 /* SingleImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleImageViewController.swift; sourceTree = "<group>"; };
 		D988F01F2C774F8600164D47 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
+		D9B1358C2C78BD1F00756E75 /* ProfileModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileModels.swift; sourceTree = "<group>"; };
+		D9B1358E2C78BD9400756E75 /* OAuthTokenResponseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuthTokenResponseModel.swift; sourceTree = "<group>"; };
+		D9B135902C78FB4800756E75 /* BasicViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicViewController.swift; sourceTree = "<group>"; };
 		D9B75FEA2C3706F10022F490 /* ImageFeed.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ImageFeed.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D9B75FED2C3706F10022F490 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D9B75FEF2C3706F10022F490 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -183,6 +189,7 @@
 		D9C4F9262C5A4CCE004A08DF /* BasicViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				D9B135902C78FB4800756E75 /* BasicViewController.swift */,
 				D947AEB42C4E8FB100742DD3 /* LightStatusBarViewController.swift */,
 				D9C4F9272C5A4D9E004A08DF /* DarkStatusBarViewController.swift */,
 			);
@@ -193,6 +200,8 @@
 			isa = PBXGroup;
 			children = (
 				D9D7E80F2C6BB715004CBC66 /* AlertModel.swift */,
+				D9B1358C2C78BD1F00756E75 /* ProfileModels.swift */,
+				D9B1358E2C78BD9400756E75 /* OAuthTokenResponseModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -286,13 +295,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D9B1358F2C78BD9400756E75 /* OAuthTokenResponseModel.swift in Sources */,
 				D96D0B272C46795F008FD358 /* ProfileViewController.swift in Sources */,
 				D9D7E8152C6BCF37004CBC66 /* Log.swift in Sources */,
 				D9D7E8132C6BB752004CBC66 /* AlertPresenter.swift in Sources */,
+				D9B1358D2C78BD1F00756E75 /* ProfileModels.swift in Sources */,
 				D9B75FF22C3706F10022F490 /* ImagesListViewController.swift in Sources */,
 				D9C4F9282C5A4D9E004A08DF /* DarkStatusBarViewController.swift in Sources */,
 				D988F0202C774F8600164D47 /* TabBarController.swift in Sources */,
 				D9C4F91B2C57FD15004A08DF /* OAuth2Service.swift in Sources */,
+				D9B135912C78FB4800756E75 /* BasicViewController.swift in Sources */,
 				D9D7E8102C6BB715004CBC66 /* AlertModel.swift in Sources */,
 				D9C4F9242C5904BD004A08DF /* SplashViewController.swift in Sources */,
 				D9C4F9152C52BD01004A08DF /* AuthViewController.swift in Sources */,

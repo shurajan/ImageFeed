@@ -19,40 +19,6 @@ enum ProfileServiceError: Error {
     }
 }
 
-//MARK: - ProfileResult struct
-struct ProfileResult: Codable {
-    let username : String
-    let firstName: String
-    let lastName : String?
-    let bio      : String?
-    
-    private enum CodingKeys : String, CodingKey {
-        case username = "username"
-        case firstName = "first_name"
-        case lastName = "last_name"
-        case bio = "bio"
-    }
-}
-
-//MARK: - Profile struct
-struct Profile {
-    let username  : String
-    let name      : String
-    let loginName : String
-    let bio       : String
-    
-    init(from response: ProfileResult) {
-        if let lastName = response.lastName {
-            self.name = "\(response.firstName) \(lastName)"
-        } else {
-            self.name = response.firstName
-        }
-        self.username = response.username
-        self.loginName = "@\(response.username)"
-        self.bio = response.bio ?? ""
-    }
-}
-
 //MARK: - ProfileService class
 final class ProfileService {
     static let shared = ProfileService()
@@ -66,10 +32,6 @@ final class ProfileService {
     
     //MARK: - Private variables
     private var task: URLSessionTask?
-    
-    //MARK: - Init
-    private init(){
-    }
     
     //MARK: - Public functions
     func fetchProfile(_ token: String, completion: @escaping (Result<Profile, Error>) -> Void) {

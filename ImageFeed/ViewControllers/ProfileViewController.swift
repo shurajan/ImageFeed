@@ -12,30 +12,62 @@ import Kingfisher
 final class ProfileViewController: LightStatusBarViewController {
     
     // MARK: - UI Controls
-    private var profileImageView: UIImageView!
-    private var exitButton: UIButton!
-    private var nameLabel: UILabel!
-    private var loginNameLabel: UILabel!
-    private var descriptionLabel: UILabel!
-
+    private lazy var profileImageView: UIImageView = {
+        let view = UIImageView()
+        view.image = UIImage(named: "stub")
+        view.backgroundColor = .ypBlackIOS
+        return view
+    }()
+    
+    private lazy var exitButton: UIButton = {
+        let view = UIButton()
+        view.setImage(UIImage(named: "exit"), for: UIControl.State.normal)
+        return view
+    }()
+    
+    private lazy var nameLabel: UILabel = {
+        let view = UILabel()
+        view.text = "unknown"
+        view.font = UIFont.boldSystemFont(ofSize: 23)
+        view.textColor = UIColor.ypWhiteIOS
+        return view
+    } ()
+    
+    private var loginNameLabel: UILabel = {
+        let view = UILabel()
+        view.text = "@unknown"
+        view.font = UIFont.systemFont(ofSize: 13)
+        view.textColor = UIColor.ypGrayIOS
+        return view
+    } ()
+    
+    private var descriptionLabel: UILabel = {
+        let view = UILabel()
+        view.text = "not available"
+        view.font = UIFont.systemFont(ofSize: 13)
+        view.textColor = UIColor.ypWhiteIOS
+        view.numberOfLines = 0
+        return view
+    } ()
+    
     // MARK: - Private Variables
     private var profileImageServiceObserver: NSObjectProtocol?
     
     // MARK: - View Life Cycles
     override func viewDidLoad() {
         super.viewDidLoad()
+        drawSelf()
+    }
+    
+    //MARK: - View Layout methods
+    private func drawSelf(){
         view.backgroundColor = UIColor.ypBlackIOS
         
-        var constraints = placeProfileImageAndGetConstraints()
-        constraints += placeExitButtonImageAndGetConstraints()
-        constraints += placeNameLabelAndGetConstraints()
-        constraints += placeLoginNameLabelAndGetConstraints()
-        constraints += placeDescriptionLabelAndGetConstraints()
+        addViews()
+        addConstraints()
         if let profile = ProfileService.shared.profile {
             updateProfileDetails(profile: profile)
         }
-                        
-        NSLayoutConstraint.activate(constraints)
         
         profileImageServiceObserver = NotificationCenter.default
             .addObserver(
@@ -48,81 +80,43 @@ final class ProfileViewController: LightStatusBarViewController {
             }
         updateAvatar()
     }
-
-    //MARK: - View Layout methods
-    private func addControl(_ newControl: UIView) {
-        newControl.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(newControl)
-    }
     
-    private func placeProfileImageAndGetConstraints() -> [NSLayoutConstraint] {
-        profileImageView = UIImageView()
-        profileImageView.backgroundColor = .ypBlackIOS
-        addControl(profileImageView)
+    private func addViews(){
+        addView(profileImageView)
+        addView(exitButton)
+        addView(nameLabel)
+        addView(loginNameLabel)
+        addView(descriptionLabel)
+    }
         
-        return [profileImageView.widthAnchor.constraint(equalToConstant: 70),
-                profileImageView.heightAnchor.constraint(equalToConstant: 70),
-                profileImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 16),
-                profileImageView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16)
+    private func addConstraints(){
+        let constraints = [profileImageView.widthAnchor.constraint(equalToConstant: 70),
+                           profileImageView.heightAnchor.constraint(equalToConstant: 70),
+                           profileImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 16),
+                           profileImageView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
+                           
+                           exitButton.widthAnchor.constraint(equalToConstant: 44),
+                           exitButton.heightAnchor.constraint(equalToConstant: 44),
+                           exitButton.centerYAnchor.constraint(equalTo: profileImageView.centerYAnchor),
+                           exitButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -4),
+                           
+                           nameLabel.topAnchor.constraint(equalTo: profileImageView.bottomAnchor, constant: 8),
+                           nameLabel.leadingAnchor.constraint(equalTo: profileImageView.leadingAnchor),
+                           nameLabel.trailingAnchor.constraint(lessThanOrEqualTo: view.safeAreaLayoutGuide.trailingAnchor, constant: 16),
+                           nameLabel.heightAnchor.constraint(equalToConstant: 18),
+                           
+                           loginNameLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 8),
+                           loginNameLabel.leadingAnchor.constraint(equalTo: profileImageView.leadingAnchor),
+                           loginNameLabel.trailingAnchor.constraint(lessThanOrEqualTo: view.safeAreaLayoutGuide.trailingAnchor, constant: 16),
+                           loginNameLabel.heightAnchor.constraint(equalToConstant: 18),
+                           
+                           descriptionLabel.topAnchor.constraint(equalTo: loginNameLabel.bottomAnchor, constant: 8),
+                           descriptionLabel.leadingAnchor.constraint(equalTo: profileImageView.leadingAnchor),
+                           descriptionLabel.trailingAnchor.constraint(lessThanOrEqualTo: view.safeAreaLayoutGuide.trailingAnchor, constant: 16),
+                           descriptionLabel.heightAnchor.constraint(equalToConstant: 18)
         ]
+        NSLayoutConstraint.activate(constraints)
     }
-    
-    private func placeExitButtonImageAndGetConstraints() -> [NSLayoutConstraint] {
-        let exitButtonImage = UIImage(named: "exit")
-        exitButton = UIButton()
-        exitButton.setImage(exitButtonImage, for: UIControl.State.normal)
-        addControl(exitButton)
-        
-        return [exitButton.widthAnchor.constraint(equalToConstant: 44),
-                exitButton.heightAnchor.constraint(equalToConstant: 44),
-                exitButton.centerYAnchor.constraint(equalTo: profileImageView.centerYAnchor),
-                exitButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -4)
-        ]
-    }
-    
-    private func placeNameLabelAndGetConstraints()-> [NSLayoutConstraint] {
-        nameLabel = UILabel()
-        nameLabel.text = "unknown"
-        nameLabel.font = UIFont.boldSystemFont(ofSize: 23.0)
-        nameLabel.textColor = UIColor.ypWhiteIOS
-        addControl(nameLabel)
-        
-        return [nameLabel.topAnchor.constraint(equalTo: profileImageView.bottomAnchor, constant: 8),
-                nameLabel.leadingAnchor.constraint(equalTo: profileImageView.leadingAnchor),
-                nameLabel.trailingAnchor.constraint(lessThanOrEqualTo: view.safeAreaLayoutGuide.trailingAnchor, constant: 16),
-                nameLabel.heightAnchor.constraint(equalToConstant: 18)
-        ]
-    }
-    
-    private func placeLoginNameLabelAndGetConstraints()-> [NSLayoutConstraint] {
-        loginNameLabel = UILabel()
-        loginNameLabel.text = "unknown"
-        loginNameLabel.font = UIFont.systemFont(ofSize: 18)
-        loginNameLabel.textColor = UIColor.ypGrayIOS
-        addControl(loginNameLabel)
-        
-        return[loginNameLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 8),
-               loginNameLabel.leadingAnchor.constraint(equalTo: profileImageView.leadingAnchor),
-               loginNameLabel.trailingAnchor.constraint(lessThanOrEqualTo: view.safeAreaLayoutGuide.trailingAnchor, constant: 16),
-               loginNameLabel.heightAnchor.constraint(equalToConstant: 18)
-        ]
-    }
-    
-    private func placeDescriptionLabelAndGetConstraints()-> [NSLayoutConstraint] {
-        descriptionLabel = UILabel()
-        descriptionLabel.text = "not available"
-        descriptionLabel.font = UIFont.systemFont(ofSize: 18)
-        descriptionLabel.textColor = UIColor.ypWhiteIOS
-        descriptionLabel.numberOfLines = 0
-        addControl(descriptionLabel)
-        
-        return[descriptionLabel.topAnchor.constraint(equalTo: loginNameLabel.bottomAnchor, constant: 8),
-               descriptionLabel.leadingAnchor.constraint(equalTo: profileImageView.leadingAnchor),
-               descriptionLabel.trailingAnchor.constraint(lessThanOrEqualTo: view.safeAreaLayoutGuide.trailingAnchor, constant: 16),
-               descriptionLabel.heightAnchor.constraint(equalToConstant: 18)
-        ]
-    }
-    
     
     //MARK: - Private methods
     private func updateProfileDetails(profile: Profile){
@@ -139,13 +133,15 @@ final class ProfileViewController: LightStatusBarViewController {
             Log.warn(message: "Can not load avatar image")
             return
         }
+        let cache = ImageCache.default
+        cache.clearDiskCache()
         profileImageView.kf.indicatorType = .activity
-        let processor = RoundCornerImageProcessor(cornerRadius:61)
+        let roundCornerProcessor =  RoundCornerImageProcessor(cornerRadius: 35)
+        
         profileImageView.kf.setImage(with: url,
                                      placeholder: UIImage(named: "stub"),
-                                     options: [.processor(processor)])
-        
+                                     options: [.processor(roundCornerProcessor)])
     }
     
 }
-    
+

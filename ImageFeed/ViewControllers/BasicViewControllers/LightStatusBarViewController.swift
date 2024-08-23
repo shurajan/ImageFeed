@@ -7,13 +7,8 @@
 
 import UIKit
 
-class LightStatusBarViewController: UIViewController {
+class LightStatusBarViewController: BasicViewController {
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        setNeedsStatusBarAppearanceUpdate()
     }
 }

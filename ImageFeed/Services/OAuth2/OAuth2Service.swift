@@ -23,21 +23,6 @@ enum AuthServiceError: Error {
     }
 }
 
-//MARK: - OAuthTokenResponseBody struct
-struct OAuthTokenResponseBody: Codable {
-    let accessToken: String
-    let tokenType: String
-    let scope: String
-    let createdAt: Date
-    
-    private enum CodingKeys : String, CodingKey {
-        case accessToken = "access_token"
-        case tokenType = "token_type"
-        case scope = "scope"
-        case createdAt = "created_at"
-    }
-}
-
 //MARK: - OAuth2Service
 final class OAuth2Service {
     static let shared = OAuth2Service()
@@ -48,10 +33,6 @@ final class OAuth2Service {
     //MARK: - Private variables
     private var task: URLSessionTask?
     private var lastCode: String?
-    
-    //MARK: - Init
-    private init() {
-    }
     
     //MARK: - Public functions
     func fetchOAuthToken(for code: String, completion: @escaping (Result<String, Error>) -> Void) {

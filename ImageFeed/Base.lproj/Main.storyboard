@@ -177,9 +177,12 @@
                                                     <state key="normal" image="Active"/>
                                                     <buttonConfiguration key="configuration" style="plain" image="like_button_on"/>
                                                 </button>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="22 Августа 2023" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="h38-M5-RYz" userLabel="Date Label">
-                                                    <rect key="frame" x="24" y="230" width="130.66666666666666" height="21"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="22 Августа 2023" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="h38-M5-RYz" userLabel="Date Label">
+                                                    <rect key="frame" x="23.999999999999993" y="233" width="90.333333333333314" height="18"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="18" id="nbD-qQ-Prw"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" name=".SFNS-Regular" family=".AppleSystemUIFont" pointSize="13"/>
                                                     <color key="textColor" name="YP White (iOS)"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
@@ -219,7 +222,7 @@
                             <constraint firstItem="zbl-pK-zjh" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="aPX-W1-0xP"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Item" image="tab_editorial_active" id="OfG-cq-BSd"/>
+                    <tabBarItem key="tabBarItem" title="" image="tab_editorial_active" id="OfG-cq-BSd"/>
                     <navigationItem key="navigationItem" id="KXB-bu-lLR"/>
                     <connections>
                         <outlet property="tableView" destination="zbl-pK-zjh" id="oxF-pN-dtq"/>
@@ -228,7 +231,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2027" y="1200"/>
+            <point key="canvasLocation" x="-2028.2442748091603" y="1200"/>
         </scene>
         <!--Single Image View Controller-->
         <scene sceneID="PsJ-4p-hiL">

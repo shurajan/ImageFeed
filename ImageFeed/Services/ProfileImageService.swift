@@ -19,18 +19,6 @@ enum ProfileImageServiceError: Error {
     }
 }
 
-struct UserResult: Codable{
-    let profileImage: ProfileImage
-    
-    struct ProfileImage: Codable {
-        let small: String
-    }
-    
-    private enum CodingKeys : String, CodingKey {
-        case profileImage = "profile_image"
-    }
-}
-
 //MARK: - ProfileImageService class
 final class ProfileImageService {
     static let shared = ProfileImageService()
@@ -47,11 +35,7 @@ final class ProfileImageService {
     
     //MARK: - Private variables
     private var task: URLSessionTask?
-    
-    //MARK: - Init
-    private init(){
-    }
-    
+        
     //MARK: - Public functions
     func fetchProfileImageURL(_ token: String, completion: @escaping (Result<String, Error>) -> Void) {
         assert(Thread.isMainThread)

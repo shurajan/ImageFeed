@@ -17,28 +17,21 @@ protocol AuthViewControllerDelegate: AnyObject {
 final class SplashViewController: LightStatusBarViewController {
     
     // MARK: - UI Controls
-    private var logoImageView: UIImageView!
+    private lazy var logoImageView: UIImageView = {
+        let view = UIImageView()
+        view.backgroundColor = .ypBlackIOS
+        view.image = UIImage(named: "vector")
+        
+        return view
+    }()
     
     // MARK: - Private Variables
     private var isAuthenticated = false
     
     //MARK: - View Life Cycles
     override func viewDidLoad() {
-        super.viewDidLoad()        
-        view.backgroundColor = UIColor.ypBlackIOS
-        
-        logoImageView = UIImageView()
-        logoImageView.backgroundColor = .ypBlackIOS
-        logoImageView.image = UIImage(named: "vector")
-        addControl(logoImageView)
-        
-        let constraints = [logoImageView.widthAnchor.constraint(equalToConstant: 72),
-                           logoImageView.heightAnchor.constraint(equalToConstant: 75),
-                           logoImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-                           logoImageView.centerYAnchor.constraint(equalTo: view.centerYAnchor)
-        ]
-        
-        NSLayoutConstraint.activate(constraints)
+        super.viewDidLoad()
+        drawSelf()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -63,11 +56,22 @@ final class SplashViewController: LightStatusBarViewController {
             }
         }
     }
-
+    
     // MARK: - Private functions
-    private func addControl(_ newControl: UIView) {
-        newControl.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(newControl)
+    private func drawSelf(){
+        view.backgroundColor = UIColor.ypBlackIOS
+        addView(logoImageView)
+        addConstraints()
+    }
+    
+    private func addConstraints(){
+        let constraints = [logoImageView.widthAnchor.constraint(equalToConstant: 72),
+                           logoImageView.heightAnchor.constraint(equalToConstant: 75),
+                           logoImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+                           logoImageView.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+        ]
+        
+        NSLayoutConstraint.activate(constraints)
     }
     
     private func switchToTabBarController() {

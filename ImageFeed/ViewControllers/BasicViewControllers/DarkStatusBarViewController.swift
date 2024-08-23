@@ -7,13 +7,8 @@
 
 import UIKit
 
-class DarkStatusBarViewController: UIViewController {
+class DarkStatusBarViewController: BasicViewController {
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .darkContent
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        setNeedsStatusBarAppearanceUpdate()
     }
 }

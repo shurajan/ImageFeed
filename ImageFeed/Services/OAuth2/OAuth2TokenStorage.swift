@@ -22,14 +22,9 @@ enum TokenStorageError: Error {
     }
 }
 
-
 final class OAuth2TokenStorage {
     static let shared = OAuth2TokenStorage()
-    
-    //MARK: - Init
-    private init(){
-    }
-        
+            
     private enum Keys: String {
         case token
     }

@@ -10,9 +10,6 @@ import Foundation
 final class Log {
     private static let shared = Log()
     
-    private init(){
-    }
-    
     class func info(message: String,
                     filePath: String = #file,
                     line: Int = #line,
