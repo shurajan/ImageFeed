@@ -29,6 +29,7 @@ final class ProfileViewController: LightStatusBarViewController {
         let view = UILabel()
         view.text = "unknown"
         view.font = UIFont.boldSystemFont(ofSize: 23)
+        view.addCharacterSpacing(kernValue: -0.08)
         view.textColor = UIColor.ypWhiteIOS
         return view
     } ()

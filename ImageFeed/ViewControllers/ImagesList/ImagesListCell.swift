@@ -24,6 +24,7 @@ final class ImagesListCell: UITableViewCell {
         
     func configure(image: UIImage, date: Date, isLikeOn: Bool) {
         dateLabel.text = date.dateString
+        dateLabel.addCharacterSpacing(kernValue: -0.08)
         cellImage.image = image
         let likeButtonImage = isLikeOn ? likeOn : likeOff
         
