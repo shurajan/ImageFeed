@@ -7,18 +7,19 @@
 
 import Foundation
 
-//MARK: - OAuthTokenResponseBody struct
-struct OAuthTokenResponseBody: Codable {
-    let accessToken: String
-    let tokenType: String
-    let scope: String
-    let createdAt: Date
+//MARK: - AuthService Error
+enum AuthServiceError: Error {
+    case invalidRequest, authTokenAlreadyObtained, duplicateRequest
     
-    private enum CodingKeys : String, CodingKey {
-        case accessToken = "access_token"
-        case tokenType = "token_type"
-        case scope = "scope"
-        case createdAt = "created_at"
+    var description: String? {
+        switch self {
+        case .duplicateRequest:
+            return "Request duplication"
+        case .authTokenAlreadyObtained:
+            return "Auth token already obtained"
+        case .invalidRequest:
+            return "Invalid request"
+        }
     }
 }
 
@@ -26,13 +27,65 @@ struct OAuthTokenResponseBody: Codable {
 final class OAuth2Service {
     static let shared = OAuth2Service()
     
-    private init() {
+    //MARK: - Dependency injections and constants
+    private let urlSession = URLSession.shared
+    
+    //MARK: - Private variables
+    private var task: URLSessionTask?
+    private var lastCode: String?
+    
+    //MARK: - Public functions
+    func fetchOAuthToken(for code: String, completion: @escaping (Result<String, Error>) -> Void) {
+        assert(Thread.isMainThread)
+        
+        if task != nil {
+            if lastCode != code {
+                task?.cancel()
+            } else {
+                let error = AuthServiceError.duplicateRequest
+                Log.error(error: error, message: error.description)
+                completion(.failure(error))
+                return
+            }
+        } else if lastCode == code {
+            let error = AuthServiceError.authTokenAlreadyObtained
+            Log.error(error: error, message: error.description)
+            completion(.failure(error))
+            return
+        }
+        
+        lastCode = code
+        guard let request = makeOAuthTokenRequest(for: code) else {
+            let error = AuthServiceError.invalidRequest
+            Log.error(error: error, message: error.description)
+            completion(.failure(error))
+            
+            return
+        }
+        
+        let task = urlSession.objectTask(for: request) { [weak self] (result: Result<OAuthTokenResponseBody, Error>) in
+            assert(Thread.isMainThread)
+            switch result {
+            case .success(let response):
+                completion(.success(response.accessToken))
+            case .failure(let error):
+                Log.error(error: error)
+                completion(.failure(error))
+            }
+            self?.task = nil
+            self?.lastCode = nil
+        }
+        
+        self.task = task
+        task.resume()
     }
     
+    //MARK: - Private functions
     private func makeOAuthTokenRequest(for code: String) -> URLRequest? {
         guard var urlComponents = URLComponents(string: URLConstants.tokenURLString) else {
-            assertionFailure("Can not build url components")
-            print("Can not build url components")
+            let message = "Can not build url components"
+            Log.warn(message: message)
+            assertionFailure(message)
             return nil
         }
         
@@ -45,8 +98,9 @@ final class OAuth2Service {
         ]
         
         guard let url = urlComponents.url else {
-            assertionFailure("Can not build url")
-            print("Can not build url")
+            let message = "Can not build url"
+            Log.warn(message: message)
+            assertionFailure(message)
             return nil
         }
         
@@ -55,27 +109,7 @@ final class OAuth2Service {
         
         return request
     }
-    
-    func fetchOAuthToken(for code: String, completion: @escaping (Result<String, Error>) -> Void) {
-        guard let request = makeOAuthTokenRequest(for: code) else {return}
-        
-        let task = URLSession.shared.data(for: request) { result in
-            switch result{
-            case .success(let data):
-                let decoder = JSONDecoder()
-                do {
-                    let response = try decoder.decode(OAuthTokenResponseBody.self, from: data)
-                    completion(.success(response.accessToken))
-                } catch {
-                    print("Can not decode response from unsplash: \(error)")
-                    completion(.failure(error))
-                }
-            case .failure(let error):
-                completion(.failure(error))
-            }
-        }
-        task.resume()
-    }
+
 }
 
 

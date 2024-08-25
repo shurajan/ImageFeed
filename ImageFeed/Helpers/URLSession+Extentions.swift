@@ -25,7 +25,6 @@ enum NetworkError: Error {
     }
 }
 
-
 //MARK: - URLSession extension to load data in main thread
 extension URLSession {
     func data(for request: URLRequest,
@@ -45,19 +44,51 @@ extension URLSession {
                     fulfillCompletionOnTheMainThread(.success(data))
                 } else {
                     let httpStatusError = NetworkError.httpStatusCode(statusCode)
-                    print(httpStatusError.localizedDescription)
+                    Log.error(error: httpStatusError, message: httpStatusError.description)
                     fulfillCompletionOnTheMainThread(.failure(httpStatusError))
                 }
             } else if let error {
                 let urlRequestError = NetworkError.urlRequestError(error)
-                print(urlRequestError)
+                Log.error(error: urlRequestError, message: error.localizedDescription)
                 fulfillCompletionOnTheMainThread(.failure(urlRequestError))
             } else {
                 let urlSessionError = NetworkError.urlSessionError
-                print(urlSessionError)
+                Log.error(error: urlSessionError)
                 fulfillCompletionOnTheMainThread(.failure(urlSessionError))
             }
         })
+        
+        return task
+    }
+}
+
+//MARK: - URLSession extension to parse data into Decodable type
+extension URLSession {
+    func objectTask<T: Decodable> (
+        for request: URLRequest,
+        completion: @escaping (Result<T, Error>) -> Void )
+    -> URLSessionTask {
+        let task = data(for: request) { (result: Result<Data, Error>) in
+            switch result{
+            case .success(let data):
+                let decoder = JSONDecoder()
+                do {
+                    let response = try decoder.decode(T.self, from: data)
+                    completion(.success(response))
+                } catch {
+                    let message = """
+                    Decoding error: \(error.localizedDescription), \
+                    Type: \(type(of: T.self)), \
+                    Data: \(String(data: data, encoding: .utf8) ?? "")
+                    """
+                    Log.error(error: error, message: message)
+                    completion(.failure(error))
+                }
+            case .failure(let error):
+                Log.error(error: error)
+                completion(.failure(error))
+            }
+        }
         
         return task
     }
