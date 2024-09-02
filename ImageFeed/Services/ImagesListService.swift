@@ -56,17 +56,18 @@ final class ImagesListService {
             switch result {
             case .success(let result):
                 self.appendNewPhotos(items: result)
+                NotificationCenter.default
+                    .post(
+                        name: ImagesListService.didChangeNotification,
+                        object: self)
             case .failure(let error):
                 Log.error(error: error)
             }
             self.task = nil
         }
         
-        NotificationCenter.default
-            .post(
-                name: ImagesListService.didChangeNotification,
-                object: self,
-                userInfo: ["URL": ""])
+        self.task = task
+        task.resume()
     }
     
     //MARK: - Private functions
@@ -100,6 +101,7 @@ final class ImagesListService {
         }
         
         var request = URLRequest(url: url)
+        request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
         request.httpMethod = "GET"
         
         return request
