@@ -18,12 +18,15 @@ struct Photo {
     
     init(from photoResult: PhotoResult)
     {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss'Z'"
+        
         self.id = photoResult.id
         self.size = CGSize(width: photoResult.width, height: photoResult.height)
-        self.createdAt = photoResult.createdAt
+        self.createdAt = dateFormatter.date(from: photoResult.createdAt)
         self.welcomeDescription = photoResult.description
-        self.thumbImageURL = photoResult.urls[0].thumb
-        self.largeImageURL = photoResult.urls[0].full
+        self.thumbImageURL = photoResult.urls.thumb
+        self.largeImageURL = photoResult.urls.full
         self.isLiked = photoResult.likedByUser
     }
 }
@@ -35,12 +38,12 @@ struct UrlResult: Codable {
 
 struct PhotoResult: Codable {
     let id: String
-    let createdAt: Date?
-    let width : Double
-    let height: Double
+    let createdAt: String
+    let width : Int
+    let height: Int
     let likedByUser: Bool
     let description: String?
-    let urls: [UrlResult]
+    let urls: UrlResult
     
     private enum CodingKeys : String, CodingKey {
         case id = "id"

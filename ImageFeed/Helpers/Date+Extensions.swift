@@ -17,7 +17,7 @@ extension Date {
     
     var timeStampString: String {
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss'Z'"
         return dateFormatter.string(from: self)
     }
 }
