@@ -7,6 +7,7 @@
 
 
 import UIKit
+import Kingfisher
 
 
 final class ImagesListCell: UITableViewCell {
@@ -22,6 +23,12 @@ final class ImagesListCell: UITableViewCell {
     private let likeOn: UIImage? = UIImage(named: "like_button_on")
     private let likeOff: UIImage? = UIImage(named: "like_button_off")
         
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        cellImage.kf.cancelDownloadTask()
+    }
+    
     func configure(image: UIImage, date: Date, isLikeOn: Bool) {
         dateLabel.text = date.dateString
         dateLabel.addCharacterSpacing(kernValue: -0.08)

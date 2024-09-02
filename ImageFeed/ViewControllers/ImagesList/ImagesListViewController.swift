@@ -9,12 +9,16 @@ import UIKit
 
 final class ImagesListViewController: LightStatusBarViewController {
     private let showSingleImageSegueIdentifier = "ShowSingleImage"
+    private let imagesListService = ImagesListService.shared
     
     // MARK: - IB Outlets
     @IBOutlet private var tableView: UITableView!
     
     // MARK: - Private variables
     private let photosName: [String] = Array(0..<20).map{"\($0)"}
+    private var photos: [Photo] = []
+    
+    private var imagesListServiceObserver: NSObjectProtocol?
     
     // MARK: - View Life Cycles
     override func viewDidLoad() {
@@ -23,6 +27,18 @@ final class ImagesListViewController: LightStatusBarViewController {
         tableView.delegate = self
         tableView.dataSource = self
         tableView.contentInset = UIEdgeInsets(top: 12, left: 0, bottom: 12, right: 0)
+        
+        imagesListServiceObserver = NotificationCenter.default
+            .addObserver(
+                forName: ImagesListService.didChangeNotification,
+                object: nil,
+                queue: .main
+            ) { [weak self] _ in
+                guard let self = self else { return }
+                self.updateTableViewAnimated()
+            }
+        
+        imagesListService.fetchPhotosNextPage()
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -47,6 +63,27 @@ final class ImagesListViewController: LightStatusBarViewController {
         
         let isLikeOn = indexPath.row % 2 == 1
         cell.configure(image: image, date: Date(), isLikeOn: isLikeOn)
+        
+    }
+    
+    func updateTableViewAnimated(){
+        let oldNumberOfRows = photos.count
+        let newNumberOfRows = imagesListService.photos.count
+        
+        if oldNumberOfRows == newNumberOfRows {
+            return
+        }
+        
+        self.photos = imagesListService.photos
+        var indexPathArray: [IndexPath] = []
+        
+        for i in oldNumberOfRows..<newNumberOfRows {
+            indexPathArray.append(IndexPath(row: i, section: 0))
+        }
+        
+        tableView.performBatchUpdates {
+            self.tableView.insertRows(at: indexPathArray, with: .automatic)
+        } completion: { _ in }
         
     }
 }
@@ -74,7 +111,7 @@ extension ImagesListViewController: UITableViewDelegate {
 // MARK: - UITableViewDataSource Implementation
 extension ImagesListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return photosName.count
+        return photos.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

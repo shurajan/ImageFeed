@@ -23,7 +23,7 @@ enum ImagesListServiceServiceError: Error {
 
 //MARK: - ImagesListService
 final class ImagesListService {
-    static let shared = ProfileImageService()
+    static let shared = ImagesListService()
     static let didChangeNotification = Notification.Name(rawValue: "ImagesListServiceDidChange")
     
     private let urlSession = URLSession.shared
