@@ -41,7 +41,6 @@ final class ImagesListService {
             Log.info(message: "Task is in progress")
             return
         }
-        
         let nextPage = (lastLoadedPage ?? 0) + 1
         
         guard
@@ -57,7 +56,6 @@ final class ImagesListService {
             guard let self else {return}
             switch result {
             case .success(let result):
-                lastLoadedPage = nextPage
                 self.appendNewPhotos(items: result)
                 NotificationCenter.default
                     .post(
@@ -67,10 +65,15 @@ final class ImagesListService {
                 Log.error(error: error)
             }
             self.task = nil
+            lastLoadedPage = nextPage
         }
         
         self.task = task
         task.resume()
+    }
+    
+    func changeLike(photoId: String, isLike: Bool, _ completion: @escaping (Result<Void, Error>) -> Void) {
+        
     }
     
     //MARK: - Private functions

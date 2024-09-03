@@ -8,15 +8,13 @@
 import UIKit
 
 final class SingleImageViewController: LightStatusBarViewController {
-    var image: UIImage? {
+    var photo: Photo? {
         didSet {
-            guard isViewLoaded, let image else { return }
-            
-            imageView.image = image
-            imageView.frame.size = image.size
-            rescaleAndCenterImageInScrollView(image: image)
+            guard isViewLoaded, let photo else { return }
+            loadPhoto(photo: photo)
         }
     }
+    
     
     // MARK: - IBOutlets
     @IBOutlet private var scrollView: UIScrollView!
@@ -30,13 +28,32 @@ final class SingleImageViewController: LightStatusBarViewController {
         scrollView.minimumZoomScale = 0.1
         scrollView.maximumZoomScale = 1.25
         
-        guard let image else { return }
-        imageView.image = image
-        imageView.frame.size = image.size
-        rescaleAndCenterImageInScrollView(image: image)
+        if let photo  {
+            loadPhoto(photo: photo)
+        }
     }
-        
+    
     // MARK: - Private functions
+    private func loadPhoto(photo: Photo){
+        guard let photoURL = URL(string: photo.largeImageURL)
+        else {return}
+        
+        imageView.kf.indicatorType = .activity
+        imageView.kf.setImage(with: photoURL, placeholder: UIImage(named: "card_stub")){[weak self] result in
+            guard let self else {return}
+            
+            switch result {
+            case .success(let imageResult):
+                let image = imageResult.image
+                imageView.frame.size = image.size
+                rescaleAndCenterImageInScrollView(image: image)
+            case .failure(let error):
+                Log.error(error: error, message: "Failed to load image")
+            }
+            
+        }
+    }
+    
     private func rescaleAndCenterImageInScrollView(image: UIImage) {
         let minZoomScale = scrollView.minimumZoomScale
         let maxZoomScale = scrollView.maximumZoomScale
@@ -52,7 +69,7 @@ final class SingleImageViewController: LightStatusBarViewController {
         let x = (newContentSize.width - visibleRectSize.width) / 2
         let y = (newContentSize.height - visibleRectSize.height) / 2
         scrollView.setContentOffset(CGPoint(x: x, y: y), animated: false)
-
+        
     }
     
     // MARK: - Actions
@@ -61,7 +78,7 @@ final class SingleImageViewController: LightStatusBarViewController {
     }
     
     @IBAction func didTapShareButton(_ sender: Any) {
-        guard let image else {return}
+        guard let image = imageView.image else {return}
         
         let items = [image]
         let ac = UIActivityViewController(activityItems: items, applicationActivities: nil)
@@ -77,8 +94,8 @@ extension SingleImageViewController: UIScrollViewDelegate {
     }
     
     func scrollViewDidZoom(_ scrollView: UIScrollView){
-        guard let image else {return}
-                
+        guard let image = imageView.image else {return}
+        
         let visibleRectSize = scrollView.bounds.size
         let imageSize = image.size
         let scale = scrollView.zoomScale

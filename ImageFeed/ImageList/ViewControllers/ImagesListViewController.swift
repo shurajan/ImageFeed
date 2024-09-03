@@ -15,7 +15,6 @@ final class ImagesListViewController: LightStatusBarViewController {
     @IBOutlet private var tableView: UITableView!
     
     // MARK: - Private variables
-    //private let photosName: [String] = Array(0..<20).map{"\($0)"}
     private var photos: [Photo] = []
     
     private var imagesListServiceObserver: NSObjectProtocol?
@@ -36,8 +35,9 @@ final class ImagesListViewController: LightStatusBarViewController {
             ) { [weak self] _ in
                 guard let self = self else { return }
                 self.updateTableViewAnimated()
+                UIBlockingProgressHUD.dismiss()
             }
-        
+        UIBlockingProgressHUD.show()
         imagesListService.fetchPhotosNextPage()
     }
     
@@ -50,8 +50,7 @@ final class ImagesListViewController: LightStatusBarViewController {
             super.prepare(for: segue, sender: sender)
             return
         }
-        //let image = UIImage(named: photosName[indexPath.row])
-        //viewController.image = image
+        viewController.photo = photos[indexPath.row]
         
     }
     
@@ -97,9 +96,8 @@ extension ImagesListViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        Log.info(message: "Current size - \(photos.count)")
         if indexPath.row == photos.count - 1 {
-            Log.info(message: "Next batch, current size - \(photos.count)")
+            UIBlockingProgressHUD.show()
             imagesListService.fetchPhotosNextPage()
         }
     }

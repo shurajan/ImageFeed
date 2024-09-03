@@ -40,7 +40,6 @@ final class ImagesListCell: UITableViewCell {
         dateLabel.text = photo.createdAt?.dateString ?? Date().dateString
         dateLabel.addCharacterSpacing(kernValue: -0.08)
         
-        cellImage.kf.indicatorType = .activity
         cellImage.kf.setImage(with: url, placeholder: UIImage(named: "card_stub"))
         
         let likeButtonImage = photo.isLiked ? likeOn : likeOff
