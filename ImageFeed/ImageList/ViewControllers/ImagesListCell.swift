@@ -11,6 +11,8 @@ import Kingfisher
 
 
 final class ImagesListCell: UITableViewCell {
+    weak var delegate: ImagesListCellDelegate? 
+    
     // MARK: - Static variables
     static let reuseIdentifier = "ImagesListCell"
     
@@ -46,4 +48,10 @@ final class ImagesListCell: UITableViewCell {
         
         likeButton.setImage(likeButtonImage, for: UIControl.State.normal)
     }
+    
+    
+    @IBAction func likeButtonClicked(_ sender: Any) {
+        delegate?.imageListCellDidTapLike(self)
+    }
+    
 }

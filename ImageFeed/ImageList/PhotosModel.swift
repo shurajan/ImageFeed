@@ -55,3 +55,7 @@ struct PhotoResult: Codable {
         case urls = "urls"
     }
 }
+
+struct PhotoLikeChangeResult: Codable {
+    let photo: PhotoResult
+}

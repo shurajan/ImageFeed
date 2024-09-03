@@ -117,9 +117,31 @@ extension ImagesListViewController: UITableViewDataSource {
         }
         
         configCell(for: imageListCell, with: indexPath)
+        imageListCell.delegate = self
         
         return imageListCell
     }
-        
+    
 }
 
+extension ImagesListViewController: ImagesListCellDelegate {
+    func imageListCellDidTapLike(_ cell: ImagesListCell) {
+        guard let indexPath = tableView.indexPath(for: cell) else { return }
+        let photo = photos[indexPath.row]
+        UIBlockingProgressHUD.show()
+        imagesListService.changeLike(photoId: photo.id, isLike: !photo.isLiked) { [weak self] result in
+            guard let self else {return}
+            switch result {
+            case .success(_):
+                self.photos = self.imagesListService.photos
+                tableView.performBatchUpdates {
+                    self.tableView.deleteRows(at: [indexPath], with: .none)
+                    self.tableView.insertRows(at: [indexPath], with: .none)
+                } completion: { _ in }
+            case .failure(let error):
+                Log.error(error: error)
+            }
+            UIBlockingProgressHUD.dismiss()
+        }
+    }
+}

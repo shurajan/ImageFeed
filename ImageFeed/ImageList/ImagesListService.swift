@@ -31,13 +31,14 @@ final class ImagesListService {
     
     private (set) var photos: [Photo] = []
     private var lastLoadedPage: Int?
-    private var task: URLSessionTask?
+    private var loadPhotosTask: URLSessionTask?
+    private var changeLikeTask: URLSessionTask?
     
     //MARK: - Public functions
     func fetchPhotosNextPage() {
         assert(Thread.isMainThread)
         
-        if task != nil {
+        if loadPhotosTask != nil {
             Log.info(message: "Task is in progress")
             return
         }
@@ -64,15 +65,48 @@ final class ImagesListService {
             case .failure(let error):
                 Log.error(error: error)
             }
-            self.task = nil
+            self.loadPhotosTask = nil
             lastLoadedPage = nextPage
         }
         
-        self.task = task
+        self.loadPhotosTask = task
         task.resume()
     }
     
-    func changeLike(photoId: String, isLike: Bool, _ completion: @escaping (Result<Void, Error>) -> Void) {
+    func changeLike(photoId: String, isLike: Bool, _ completion: @escaping (Result<Void?, Error>) -> Void) {
+        assert(Thread.isMainThread)
+        
+        if changeLikeTask != nil {
+            Log.info(message: "Already sent like change request")
+            return
+        }
+        
+        guard
+            let token = OAuth2TokenStorage.shared.token,
+            let request = makeLikeChangeRequest(for: token, photoId: photoId, isLike: isLike) else {
+            let error = ImagesListServiceServiceError.invalidRequest
+            Log.error(error: error, message: error.description)
+            completion(.failure(error))
+            return
+        }
+        
+        let task = urlSession.objectTask(for: request) { [weak self] (result: Result<PhotoLikeChangeResult, Error>) in
+            assert(Thread.isMainThread)
+            guard let self else {return}
+            switch result {
+            case .success(let result):
+                let newPhoto = Photo(from: result.photo)
+                replacePhoto(for: newPhoto.id, with: newPhoto)
+                completion(.success(nil))
+            case .failure(let error):
+                Log.error(error: error)
+                completion(.failure(error))
+            }
+            self.changeLikeTask = nil
+        }
+        
+        self.changeLikeTask = task
+        task.resume()
         
     }
     
@@ -81,6 +115,12 @@ final class ImagesListService {
         for photoResult in items {
             let newPhoto = Photo(from: photoResult)
             photos.append(newPhoto)
+        }
+    }
+    
+    private func replacePhoto(for id: String, with photo: Photo){
+        if let i = photos.firstIndex(where: {$0.id == id}) {
+            self.photos[i] = photo
         }
     }
     
@@ -113,6 +153,31 @@ final class ImagesListService {
         return request
     }
     
+    func makeLikeChangeRequest(for token: String, photoId: String, isLike: Bool) -> URLRequest? {
+        guard let baseURL,
+              let urlComponents = URLComponents(url: makePhotoLikeURL(from: baseURL, for: photoId), resolvingAgainstBaseURL: true)
+        else {
+            let message = "Can not build url components"
+            Log.warn(message: message)
+            assertionFailure(message)
+            return nil
+        }
+        
+        guard let url = urlComponents.url else {
+            let message = "Can not build url"
+            Log.warn(message: message)
+            assertionFailure(message)
+            return nil
+        }
+        
+        var request = URLRequest(url: url)
+        request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        
+        request.httpMethod = isLike ? "POST" : "DELETE"
+        
+        return request
+    }
+    
     private func makePhotosURL(from baseURL :URL) -> URL {
         if #available(iOS 16, *) {
             return baseURL.appending(path: "photos")
@@ -122,5 +187,18 @@ final class ImagesListService {
         }
     }
     
+    private func makePhotoLikeURL(from baseURL :URL, for photoId: String) -> URL {
+        if #available(iOS 16, *) {
+            return baseURL
+                .appending(path: "photos")
+                .appending(path: photoId)
+                .appending(path: "like")
+        }
+        else {
+            return baseURL.appendingPathComponent("photos")
+                .appendingPathComponent(photoId)
+                .appendingPathComponent("like")
+        }
+    }
     
 }
