@@ -55,6 +55,7 @@ final class ImagesListService {
         let task = urlSession.objectTask(for: request) { [weak self] (result: Result<[PhotoResult], Error>) in
             assert(Thread.isMainThread)
             guard let self else {return}
+            
             switch result {
             case .success(let result):
                 self.appendNewPhotos(items: result)
@@ -72,6 +73,7 @@ final class ImagesListService {
         self.loadPhotosTask = task
         task.resume()
     }
+    
     
     func changeLike(photoId: String, isLike: Bool, _ completion: @escaping (Result<Void?, Error>) -> Void) {
         assert(Thread.isMainThread)
@@ -107,6 +109,25 @@ final class ImagesListService {
         
         self.changeLikeTask = task
         task.resume()
+        
+    }
+    
+    func cleanImageListService(){
+        if changeLikeTask != nil {
+            changeLikeTask?.cancel()
+        }
+        
+        if loadPhotosTask != nil {
+            loadPhotosTask?.cancel()
+        }
+        changeLikeTask = nil
+        loadPhotosTask = nil
+        lastLoadedPage = nil
+        photos = []
+        NotificationCenter.default
+            .post(
+                name: ImagesListService.didChangeNotification,
+                object: self)
         
     }
     

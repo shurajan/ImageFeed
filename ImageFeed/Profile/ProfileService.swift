@@ -67,6 +67,14 @@ final class ProfileService {
         task.resume()
     }
     
+    func cleanProfile(){
+        if task != nil {
+            task?.cancel()
+        }
+        task = nil
+        profile = nil
+    }
+    
     //MARK: - Private functions
     private func makeProfileURL(from baseURL :URL) -> URL {
         if #available(iOS 16, *) {

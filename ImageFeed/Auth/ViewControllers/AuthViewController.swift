@@ -42,10 +42,13 @@ final class AuthViewController: LightStatusBarViewController {
     }
     
     private func showAuthErrorAlert() {
+        let button = AlertButton(buttonText: "OK", style: .default) {}
+        
         let alertModel = AlertModel(id: "AuthErrorAlert",
                                     title: "Что-то пошло не так(",
                                     message: "Не удалось войти в систему",
-                                    buttonText: "OK") {}
+                                    buttons: [button])
+        
         self.alertPresenter?.showAlert(alertModel)
     }
 }

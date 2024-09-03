@@ -22,6 +22,7 @@ final class ProfileViewController: LightStatusBarViewController {
     private lazy var exitButton: UIButton = {
         let view = UIButton()
         view.setImage(UIImage(named: "exit"), for: UIControl.State.normal)
+        view.addTarget(self, action: #selector(exitButtonTapped(_:)), for: .touchUpInside)
         return view
     }()
     
@@ -144,5 +145,8 @@ final class ProfileViewController: LightStatusBarViewController {
                                      options: [.processor(roundCornerProcessor)])
     }
     
+    @IBAction func exitButtonTapped(_ sender: UIButton) {
+        Log.info(message: "Logging out")
+    }
 }
 

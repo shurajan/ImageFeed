@@ -15,11 +15,13 @@ final class SingleImageViewController: LightStatusBarViewController {
         }
     }
     
-    
     // MARK: - IBOutlets
     @IBOutlet private var scrollView: UIScrollView!
     @IBOutlet private var imageView: UIImageView!
     @IBOutlet private var backButton: UIButton!
+    
+    // MARK: - Private Variables
+    private var alertPresenter: AlertPresenter?
     
     // MARK: - View Life Cycles
     override func viewDidLoad() {
@@ -27,6 +29,10 @@ final class SingleImageViewController: LightStatusBarViewController {
         scrollView.delegate = self
         scrollView.minimumZoomScale = 0.1
         scrollView.maximumZoomScale = 1.25
+        
+        let alertPresenter = AlertPresenter()
+        alertPresenter.delegate = self
+        self.alertPresenter = alertPresenter
         
         if let photo  {
             loadPhoto(photo: photo)
@@ -38,8 +44,9 @@ final class SingleImageViewController: LightStatusBarViewController {
         guard let photoURL = URL(string: photo.largeImageURL)
         else {return}
         
-        imageView.kf.indicatorType = .activity
-        imageView.kf.setImage(with: photoURL, placeholder: UIImage(named: "card_stub")){[weak self] result in
+        UIBlockingProgressHUD.show()
+        
+        imageView.kf.setImage(with: photoURL){[weak self] result in
             guard let self else {return}
             
             switch result {
@@ -49,8 +56,9 @@ final class SingleImageViewController: LightStatusBarViewController {
                 rescaleAndCenterImageInScrollView(image: image)
             case .failure(let error):
                 Log.error(error: error, message: "Failed to load image")
+                showError()
             }
-            
+            UIBlockingProgressHUD.dismiss()
         }
     }
     
@@ -70,6 +78,20 @@ final class SingleImageViewController: LightStatusBarViewController {
         let y = (newContentSize.height - visibleRectSize.height) / 2
         scrollView.setContentOffset(CGPoint(x: x, y: y), animated: false)
         
+    }
+    
+    private func showError(){
+        let buttonRepeat = AlertButton(buttonText: "Повторить", style: .default) {}
+        let buttonDecline = AlertButton(buttonText: "Не надо", style: .cancel) {}
+        
+        let alertModel = AlertModel(id: "AuthErrorAlert",
+                                    title: "Что-то пошло не так(",
+                                    message: "Не удалось войти в систему",
+                                    buttons: [buttonRepeat, buttonDecline])
+        
+        self.alertPresenter?.showAlert(alertModel)
+        
+        self.alertPresenter?.showAlert(alertModel)
     }
     
     // MARK: - Actions

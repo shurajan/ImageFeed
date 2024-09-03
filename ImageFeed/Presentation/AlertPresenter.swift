@@ -23,12 +23,13 @@ final class AlertPresenter {
             preferredStyle: .alert)
         alert.view.accessibilityIdentifier = alertData.id
         
-        let action = UIAlertAction(title: alertData.buttonText, style: .default) {_ in
-            alertData.completion()
+        for button in alertData.buttons {
+            let action = UIAlertAction(title: button.buttonText, style: button.style) {_ in
+                alertData.completion()
+            }
+            alert.addAction(action)
         }
-        
-        alert.addAction(action)
-        
+    
         delegate.present(alert, animated: true, completion: nil)
     }
 }
