@@ -95,15 +95,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		D96D0B1F2C3EEC02008FD358 /* ImagesList */ = {
-			isa = PBXGroup;
-			children = (
-				D9B75FF12C3706F10022F490 /* ImagesListViewController.swift */,
-				D96D0B202C3EEC25008FD358 /* ImagesListCell.swift */,
-			);
-			path = ImagesList;
-			sourceTree = "<group>";
-		};
 		D96D0B222C411AD6008FD358 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
@@ -116,18 +107,64 @@
 			path = Helpers;
 			sourceTree = "<group>";
 		};
-		D99A440A2C787C2F002309E9 /* ViewControllers */ = {
+		D9B135B62C8730F700756E75 /* Auth */ = {
 			isa = PBXGroup;
 			children = (
-				D9C4F9262C5A4CCE004A08DF /* BasicViewControllers */,
-				D9C4F9232C5904BD004A08DF /* SplashViewController.swift */,
-				D9C4F9132C52BCEA004A08DF /* Auth */,
-				D96D0B1F2C3EEC02008FD358 /* ImagesList */,
+				D9B135B92C8732FE00756E75 /* ViewControllers */,
+				D9B1358E2C78BD9400756E75 /* OAuthTokenResponseModel.swift */,
+				D9C4F91A2C57FD15004A08DF /* OAuth2Service.swift */,
+				D9C4F9212C58F509004A08DF /* OAuth2TokenStorage.swift */,
+			);
+			path = Auth;
+			sourceTree = "<group>";
+		};
+		D9B135B72C87313D00756E75 /* Profile */ = {
+			isa = PBXGroup;
+			children = (
 				D96D0B262C46795F008FD358 /* ProfileViewController.swift */,
-				D988F01F2C774F8600164D47 /* TabBarController.swift */,
+				D9B1358C2C78BD1F00756E75 /* ProfileModels.swift */,
+				D9D7E8082C6628B2004CBC66 /* ProfileService.swift */,
+				D9D7E80A2C6A21CC004CBC66 /* ProfileImageService.swift */,
+			);
+			path = Profile;
+			sourceTree = "<group>";
+		};
+		D9B135B82C87319A00756E75 /* ImageList */ = {
+			isa = PBXGroup;
+			children = (
+				D9B135BA2C87333C00756E75 /* ViewControllers */,
+				D9B135962C84B3BB00756E75 /* PhotosModel.swift */,
+				D9B135942C84B39600756E75 /* ImagesListService.swift */,
+			);
+			path = ImageList;
+			sourceTree = "<group>";
+		};
+		D9B135B92C8732FE00756E75 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				D9C4F9142C52BD01004A08DF /* AuthViewController.swift */,
+				D9C4F9162C52C328004A08DF /* WebViewViewController.swift */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		D9B135BA2C87333C00756E75 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				D9B75FF12C3706F10022F490 /* ImagesListViewController.swift */,
+				D96D0B202C3EEC25008FD358 /* ImagesListCell.swift */,
 				D96D0B292C47C2CA008FD358 /* SingleImageViewController.swift */,
 			);
 			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		D9B135BB2C87337600756E75 /* NavigationViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				D9C4F9232C5904BD004A08DF /* SplashViewController.swift */,
+				D988F01F2C774F8600164D47 /* TabBarController.swift */,
+			);
+			path = NavigationViewControllers;
 			sourceTree = "<group>";
 		};
 		D9B75FE12C3706F10022F490 = {
@@ -149,10 +186,12 @@
 		D9B75FEC2C3706F10022F490 /* ImageFeed */ = {
 			isa = PBXGroup;
 			children = (
-				D99A440A2C787C2F002309E9 /* ViewControllers */,
+				D9C4F9262C5A4CCE004A08DF /* BasicViewControllers */,
+				D9B135BB2C87337600756E75 /* NavigationViewControllers */,
+				D9B135B62C8730F700756E75 /* Auth */,
+				D9B135B72C87313D00756E75 /* Profile */,
+				D9B135B82C87319A00756E75 /* ImageList */,
 				D9D7E8112C6BB73C004CBC66 /* Presentation */,
-				D9D7E80E2C6BB6B2004CBC66 /* Models */,
-				D9C4F91C2C580282004A08DF /* Services */,
 				D96D0B222C411AD6008FD358 /* Helpers */,
 				D9B75FED2C3706F10022F490 /* AppDelegate.swift */,
 				D9B75FEF2C3706F10022F490 /* SceneDelegate.swift */,
@@ -165,35 +204,6 @@
 			path = ImageFeed;
 			sourceTree = "<group>";
 		};
-		D9C4F9132C52BCEA004A08DF /* Auth */ = {
-			isa = PBXGroup;
-			children = (
-				D9C4F9142C52BD01004A08DF /* AuthViewController.swift */,
-				D9C4F9162C52C328004A08DF /* WebViewViewController.swift */,
-			);
-			path = Auth;
-			sourceTree = "<group>";
-		};
-		D9C4F91C2C580282004A08DF /* Services */ = {
-			isa = PBXGroup;
-			children = (
-				D9C4F9252C5A3C2A004A08DF /* OAuth2 */,
-				D9D7E8082C6628B2004CBC66 /* ProfileService.swift */,
-				D9D7E80A2C6A21CC004CBC66 /* ProfileImageService.swift */,
-				D9B135942C84B39600756E75 /* ImagesListService.swift */,
-			);
-			path = Services;
-			sourceTree = "<group>";
-		};
-		D9C4F9252C5A3C2A004A08DF /* OAuth2 */ = {
-			isa = PBXGroup;
-			children = (
-				D9C4F91A2C57FD15004A08DF /* OAuth2Service.swift */,
-				D9C4F9212C58F509004A08DF /* OAuth2TokenStorage.swift */,
-			);
-			path = OAuth2;
-			sourceTree = "<group>";
-		};
 		D9C4F9262C5A4CCE004A08DF /* BasicViewControllers */ = {
 			isa = PBXGroup;
 			children = (
@@ -204,21 +214,11 @@
 			path = BasicViewControllers;
 			sourceTree = "<group>";
 		};
-		D9D7E80E2C6BB6B2004CBC66 /* Models */ = {
-			isa = PBXGroup;
-			children = (
-				D9D7E80F2C6BB715004CBC66 /* AlertModel.swift */,
-				D9B1358C2C78BD1F00756E75 /* ProfileModels.swift */,
-				D9B1358E2C78BD9400756E75 /* OAuthTokenResponseModel.swift */,
-				D9B135962C84B3BB00756E75 /* PhotosModel.swift */,
-			);
-			path = Models;
-			sourceTree = "<group>";
-		};
 		D9D7E8112C6BB73C004CBC66 /* Presentation */ = {
 			isa = PBXGroup;
 			children = (
 				D9D7E8122C6BB752004CBC66 /* AlertPresenter.swift */,
+				D9D7E80F2C6BB715004CBC66 /* AlertModel.swift */,
 			);
 			path = Presentation;
 			sourceTree = "<group>";

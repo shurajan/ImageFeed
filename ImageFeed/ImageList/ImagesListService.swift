@@ -57,6 +57,7 @@ final class ImagesListService {
             guard let self else {return}
             switch result {
             case .success(let result):
+                lastLoadedPage = nextPage
                 self.appendNewPhotos(items: result)
                 NotificationCenter.default
                     .post(
