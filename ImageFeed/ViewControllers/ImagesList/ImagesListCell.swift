@@ -29,11 +29,21 @@ final class ImagesListCell: UITableViewCell {
         cellImage.kf.cancelDownloadTask()
     }
     
-    func configure(image: UIImage, date: Date, isLikeOn: Bool) {
-        dateLabel.text = date.dateString
+    func configure(photo: Photo) {
+        guard
+            let url = URL(string: photo.thumbImageURL)
+        else {
+            Log.warn(message: "Can not load image")
+            return
+        }
+        
+        dateLabel.text = photo.createdAt?.dateString ?? Date().dateString
         dateLabel.addCharacterSpacing(kernValue: -0.08)
-        cellImage.image = image
-        let likeButtonImage = isLikeOn ? likeOn : likeOff
+        
+        cellImage.kf.indicatorType = .activity
+        cellImage.kf.setImage(with: url, placeholder: UIImage(named: "card_stub"))
+        
+        let likeButtonImage = photo.isLiked ? likeOn : likeOff
         
         likeButton.setImage(likeButtonImage, for: UIControl.State.normal)
     }

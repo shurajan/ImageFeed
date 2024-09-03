@@ -38,6 +38,7 @@ final class ImagesListService {
         assert(Thread.isMainThread)
         
         if task != nil {
+            Log.info(message: "Task is in progress")
             return
         }
         

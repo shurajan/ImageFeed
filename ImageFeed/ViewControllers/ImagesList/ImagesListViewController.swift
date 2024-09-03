@@ -15,7 +15,7 @@ final class ImagesListViewController: LightStatusBarViewController {
     @IBOutlet private var tableView: UITableView!
     
     // MARK: - Private variables
-    private let photosName: [String] = Array(0..<20).map{"\($0)"}
+    //private let photosName: [String] = Array(0..<20).map{"\($0)"}
     private var photos: [Photo] = []
     
     private var imagesListServiceObserver: NSObjectProtocol?
@@ -50,20 +50,14 @@ final class ImagesListViewController: LightStatusBarViewController {
             super.prepare(for: segue, sender: sender)
             return
         }
-        let image = UIImage(named: photosName[indexPath.row])
-        viewController.image = image
+        //let image = UIImage(named: photosName[indexPath.row])
+        //viewController.image = image
         
     }
     
     // MARK: - Private Functions
     func configCell(for cell: ImagesListCell, with indexPath: IndexPath) {
-        guard let image = UIImage(named: photosName[indexPath.row]) else {
-            return
-        }
-        
-        let isLikeOn = indexPath.row % 2 == 1
-        cell.configure(image: image, date: Date(), isLikeOn: isLikeOn)
-        
+        cell.configure(photo: photos[indexPath.row])
     }
     
     func updateTableViewAnimated(){
@@ -95,17 +89,20 @@ extension ImagesListViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        guard let image = UIImage(named: photosName[indexPath.row]) else {
-            return 0
-        }
-        
         let imageViewWidth = tableView.bounds.width - 32
-        let imageWidth = image.size.width
+        let imageWidth =  photos[indexPath.row].size.width
         let factor = imageViewWidth / imageWidth
-        let cellHeight = image.size.height * factor + 8
+        let cellHeight = photos[indexPath.row].size.height * factor + 8
         return cellHeight
     }
     
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        Log.info(message: "Current size - \(photos.count)")
+        if indexPath.row == photos.count - 1 {
+            Log.info(message: "Next batch, current size - \(photos.count)")
+            imagesListService.fetchPhotosNextPage()
+        }
+    }
 }
 
 // MARK: - UITableViewDataSource Implementation
@@ -125,7 +122,6 @@ extension ImagesListViewController: UITableViewDataSource {
         
         return imageListCell
     }
-    
-    
+        
 }
 
