@@ -112,25 +112,6 @@ final class ImagesListService {
         
     }
     
-    func cleanImageListService(){
-        if changeLikeTask != nil {
-            changeLikeTask?.cancel()
-        }
-        
-        if loadPhotosTask != nil {
-            loadPhotosTask?.cancel()
-        }
-        changeLikeTask = nil
-        loadPhotosTask = nil
-        lastLoadedPage = nil
-        photos = []
-        NotificationCenter.default
-            .post(
-                name: ImagesListService.didChangeNotification,
-                object: self)
-        
-    }
-    
     //MARK: - Private functions
     private func appendNewPhotos(items: [PhotoResult]){
         for photoResult in items {
@@ -222,4 +203,25 @@ final class ImagesListService {
         }
     }
     
+}
+
+extension ImagesListService: ProfileCleanProtocol {
+    func clean(){
+        if changeLikeTask != nil {
+            changeLikeTask?.cancel()
+        }
+        
+        if loadPhotosTask != nil {
+            loadPhotosTask?.cancel()
+        }
+        changeLikeTask = nil
+        loadPhotosTask = nil
+        lastLoadedPage = nil
+        photos = []
+        NotificationCenter.default
+            .post(
+                name: ImagesListService.didChangeNotification,
+                object: self)
+        
+    }
 }

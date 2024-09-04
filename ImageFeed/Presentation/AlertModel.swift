@@ -14,6 +14,7 @@ struct AlertButton{
     
     init(buttonText: String, style: UIAlertAction.Style = .default, completion: @escaping () -> Void) {
         self.buttonText = buttonText
+        self.style = style
         self.completion = completion
     }
 }

@@ -81,17 +81,25 @@ final class SingleImageViewController: LightStatusBarViewController {
     }
     
     private func showError(){
-        let buttonRepeat = AlertButton(buttonText: "Повторить", style: .default) {}
-        let buttonDecline = AlertButton(buttonText: "Не надо", style: .cancel) {}
+        let buttonRepeat = AlertButton(buttonText: "Повторить", style: .default) { [weak self] in
+            Log.info(message: "Trying to repeat")
+            guard let self, let photo = self.photo else {return}
+            
+            self.loadPhoto(photo: photo)
+        }
+        let buttonDecline = AlertButton(buttonText: "Не надо", style: .cancel) {[weak self] in
+            Log.info(message: "cancel")
+            guard let self else {return}
+            self.dismiss(animated: true, completion: nil)
+        }
         
         let alertModel = AlertModel(id: "AuthErrorAlert",
                                     title: "Что-то пошло не так(",
-                                    message: "Не удалось войти в систему",
+                                    message: "Попробовать ещё раз?",
                                     buttons: [buttonRepeat, buttonDecline])
         
         self.alertPresenter?.showAlert(alertModel)
         
-        self.alertPresenter?.showAlert(alertModel)
     }
     
     // MARK: - Actions

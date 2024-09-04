@@ -12,12 +12,24 @@ import WebKit
 final class ProfileLogoutService {
     static let shared = ProfileLogoutService()
     
+    private let services: [ProfileCleanProtocol] = [
+        ProfileImageService.shared,
+        ProfileService.shared,
+        OAuth2Service.shared,
+        OAuth2TokenStorage.shared,
+        ProfileImageService.shared
+    ]
+    
     private init() { }
     
     func logout() {
         cleanCookies()
-        ProfileImageService.shared.cleanProfileImageService()
-        ProfileService.shared.cleanProfile()
+        Log.info(message: "Cleaned cookies")
+        
+        for service in services {
+            service.clean()
+        }
+        Log.info(message: "Cleaned services")
     }
     
     private func cleanCookies() {

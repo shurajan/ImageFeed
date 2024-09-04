@@ -76,14 +76,6 @@ final class ProfileImageService {
         task.resume()
     }
     
-    func cleanProfileImageService(){
-        if task != nil {
-            task?.cancel()
-        }
-        task = nil
-        avatarURL = nil
-    }
-    
     //MARK: - Private functions
     private func makeUserProfileURL(from baseURL :URL, for username: String) -> URL {
         if #available(iOS 16, *) {
@@ -117,4 +109,15 @@ final class ProfileImageService {
         return request
     }
     
+}
+
+extension ProfileImageService: ProfileCleanProtocol {
+    
+    func clean(){
+        if task != nil {
+            task?.cancel()
+        }
+        task = nil
+        avatarURL = nil
+    }
 }

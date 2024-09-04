@@ -25,7 +25,7 @@ final class AlertPresenter {
         
         for button in alertData.buttons {
             let action = UIAlertAction(title: button.buttonText, style: button.style) {_ in
-                alertData.completion()
+                button.completion()
             }
             alert.addAction(action)
         }

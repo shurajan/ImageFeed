@@ -80,15 +80,6 @@ final class OAuth2Service {
         task.resume()
     }
     
-    func cleanOAuth2Service(){
-        if task != nil {
-            task?.cancel()
-        }
-        task = nil
-        lastCode = nil
-        
-    }
-    
     //MARK: - Private functions
     private func makeOAuthTokenRequest(for code: String) -> URLRequest? {
         guard var urlComponents = URLComponents(string: URLConstants.tokenURLString) else {
@@ -121,5 +112,15 @@ final class OAuth2Service {
 
 }
 
+extension OAuth2Service: ProfileCleanProtocol {
+    func clean(){
+        if task != nil {
+            task?.cancel()
+        }
+        task = nil
+        lastCode = nil
+        
+    }
+}
 
 

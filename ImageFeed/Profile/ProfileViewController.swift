@@ -147,6 +147,16 @@ final class ProfileViewController: LightStatusBarViewController {
     
     @IBAction func exitButtonTapped(_ sender: UIButton) {
         Log.info(message: "Logging out")
+        ProfileLogoutService.shared.logout()
+        
+        guard let window = UIApplication.shared.windows.first else {
+            Log.warn(message: "Incorrect configuration")
+            fatalError("Incorrect configuration")
+        }
+        
+        let splashViewController = SplashViewController()
+        window.rootViewController = splashViewController
+        window.makeKeyAndVisible()
     }
 }
 
