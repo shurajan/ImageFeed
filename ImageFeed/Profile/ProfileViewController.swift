@@ -54,11 +54,16 @@ final class ProfileViewController: LightStatusBarViewController {
     
     // MARK: - Private Variables
     private var profileImageServiceObserver: NSObjectProtocol?
+    private var alertPresenter: AlertPresenter?
     
     // MARK: - View Life Cycles
     override func viewDidLoad() {
         super.viewDidLoad()
         drawSelf()
+        
+        let alertPresenter = AlertPresenter()
+        alertPresenter.delegate = self
+        self.alertPresenter = alertPresenter
     }
     
     //MARK: - View Layout methods
@@ -146,17 +151,32 @@ final class ProfileViewController: LightStatusBarViewController {
     }
     
     @IBAction func exitButtonTapped(_ sender: UIButton) {
-        Log.info(message: "Logging out")
-        ProfileLogoutService.shared.logout()
         
-        guard let window = UIApplication.shared.windows.first else {
-            Log.warn(message: "Incorrect configuration")
-            fatalError("Incorrect configuration")
+        let buttonYes = AlertButton(buttonText: "Да", style: .default) { 
+            Log.info(message: "Logging out")
+            ProfileLogoutService.shared.logout()
+            
+            guard let window = UIApplication.shared.windows.first else {
+                Log.warn(message: "Incorrect configuration")
+                fatalError("Incorrect configuration")
+            }
+            
+            let splashViewController = SplashViewController()
+            window.rootViewController = splashViewController
+            window.makeKeyAndVisible()
         }
         
-        let splashViewController = SplashViewController()
-        window.rootViewController = splashViewController
-        window.makeKeyAndVisible()
+        let buttonNo = AlertButton(buttonText: "Нет", style: .default) { 
+            Log.info(message: "Staying authenticated")
+        }
+        
+        let alertModel = AlertModel(id: "AuthErrorAlert",
+                                    title: "Пока, пока!",
+                                    message: "Уверены что хотите выйти?",
+                                    buttons: [buttonYes, buttonNo])
+        
+        self.alertPresenter?.showAlert(alertModel)
+
     }
 }
 

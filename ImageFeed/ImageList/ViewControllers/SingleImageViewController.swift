@@ -82,13 +82,13 @@ final class SingleImageViewController: LightStatusBarViewController {
     
     private func showError(){
         let buttonRepeat = AlertButton(buttonText: "Повторить", style: .default) { [weak self] in
-            Log.info(message: "Trying to repeat")
+            Log.info(message: "Trying to re-load full image")
             guard let self, let photo = self.photo else {return}
             
             self.loadPhoto(photo: photo)
         }
         let buttonDecline = AlertButton(buttonText: "Не надо", style: .cancel) {[weak self] in
-            Log.info(message: "cancel")
+            Log.info(message: "Canceling full picture re-loading")
             guard let self else {return}
             self.dismiss(animated: true, completion: nil)
         }
