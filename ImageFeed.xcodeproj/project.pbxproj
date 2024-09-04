@@ -24,6 +24,7 @@
 		D9B135BF2C87634000756E75 /* ImagesListCellDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9B135BE2C87634000756E75 /* ImagesListCellDelegate.swift */; };
 		D9B135C12C87861400756E75 /* ProfileLogoutService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9B135C02C87861400756E75 /* ProfileLogoutService.swift */; };
 		D9B135C32C884A6300756E75 /* ProfileCleanProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9B135C22C884A6300756E75 /* ProfileCleanProtocol.swift */; };
+		D9B135C52C88CC6800756E75 /* UIView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9B135C42C88CC6800756E75 /* UIView+Extensions.swift */; };
 		D9B75FEE2C3706F10022F490 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9B75FED2C3706F10022F490 /* AppDelegate.swift */; };
 		D9B75FF02C3706F10022F490 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9B75FEF2C3706F10022F490 /* SceneDelegate.swift */; };
 		D9B75FF22C3706F10022F490 /* ImagesListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9B75FF12C3706F10022F490 /* ImagesListViewController.swift */; };
@@ -63,6 +64,7 @@
 		D9B135BE2C87634000756E75 /* ImagesListCellDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesListCellDelegate.swift; sourceTree = "<group>"; };
 		D9B135C02C87861400756E75 /* ProfileLogoutService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileLogoutService.swift; sourceTree = "<group>"; };
 		D9B135C22C884A6300756E75 /* ProfileCleanProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCleanProtocol.swift; sourceTree = "<group>"; };
+		D9B135C42C88CC6800756E75 /* UIView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extensions.swift"; sourceTree = "<group>"; };
 		D9B75FEA2C3706F10022F490 /* ImageFeed.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ImageFeed.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D9B75FED2C3706F10022F490 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D9B75FEF2C3706F10022F490 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -109,6 +111,7 @@
 				D9D7E8062C65389E004CBC66 /* UIBlockingProgressHUD.swift */,
 				D9D7E8142C6BCF37004CBC66 /* Log.swift */,
 				D9B135922C7A10A200756E75 /* UILabel+Extensions.swift */,
+				D9B135C42C88CC6800756E75 /* UIView+Extensions.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -334,6 +337,7 @@
 				D9C4F9202C58D19F004A08DF /* URLSession+Extentions.swift in Sources */,
 				D9B75FEE2C3706F10022F490 /* AppDelegate.swift in Sources */,
 				D947AEB52C4E8FB100742DD3 /* LightStatusBarViewController.swift in Sources */,
+				D9B135C52C88CC6800756E75 /* UIView+Extensions.swift in Sources */,
 				D96D0B242C411B08008FD358 /* Date+Extensions.swift in Sources */,
 				D9D7E8092C6628B2004CBC66 /* ProfileService.swift in Sources */,
 				D9B135932C7A10A200756E75 /* UILabel+Extensions.swift in Sources */,

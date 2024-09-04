@@ -10,7 +10,7 @@ import Foundation
 extension Date {
     
     static let dateFormatter = newDateFormatter()
-    static var ISODateFormatter = newISODateFormatter()
+    static let ISODateFormatter = newISODateFormatter()
     
     private static func newDateFormatter() -> DateFormatter {
         let formatter = DateFormatter()
