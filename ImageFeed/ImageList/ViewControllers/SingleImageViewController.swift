@@ -34,6 +34,8 @@ final class SingleImageViewController: LightStatusBarViewController {
         alertPresenter.delegate = self
         self.alertPresenter = alertPresenter
         
+        setStubPicture()
+        
         if let photo  {
             loadPhoto(photo: photo)
         }
@@ -46,9 +48,10 @@ final class SingleImageViewController: LightStatusBarViewController {
         
         UIBlockingProgressHUD.show()
         
-        imageView.kf.setImage(with: photoURL){[weak self] result in
-            guard let self else {return}
+        imageView.kf.setImage(with: photoURL, options: [.keepCurrentImageWhileLoading]) {[weak self] result in
+            UIBlockingProgressHUD.dismiss()
             
+            guard let self else {return}
             switch result {
             case .success(let imageResult):
                 let image = imageResult.image
@@ -56,9 +59,9 @@ final class SingleImageViewController: LightStatusBarViewController {
                 rescaleAndCenterImageInScrollView(image: image)
             case .failure(let error):
                 Log.error(error: error, message: "Failed to load image")
+                setStubPicture()
                 showError()
             }
-            UIBlockingProgressHUD.dismiss()
         }
     }
     
@@ -78,6 +81,14 @@ final class SingleImageViewController: LightStatusBarViewController {
         let y = (newContentSize.height - visibleRectSize.height) / 2
         scrollView.setContentOffset(CGPoint(x: x, y: y), animated: false)
         
+    }
+    
+    private func setStubPicture(){
+        if let stubImage = UIImage(named: "pic_stub") {
+            imageView.image = stubImage
+            imageView.frame.size = stubImage.size
+            rescaleAndCenterImageInScrollView(image: stubImage)
+        }
     }
     
     private func showError(){

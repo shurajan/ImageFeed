@@ -247,7 +247,7 @@
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bFD-8J-cDm">
                                 <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                                 <subviews>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="0" translatesAutoresizingMaskIntoConstraints="NO" id="v5E-Cw-bmG">
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="pic_stub" translatesAutoresizingMaskIntoConstraints="NO" id="v5E-Cw-bmG">
                                         <rect key="frame" x="0.0" y="0.0" width="354" height="487"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     </imageView>
@@ -313,6 +313,7 @@
         <image name="backward" width="24" height="24"/>
         <image name="backward_black" width="24" height="24"/>
         <image name="like_button_on" width="42" height="42"/>
+        <image name="pic_stub" width="83" height="75"/>
         <image name="sharing" width="51" height="51"/>
         <image name="tab_editorial_active" width="30" height="30"/>
         <namedColor name="YP Black (iOS)">

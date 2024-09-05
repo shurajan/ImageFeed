@@ -24,6 +24,8 @@ final class ImagesListCell: UITableViewCell {
     // MARK: - Private variables
     private let likeOn: UIImage? = UIImage(named: "like_button_on")
     private let likeOff: UIImage? = UIImage(named: "like_button_off")
+    
+    private var oldImageURL: String?
         
     override func prepareForReuse() {
         super.prepareForReuse()
@@ -39,10 +41,21 @@ final class ImagesListCell: UITableViewCell {
             return
         }
         
-        dateLabel.text = photo.createdAt?.dateString ?? Date().dateString
+        if let createdAt = photo.createdAt {
+            dateLabel.text = createdAt.dateString
+        } else {
+            dateLabel.text = ""
+            Log.warn(message: "Photo with id \(photo.id) has empty createdAt field")
+        }
+        
         dateLabel.addCharacterSpacing(kernValue: -0.08)
         
-        cellImage.kf.setImage(with: url, placeholder: UIImage(named: "card_stub"))
+        if let oldImageURL, oldImageURL == photo.thumbImageURL {
+            cellImage.kf.setImage(with: url, options: [.keepCurrentImageWhileLoading])
+        } else {
+            cellImage.kf.setImage(with: url, placeholder: UIImage(named: "card_stub"))
+        }
+        oldImageURL = photo.thumbImageURL
         
         let likeButtonImage = photo.isLiked ? likeOn : likeOff
         

@@ -218,10 +218,5 @@ extension ImagesListService: ProfileCleanProtocol {
         loadPhotosTask = nil
         lastLoadedPage = nil
         photos = []
-        NotificationCenter.default
-            .post(
-                name: ImagesListService.didChangeNotification,
-                object: self)
-        
     }
 }
