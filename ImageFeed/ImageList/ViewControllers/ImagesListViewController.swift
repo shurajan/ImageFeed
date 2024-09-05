@@ -134,10 +134,7 @@ extension ImagesListViewController: ImagesListCellDelegate {
             switch result {
             case .success(_):
                 self.photos = self.imagesListService.photos
-                tableView.performBatchUpdates {
-                    self.tableView.deleteRows(at: [indexPath], with: .none)
-                    self.tableView.insertRows(at: [indexPath], with: .none)
-                } completion: { _ in }
+                cell.update(photo: photos[indexPath.row])
             case .failure(let error):
                 Log.error(error: error)
             }

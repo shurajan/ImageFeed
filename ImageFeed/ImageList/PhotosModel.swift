@@ -22,7 +22,7 @@ struct Photo {
         self.size = CGSize(width: photoResult.width, height: photoResult.height)
         self.createdAt = Date.ISODateFormatter.date(from: photoResult.createdAt)
         self.welcomeDescription = photoResult.description
-        self.thumbImageURL = photoResult.urls.thumb
+        self.thumbImageURL = photoResult.urls.regular
         self.largeImageURL = photoResult.urls.full
         self.isLiked = photoResult.likedByUser
     }
@@ -30,6 +30,7 @@ struct Photo {
 
 struct UrlResult: Codable {
     let full: String
+    let regular: String
     let thumb: String
 }
 

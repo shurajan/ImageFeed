@@ -11,7 +11,7 @@ import Kingfisher
 
 
 final class ImagesListCell: UITableViewCell {
-    weak var delegate: ImagesListCellDelegate? 
+    weak var delegate: ImagesListCellDelegate?
     
     // MARK: - Static variables
     static let reuseIdentifier = "ImagesListCell"
@@ -25,8 +25,8 @@ final class ImagesListCell: UITableViewCell {
     private let likeOn: UIImage? = UIImage(named: "like_button_on")
     private let likeOff: UIImage? = UIImage(named: "like_button_off")
     
-    private var oldImageURL: String?
-        
+    private var currentPhoto: Photo?
+    
     override func prepareForReuse() {
         super.prepareForReuse()
         
@@ -41,6 +41,8 @@ final class ImagesListCell: UITableViewCell {
             return
         }
         
+        currentPhoto = photo
+        
         if let createdAt = photo.createdAt {
             dateLabel.text = createdAt.dateString
         } else {
@@ -49,13 +51,33 @@ final class ImagesListCell: UITableViewCell {
         }
         
         dateLabel.addCharacterSpacing(kernValue: -0.08)
+        cellImage.kf.setImage(with: url, placeholder: UIImage(named: "card_stub"))
         
-        if let oldImageURL, oldImageURL == photo.thumbImageURL {
+        
+        let likeButtonImage = photo.isLiked ? likeOn : likeOff
+        
+        likeButton.setImage(likeButtonImage, for: UIControl.State.normal)
+    }
+    
+    func update(photo: Photo) {
+        guard let currentPhoto else {return}
+        
+        if currentPhoto.thumbImageURL != photo.thumbImageURL, 
+           let url = URL(string: photo.thumbImageURL) {
             cellImage.kf.setImage(with: url, options: [.keepCurrentImageWhileLoading])
         } else {
-            cellImage.kf.setImage(with: url, placeholder: UIImage(named: "card_stub"))
+            Log.warn(message: "Can not load image")
+            return
         }
-        oldImageURL = photo.thumbImageURL
+    
+        if let createdAt = photo.createdAt {
+            dateLabel.text = createdAt.dateString
+        } else {
+            dateLabel.text = ""
+            Log.warn(message: "Photo with id \(photo.id) has empty createdAt field")
+        }
+        
+        dateLabel.addCharacterSpacing(kernValue: -0.08)
         
         let likeButtonImage = photo.isLiked ? likeOn : likeOff
         
