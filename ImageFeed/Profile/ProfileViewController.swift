@@ -155,7 +155,7 @@ final class ProfileViewController: LightStatusBarViewController {
                                      options: [.processor(roundCornerProcessor)])
     }
     
-    @IBAction func exitButtonTapped(_ sender: UIButton) {
+    @IBAction private func exitButtonTapped(_ sender: UIButton) {
         
         let buttonYes = AlertButton(buttonText: "Да", style: .default) { 
             Log.info(message: "Logging out")

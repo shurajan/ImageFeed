@@ -11,8 +11,8 @@ import WebKit
 
 final class WebViewViewController: DarkStatusBarViewController {
     // MARK: - IBOutlets
-    @IBOutlet var webView: WKWebView!
-    @IBOutlet var progressView: UIProgressView!
+    @IBOutlet private weak var webView: WKWebView!
+    @IBOutlet private weak var progressView: UIProgressView!
     
     // MARK: - Private variables
     private var estimatedProgressObservation: NSKeyValueObservation?

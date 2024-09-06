@@ -17,7 +17,7 @@ final class ProfileLogoutService {
         ProfileService.shared,
         OAuth2Service.shared,
         OAuth2TokenStorage.shared,
-        ProfileImageService.shared
+        ImagesListService.shared
     ]
     
     private init() { }

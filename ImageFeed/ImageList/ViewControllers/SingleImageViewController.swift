@@ -16,9 +16,9 @@ final class SingleImageViewController: LightStatusBarViewController {
     }
     
     // MARK: - IBOutlets
-    @IBOutlet private var scrollView: UIScrollView!
-    @IBOutlet private var imageView: UIImageView!
-    @IBOutlet private var backButton: UIButton!
+    @IBOutlet private weak var scrollView: UIScrollView!
+    @IBOutlet private weak var imageView: UIImageView!
+    @IBOutlet private weak var backButton: UIButton!
     
     // MARK: - Private Variables
     private var alertPresenter: AlertPresenter?
@@ -114,11 +114,11 @@ final class SingleImageViewController: LightStatusBarViewController {
     }
     
     // MARK: - Actions
-    @IBAction func didTapBackButton(_ sender: Any) {
+    @IBAction private func didTapBackButton(_ sender: Any) {
         dismiss(animated: true, completion: nil)
     }
     
-    @IBAction func didTapShareButton(_ sender: Any) {
+    @IBAction private func didTapShareButton(_ sender: Any) {
         guard let image = imageView.image else {return}
         
         let items = [image]

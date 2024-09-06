@@ -12,7 +12,7 @@ final class ImagesListViewController: LightStatusBarViewController {
     private let imagesListService = ImagesListService.shared
     
     // MARK: - IB Outlets
-    @IBOutlet private var tableView: UITableView!
+    @IBOutlet private weak var tableView: UITableView!
     
     // MARK: - Private variables
     private var photos: [Photo] = []
