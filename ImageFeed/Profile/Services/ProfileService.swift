@@ -97,3 +97,13 @@ final class ProfileService {
     }
     
 }
+
+extension ProfileService: ProfileCleanProtocol {
+    func clean() {
+        if task != nil {
+            task?.cancel()
+        }
+        task = nil
+        profile = nil
+    }
+}

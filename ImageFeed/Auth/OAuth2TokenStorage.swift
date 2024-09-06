@@ -49,3 +49,10 @@ final class OAuth2TokenStorage {
     }
     
 }
+
+extension OAuth2TokenStorage: ProfileCleanProtocol {
+    
+    func clean(){
+        KeychainWrapper.standard.remove(forKey: "AuthToken")
+    }
+}

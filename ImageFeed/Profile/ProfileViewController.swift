@@ -12,16 +12,19 @@ import Kingfisher
 final class ProfileViewController: LightStatusBarViewController {
     
     // MARK: - UI Controls
-    private lazy var profileImageView: UIImageView = {
+    private lazy var avatarImageView: UIImageView = {
         let view = UIImageView()
         view.image = UIImage(named: "stub")
         view.backgroundColor = .ypBlackIOS
+        view.layer.masksToBounds = true
+        view.layer.cornerRadius = 35
         return view
     }()
     
     private lazy var exitButton: UIButton = {
         let view = UIButton()
         view.setImage(UIImage(named: "exit"), for: UIControl.State.normal)
+        view.addTarget(self, action: #selector(exitButtonTapped(_:)), for: .touchUpInside)
         return view
     }()
     
@@ -53,11 +56,16 @@ final class ProfileViewController: LightStatusBarViewController {
     
     // MARK: - Private Variables
     private var profileImageServiceObserver: NSObjectProtocol?
+    private var alertPresenter: AlertPresenter?
     
     // MARK: - View Life Cycles
     override func viewDidLoad() {
         super.viewDidLoad()
         drawSelf()
+        
+        let alertPresenter = AlertPresenter()
+        alertPresenter.delegate = self
+        self.alertPresenter = alertPresenter
     }
     
     //MARK: - View Layout methods
@@ -66,6 +74,7 @@ final class ProfileViewController: LightStatusBarViewController {
         
         addViews()
         addConstraints()
+        
         if let profile = ProfileService.shared.profile {
             updateProfileDetails(profile: profile)
         }
@@ -83,7 +92,7 @@ final class ProfileViewController: LightStatusBarViewController {
     }
     
     private func addViews(){
-        addView(profileImageView)
+        addView(avatarImageView)
         addView(exitButton)
         addView(nameLabel)
         addView(loginNameLabel)
@@ -91,33 +100,34 @@ final class ProfileViewController: LightStatusBarViewController {
     }
         
     private func addConstraints(){
-        let constraints = [profileImageView.widthAnchor.constraint(equalToConstant: 70),
-                           profileImageView.heightAnchor.constraint(equalToConstant: 70),
-                           profileImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 16),
-                           profileImageView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
+        let constraints = [avatarImageView.widthAnchor.constraint(equalToConstant: 70),
+                           avatarImageView.heightAnchor.constraint(equalToConstant: 70),
+                           avatarImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 16),
+                           avatarImageView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
                            
                            exitButton.widthAnchor.constraint(equalToConstant: 44),
                            exitButton.heightAnchor.constraint(equalToConstant: 44),
-                           exitButton.centerYAnchor.constraint(equalTo: profileImageView.centerYAnchor),
+                           exitButton.centerYAnchor.constraint(equalTo: avatarImageView.centerYAnchor),
                            exitButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -4),
                            
-                           nameLabel.topAnchor.constraint(equalTo: profileImageView.bottomAnchor, constant: 8),
-                           nameLabel.leadingAnchor.constraint(equalTo: profileImageView.leadingAnchor),
+                           nameLabel.topAnchor.constraint(equalTo: avatarImageView.bottomAnchor, constant: 8),
+                           nameLabel.leadingAnchor.constraint(equalTo: avatarImageView.leadingAnchor),
                            nameLabel.trailingAnchor.constraint(lessThanOrEqualTo: view.safeAreaLayoutGuide.trailingAnchor, constant: 16),
                            nameLabel.heightAnchor.constraint(equalToConstant: 18),
                            
                            loginNameLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 8),
-                           loginNameLabel.leadingAnchor.constraint(equalTo: profileImageView.leadingAnchor),
+                           loginNameLabel.leadingAnchor.constraint(equalTo: avatarImageView.leadingAnchor),
                            loginNameLabel.trailingAnchor.constraint(lessThanOrEqualTo: view.safeAreaLayoutGuide.trailingAnchor, constant: 16),
                            loginNameLabel.heightAnchor.constraint(equalToConstant: 18),
                            
                            descriptionLabel.topAnchor.constraint(equalTo: loginNameLabel.bottomAnchor, constant: 8),
-                           descriptionLabel.leadingAnchor.constraint(equalTo: profileImageView.leadingAnchor),
+                           descriptionLabel.leadingAnchor.constraint(equalTo: avatarImageView.leadingAnchor),
                            descriptionLabel.trailingAnchor.constraint(lessThanOrEqualTo: view.safeAreaLayoutGuide.trailingAnchor, constant: 16),
                            descriptionLabel.heightAnchor.constraint(equalToConstant: 18)
         ]
         NSLayoutConstraint.activate(constraints)
     }
+    
     
     //MARK: - Private methods
     private func updateProfileDetails(profile: Profile){
@@ -134,15 +144,44 @@ final class ProfileViewController: LightStatusBarViewController {
             Log.warn(message: "Can not load avatar image")
             return
         }
+        
         let cache = ImageCache.default
         cache.clearDiskCache()
-        profileImageView.kf.indicatorType = .activity
-        let roundCornerProcessor =  RoundCornerImageProcessor(cornerRadius: 35)
+        avatarImageView.kf.indicatorType = .activity
+        let roundCornerProcessor =  RoundCornerImageProcessor(cornerRadius: 42)
         
-        profileImageView.kf.setImage(with: url,
+        avatarImageView.kf.setImage(with: url,
                                      placeholder: UIImage(named: "stub"),
                                      options: [.processor(roundCornerProcessor)])
     }
     
+    @IBAction private func exitButtonTapped(_ sender: UIButton) {
+        
+        let buttonYes = AlertButton(buttonText: "Да", style: .default) { 
+            Log.info(message: "Logging out")
+            ProfileLogoutService.shared.logout()
+            
+            guard let window = UIApplication.shared.windows.first else {
+                Log.warn(message: "Incorrect configuration")
+                fatalError("Incorrect configuration")
+            }
+            
+            let splashViewController = SplashViewController()
+            window.rootViewController = splashViewController
+            window.makeKeyAndVisible()
+        }
+        
+        let buttonNo = AlertButton(buttonText: "Нет", style: .default) { 
+            Log.info(message: "Staying authenticated")
+        }
+        
+        let alertModel = AlertModel(id: "AuthErrorAlert",
+                                    title: "Пока, пока!",
+                                    message: "Уверены что хотите выйти?",
+                                    buttons: [buttonYes, buttonNo])
+        
+        self.alertPresenter?.showAlert(alertModel)
+
+    }
 }
 

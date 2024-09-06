@@ -57,7 +57,7 @@ final class ProfileImageService {
             assert(Thread.isMainThread)
             switch result {
             case .success(let response):
-                let avatarURL = response.profileImage.small
+                let avatarURL = response.profileImage.large
                 self?.avatarURL = avatarURL
                 NotificationCenter.default
                     .post(
@@ -107,5 +107,17 @@ final class ProfileImageService {
         request.httpMethod = "GET"
         
         return request
+    }
+    
+}
+
+extension ProfileImageService: ProfileCleanProtocol {
+    
+    func clean(){
+        if task != nil {
+            task?.cancel()
+        }
+        task = nil
+        avatarURL = nil
     }
 }

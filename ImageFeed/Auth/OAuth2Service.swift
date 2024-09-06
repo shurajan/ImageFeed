@@ -112,5 +112,15 @@ final class OAuth2Service {
 
 }
 
+extension OAuth2Service: ProfileCleanProtocol {
+    func clean(){
+        if task != nil {
+            task?.cancel()
+        }
+        task = nil
+        lastCode = nil
+        
+    }
+}
 
 
