@@ -57,7 +57,7 @@ final class ProfileImageService {
             assert(Thread.isMainThread)
             switch result {
             case .success(let response):
-                let avatarURL = response.profileImage.small
+                let avatarURL = response.profileImage.large
                 self?.avatarURL = avatarURL
                 NotificationCenter.default
                     .post(

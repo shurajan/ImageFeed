@@ -74,7 +74,6 @@ final class ProfileViewController: LightStatusBarViewController {
         
         addViews()
         addConstraints()
-        nameLabel.addLoadingGradients()
         
         if let profile = ProfileService.shared.profile {
             updateProfileDetails(profile: profile)
