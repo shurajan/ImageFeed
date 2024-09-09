@@ -57,6 +57,7 @@ final class ProfileViewController: LightStatusBarViewController {
     // MARK: - Private Variables
     private var profileImageServiceObserver: NSObjectProtocol?
     private var alertPresenter: AlertPresenter?
+    private var loadingGradients: [CAGradientLayer] = []
     
     // MARK: - View Life Cycles
     override func viewDidLoad() {
@@ -66,17 +67,9 @@ final class ProfileViewController: LightStatusBarViewController {
         let alertPresenter = AlertPresenter()
         alertPresenter.delegate = self
         self.alertPresenter = alertPresenter
-    }
-    
-    //MARK: - View Layout methods
-    private func drawSelf(){
-        view.backgroundColor = UIColor.ypBlackIOS
-        
-        addViews()
-        addConstraints()
         
         if let profile = ProfileService.shared.profile {
-            updateProfileDetails(profile: profile)
+            self.updateProfileDetails(profile: profile)
         }
         
         profileImageServiceObserver = NotificationCenter.default
@@ -89,6 +82,24 @@ final class ProfileViewController: LightStatusBarViewController {
                 self.updateAvatar()
             }
         updateAvatar()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        Log.info(message: "Start animations")
+        addAnimations()
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 5) { [weak self] in
+            Log.info(message: "Stop animations")
+            self?.stopAnimations()
+        }
+    }
+    
+    //MARK: - View Layout methods
+    private func drawSelf(){
+        view.backgroundColor = UIColor.ypBlackIOS
+        addViews()
+        addConstraints()
     }
     
     private func addViews(){
@@ -128,6 +139,19 @@ final class ProfileViewController: LightStatusBarViewController {
         NSLayoutConstraint.activate(constraints)
     }
     
+    private func addAnimations(){
+        loadingGradients.append(avatarImageView.addLoadingGradients())
+        loadingGradients.append(avatarImageView.addLoadingGradients())
+        loadingGradients.append(nameLabel.addLoadingGradients())
+        loadingGradients.append(loginNameLabel.addLoadingGradients())
+        loadingGradients.append(descriptionLabel.addLoadingGradients())
+    }
+    
+    private func stopAnimations(){
+        loadingGradients.forEach{layer in
+            layer.removeFromSuperlayer()
+        }
+    }
     
     //MARK: - Private methods
     private func updateProfileDetails(profile: Profile){

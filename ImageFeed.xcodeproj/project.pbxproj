@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D9317EFF2C8EE011000805B5 /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9317EFE2C8EE011000805B5 /* UIView+Extension.swift */; };
 		D947AEB52C4E8FB100742DD3 /* LightStatusBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D947AEB42C4E8FB100742DD3 /* LightStatusBarViewController.swift */; };
 		D96D0B212C3EEC25008FD358 /* ImagesListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96D0B202C3EEC25008FD358 /* ImagesListCell.swift */; };
 		D96D0B242C411B08008FD358 /* Date+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96D0B232C411B08008FD358 /* Date+Extensions.swift */; };
@@ -48,6 +49,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		D9317EFE2C8EE011000805B5 /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
 		D947AEB42C4E8FB100742DD3 /* LightStatusBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LightStatusBarViewController.swift; sourceTree = "<group>"; };
 		D96D0B202C3EEC25008FD358 /* ImagesListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesListCell.swift; sourceTree = "<group>"; };
 		D96D0B232C411B08008FD358 /* Date+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extensions.swift"; sourceTree = "<group>"; };
@@ -120,6 +122,7 @@
 				D9D7E8062C65389E004CBC66 /* UIBlockingProgressHUD.swift */,
 				D9D7E8142C6BCF37004CBC66 /* Log.swift */,
 				D9B135922C7A10A200756E75 /* UILabel+Extensions.swift */,
+				D9317EFE2C8EE011000805B5 /* UIView+Extension.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -321,6 +324,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D9317EFF2C8EE011000805B5 /* UIView+Extension.swift in Sources */,
 				D9B1358F2C78BD9400756E75 /* OAuthTokenResponseModel.swift in Sources */,
 				D96D0B272C46795F008FD358 /* ProfileViewController.swift in Sources */,
 				D9B135C12C87861400756E75 /* ProfileLogoutService.swift in Sources */,
