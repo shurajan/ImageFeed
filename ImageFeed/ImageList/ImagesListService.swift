@@ -59,13 +59,15 @@ final class ImagesListService {
             switch result {
             case .success(let result):
                 self.appendNewPhotos(items: result)
-                NotificationCenter.default
-                    .post(
-                        name: ImagesListService.didChangeNotification,
-                        object: self)
             case .failure(let error):
                 Log.error(error: error)
             }
+            
+            NotificationCenter.default
+                .post(
+                    name: ImagesListService.didChangeNotification,
+                    object: self)
+            
             self.loadPhotosTask = nil
             lastLoadedPage = nextPage
         }
