@@ -33,12 +33,16 @@ final class AuthViewController: LightStatusBarViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         guard
             segue.identifier == ShowWebViewSegueIdentifier,
-            let viewController = segue.destination as? WebViewViewController
+            let webViewViewController = segue.destination as? WebViewViewController
         else {
             super.prepare(for: segue, sender: sender)
             return
         }
-        viewController.delegate = self
+        let authHelper = AuthHelper()
+        let webViewPresenter = WebViewPresenter(authHelper: authHelper)
+        webViewViewController.presenter = webViewPresenter
+        webViewPresenter.view = webViewViewController
+        webViewViewController.delegate = self
     }
     
     private func showAuthErrorAlert() {

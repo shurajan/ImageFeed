@@ -28,7 +28,7 @@ final class ProfileImageService {
     //MARK: - Dependency injections and constants
     private let username = ProfileService.shared.profile?.username
     private let urlSession = URLSession.shared
-    private let baseURL = URLConstants.defaultBaseURL
+    private let baseURL = AuthConfiguration.standard.defaultBaseURL
     
     //MARK: - Private(set) variables
     private (set) var avatarURL: String?

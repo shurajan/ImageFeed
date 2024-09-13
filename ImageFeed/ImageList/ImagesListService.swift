@@ -27,7 +27,7 @@ final class ImagesListService {
     static let didChangeNotification = Notification.Name(rawValue: "ImagesListServiceDidChange")
     
     private let urlSession = URLSession.shared
-    private let baseURL = URLConstants.defaultBaseURL
+    private let baseURL = AuthConfiguration.standard.defaultBaseURL
     
     private (set) var photos: [Photo] = []
     private var lastLoadedPage: Int?
