@@ -9,7 +9,14 @@
 import UIKit
 import Kingfisher
 
+public protocol ProfileViewControllerProtocol: AnyObject {
+    func configure(_ presenter: ProfileViewPresenterProtocol)
+    func updateProfileDetails(name: String, loginName: String, description: String)
+    func updateAvatar(profileImageURL: String?)
+}
+
 final class ProfileViewController: LightStatusBarViewController {
+    private var presenter: ProfileViewPresenterProtocol?
     
     // MARK: - UI Controls
     private lazy var avatarImageView: UIImageView = {
@@ -55,7 +62,6 @@ final class ProfileViewController: LightStatusBarViewController {
     } ()
     
     // MARK: - Private Variables
-    private var profileImageServiceObserver: NSObjectProtocol?
     private var alertPresenter: AlertPresenter?
     
     // MARK: - View Life Cycles
@@ -74,21 +80,9 @@ final class ProfileViewController: LightStatusBarViewController {
         
         addViews()
         addConstraints()
-        
-        if let profile = ProfileService.shared.profile {
-            updateProfileDetails(profile: profile)
-        }
-        
-        profileImageServiceObserver = NotificationCenter.default
-            .addObserver(
-                forName: ProfileImageService.didChangeNotification,
-                object: nil,
-                queue: .main
-            ) { [weak self] _ in
-                guard let self = self else { return }
-                self.updateAvatar()
-            }
-        updateAvatar()
+        presenter?.addProfileImageServiceObserver()
+        presenter?.updateProfileDetails()
+        presenter?.updateAvatar()
     }
     
     private func addViews(){
@@ -130,31 +124,6 @@ final class ProfileViewController: LightStatusBarViewController {
     
     
     //MARK: - Private methods
-    private func updateProfileDetails(profile: Profile){
-        nameLabel.text = profile.name
-        loginNameLabel.text = profile.loginName
-        descriptionLabel.text = profile.bio
-    }
-    
-    private func updateAvatar() {
-        guard
-            let profileImageURL = ProfileImageService.shared.avatarURL,
-            let url = URL(string: profileImageURL)
-        else {
-            Log.warn(message: "Can not load avatar image")
-            return
-        }
-        
-        let cache = ImageCache.default
-        cache.clearDiskCache()
-        avatarImageView.kf.indicatorType = .activity
-        let roundCornerProcessor =  RoundCornerImageProcessor(cornerRadius: 42)
-        
-        avatarImageView.kf.setImage(with: url,
-                                     placeholder: UIImage(named: "stub"),
-                                     options: [.processor(roundCornerProcessor)])
-    }
-    
     @IBAction private func exitButtonTapped(_ sender: UIButton) {
         
         let buttonYes = AlertButton(buttonText: "Да", style: .default) { 
@@ -185,3 +154,34 @@ final class ProfileViewController: LightStatusBarViewController {
     }
 }
 
+extension ProfileViewController: ProfileViewControllerProtocol {
+    func configure(_ presenter: ProfileViewPresenterProtocol){
+        self.presenter = presenter
+        self.presenter?.view = self
+    }
+    
+    func updateProfileDetails(name: String, loginName: String, description: String){        
+        nameLabel.text = name
+        loginNameLabel.text = loginName
+        descriptionLabel.text = description
+    }
+
+    func updateAvatar(profileImageURL: String?) {
+        guard
+            let profileImageURL,
+            let url = URL(string: profileImageURL)
+        else {
+            Log.warn(message: "Can not load avatar image")
+            return
+        }
+        
+        let cache = ImageCache.default
+        cache.clearDiskCache()
+        avatarImageView.kf.indicatorType = .activity
+        let roundCornerProcessor =  RoundCornerImageProcessor(cornerRadius: 42)
+        
+        avatarImageView.kf.setImage(with: url,
+                                    placeholder: UIImage(named: "stub"),
+                                    options: [.processor(roundCornerProcessor)])
+    }
+}

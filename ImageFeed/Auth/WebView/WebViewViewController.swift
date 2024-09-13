@@ -9,29 +9,13 @@ import UIKit
 import WebKit
 
 public protocol WebViewViewControllerProtocol: AnyObject {
-    var presenter: WebViewPresenterProtocol? { get set }
+    func configure(_ presenter: WebViewPresenterProtocol)
     func load(request: URLRequest)
     func setProgressValue(_ newValue: Float)
     func setProgressHidden(_ isHidden: Bool)
 }
 
 final class WebViewViewController: DarkStatusBarViewController & WebViewViewControllerProtocol {
-    //MARK:  WebViewViewControllerProtocol
-    var presenter: WebViewPresenterProtocol?
-    
-    func load(request: URLRequest) {
-        webView.load(request)
-    }
-    
-    func setProgressValue(_ newValue: Float) {
-        progressView.progress = newValue
-    }
-    
-    func setProgressHidden(_ isHidden: Bool) {
-        progressView.isHidden = isHidden
-    }
-    
-    
     // MARK: - IBOutlets
     @IBOutlet private weak var webView: WKWebView!
     @IBOutlet private weak var progressView: UIProgressView!
@@ -62,6 +46,25 @@ final class WebViewViewController: DarkStatusBarViewController & WebViewViewCont
         delegate?.webViewViewControllerDidCancel(self)
     }
     
+    //MARK:  WebViewViewControllerProtocol
+    private var presenter: WebViewPresenterProtocol?
+    
+    func configure(_ presenter: any WebViewPresenterProtocol) {
+        self.presenter = presenter
+        self.presenter?.view = self
+    }
+    
+    func load(request: URLRequest) {
+        webView.load(request)
+    }
+    
+    func setProgressValue(_ newValue: Float) {
+        progressView.progress = newValue
+    }
+    
+    func setProgressHidden(_ isHidden: Bool) {
+        progressView.isHidden = isHidden
+    }
 }
 
 // MARK: - WKNavigationDelegate Extension

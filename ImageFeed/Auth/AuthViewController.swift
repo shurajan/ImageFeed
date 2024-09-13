@@ -40,9 +40,8 @@ final class AuthViewController: LightStatusBarViewController {
         }
         let authHelper = AuthHelper()
         let webViewPresenter = WebViewPresenter(authHelper: authHelper)
-        webViewViewController.presenter = webViewPresenter
-        webViewPresenter.view = webViewViewController
         webViewViewController.delegate = self
+        webViewViewController.configure(webViewPresenter)
     }
     
     private func showAuthErrorAlert() {

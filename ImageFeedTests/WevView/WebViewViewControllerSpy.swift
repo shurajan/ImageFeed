@@ -9,7 +9,12 @@ import Foundation
 import ImageFeed
 
 final class WebViewViewControllerSpy: WebViewViewControllerProtocol{
-    var presenter: (any ImageFeed.WebViewPresenterProtocol)?
+    private var presenter: WebViewPresenterProtocol?
+    func configure(_ presenter: any ImageFeed.WebViewPresenterProtocol) {
+        self.presenter = presenter
+        self.presenter?.view = self
+    }
+    
     var isLoadCalled = false
     
     func load(request: URLRequest) {
