@@ -19,11 +19,18 @@ enum ProfileImageServiceError: Error {
     }
 }
 
+//MARK: - ProfileImageServiceProtocol
+
+public protocol ProfileImageServiceProtocol {
+    var avatarURL: String? { get }
+    func fetchProfileImageURL(_ token: String, completion: @escaping (Result<String, Error>) -> Void)
+}
+
 //MARK: - ProfileImageService class
-final class ProfileImageService {
+final class ProfileImageService: ProfileImageServiceProtocol {
     static let shared = ProfileImageService()
-    static let didChangeNotification = Notification.Name(rawValue: "ProfileImageProviderDidChange")
     
+    static let didChangeNotification = Notification.Name(rawValue: "ProfileImageProviderDidChange")
     
     //MARK: - Dependency injections and constants
     private let username = ProfileService.shared.profile?.username

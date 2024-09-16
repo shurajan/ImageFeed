@@ -6,11 +6,11 @@
 //
 
 import Foundation
-import ImageFeed
+@testable import ImageFeed
 
 final class WebViewViewControllerSpy: WebViewViewControllerProtocol{
     private var presenter: WebViewPresenterProtocol?
-    func configure(_ presenter: any ImageFeed.WebViewPresenterProtocol) {
+    func configure(_ presenter: any WebViewPresenterProtocol) {
         self.presenter = presenter
         self.presenter?.view = self
     }

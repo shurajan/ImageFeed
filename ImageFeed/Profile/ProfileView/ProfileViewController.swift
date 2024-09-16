@@ -80,9 +80,7 @@ final class ProfileViewController: LightStatusBarViewController {
         
         addViews()
         addConstraints()
-        presenter?.addProfileImageServiceObserver()
-        presenter?.updateProfileDetails()
-        presenter?.updateAvatar()
+        presenter?.viewDidLoad()
     }
     
     private func addViews(){
@@ -122,22 +120,26 @@ final class ProfileViewController: LightStatusBarViewController {
         NSLayoutConstraint.activate(constraints)
     }
     
+    private func logOut(){
+        guard let window = UIApplication.shared.windows.first else {
+            Log.warn(message: "Incorrect configuration")
+            fatalError("Incorrect configuration")
+        }
+        presenter?.didPressLogOut()
+        let splashViewController = SplashViewController()
+        window.rootViewController = splashViewController
+        window.makeKeyAndVisible()
+    }
+    
     
     //MARK: - Private methods
     @IBAction private func exitButtonTapped(_ sender: UIButton) {
         
-        let buttonYes = AlertButton(buttonText: "Да", style: .default) { 
+        let buttonYes = AlertButton(buttonText: "Да", style: .default) { [weak self] in
+            guard let self = self
+            else {return}
             Log.info(message: "Logging out")
-            ProfileLogoutService.shared.logout()
-            
-            guard let window = UIApplication.shared.windows.first else {
-                Log.warn(message: "Incorrect configuration")
-                fatalError("Incorrect configuration")
-            }
-            
-            let splashViewController = SplashViewController()
-            window.rootViewController = splashViewController
-            window.makeKeyAndVisible()
+            self.logOut()
         }
         
         let buttonNo = AlertButton(buttonText: "Нет", style: .default) { 
@@ -160,7 +162,8 @@ extension ProfileViewController: ProfileViewControllerProtocol {
         self.presenter?.view = self
     }
     
-    func updateProfileDetails(name: String, loginName: String, description: String){        
+    func updateProfileDetails(name: String, loginName: String, description: String){
+        Log.info(message: "updating profile details")
         nameLabel.text = name
         loginNameLabel.text = loginName
         descriptionLabel.text = description

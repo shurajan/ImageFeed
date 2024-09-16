@@ -7,6 +7,12 @@
 
 import Foundation
 
+//MARK: - ProfileServiceProtocol
+protocol ProfileServiceProtocol{
+    var profile: Profile? { get }
+    func fetchProfile(_ token: String, completion: @escaping (Result<Profile, Error>) -> Void)
+}
+
 //MARK: - ProfileService Error
 enum ProfileServiceError: Error {
     case invalidRequest
@@ -20,7 +26,7 @@ enum ProfileServiceError: Error {
 }
 
 //MARK: - ProfileService class
-final class ProfileService {
+final class ProfileService: ProfileServiceProtocol {
     static let shared = ProfileService()
     
     //MARK: - Dependency injections and constants

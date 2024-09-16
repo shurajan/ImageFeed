@@ -20,6 +20,7 @@ final class AuthViewController: LightStatusBarViewController {
     weak var delegate: AuthViewControllerDelegate?
 
     private var alertPresenter: AlertPresenter?
+    private var oAuth2Service: OAuth2ServiceProtocol = OAuth2Service.shared
     
     // MARK: - View Life Cycles
     override func viewDidLoad() {
@@ -61,7 +62,7 @@ extension AuthViewController: WebViewViewControllerDelegate {
     func webViewViewController(_ vc: WebViewViewController, didAuthenticateWithCode code: String) {
         vc.dismiss(animated: true)
         UIBlockingProgressHUD.show()
-        OAuth2Service.shared.fetchOAuthToken(for: code) {[weak self] result in
+        oAuth2Service.fetchOAuthToken(for: code) {[weak self] result in
             guard let self = self else {return}
             switch result{
             case .success(let token):

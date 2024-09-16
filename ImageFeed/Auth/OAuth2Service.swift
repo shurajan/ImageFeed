@@ -23,10 +23,13 @@ enum AuthServiceError: Error {
     }
 }
 
+protocol OAuth2ServiceProtocol {
+    func fetchOAuthToken(for code: String, completion: @escaping (Result<String, Error>) -> Void)
+}
+
 //MARK: - OAuth2Service
-final class OAuth2Service {
+final class OAuth2Service: OAuth2ServiceProtocol {
     static let shared = OAuth2Service()
-    
     //MARK: - Dependency injections and constants
     private let urlSession = URLSession.shared
     

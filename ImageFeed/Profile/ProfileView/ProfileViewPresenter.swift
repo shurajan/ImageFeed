@@ -5,22 +5,33 @@
 //  Created by Alexander Bralnin on 13.09.2024.
 //
 
-import Foundation
+import UIKit
 
 public protocol ProfileViewPresenterProtocol{
     var view: ProfileViewControllerProtocol? { get set }
     
-    func addProfileImageServiceObserver()
-    func updateProfileDetails()
-    func updateAvatar()
+    func viewDidLoad()
+    func didPressLogOut()
 }
 
 final class ProfileViewPresenter: ProfileViewPresenterProtocol {
     weak var view: ProfileViewControllerProtocol?
+    
+    private let profileService: ProfileServiceProtocol
+    private let profileImageService: ProfileImageServiceProtocol
+    private let profileLogoutService: ProfileLogoutServiceProtocol
 
     private var profileImageServiceObserver: NSObjectProtocol?
     
-    func addProfileImageServiceObserver() {
+    init(profileService: ProfileServiceProtocol = ProfileService.shared, 
+         profileImageService: ProfileImageServiceProtocol = ProfileImageService.shared,
+         profileLogoutService: ProfileLogoutServiceProtocol = ProfileLogoutService.shared) {
+        self.profileService = profileService
+        self.profileImageService = profileImageService
+        self.profileLogoutService = profileLogoutService
+    }
+    
+    func viewDidLoad() {
         Log.info(message: "Loading profile data")
         profileImageServiceObserver = NotificationCenter.default
             .addObserver(
@@ -32,19 +43,17 @@ final class ProfileViewPresenter: ProfileViewPresenterProtocol {
                     let self,
                     let view = self.view
                 else { return }
-                view.updateAvatar(profileImageURL: ProfileImageService.shared.avatarURL)
+                view.updateAvatar(profileImageURL: profileImageService.avatarURL)
             }
         
-        view?.updateAvatar(profileImageURL: ProfileImageService.shared.avatarURL)
-    }
-    
-    func updateProfileDetails() {
-        if let profile = ProfileService.shared.profile {
+        view?.updateAvatar(profileImageURL: profileImageService.avatarURL)
+        
+        if let profile = profileService.profile {
             view?.updateProfileDetails(name: profile.name, loginName: profile.loginName, description: profile.bio)
         }
     }
     
-    func updateAvatar() {
-        view?.updateAvatar(profileImageURL: ProfileImageService.shared.avatarURL)
+    func didPressLogOut(){
+        profileLogoutService.logout()
     }
 }

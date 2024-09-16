@@ -16,6 +16,7 @@ protocol AuthViewControllerDelegate: AnyObject {
 //MARK: - SplashViewController
 final class SplashViewController: LightStatusBarViewController {
     
+    
     // MARK: - UI Controls
     private lazy var logoImageView: UIImageView = {
         let view = UIImageView()

@@ -4,9 +4,9 @@
 //
 //  Created by Alexander Bralnin on 13.09.2024.
 //
-
-import ImageFeed
 import Foundation
+import ImageFeed
+@testable import ImageFeed
 
 final class WebViewPresenterSpy: WebViewPresenterProtocol {
     var viewDidLoadCalled: Bool = false
