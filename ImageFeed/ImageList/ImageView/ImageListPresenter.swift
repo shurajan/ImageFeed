@@ -7,7 +7,7 @@
 
 import Foundation
 
-public protocol ImageListViewPresenterProtocol {
+public protocol ImageListPresenterProtocol {
     var view: ImageListViewControllerProtocol? { get set }
     var photos: [Photo] { get }
     
@@ -16,7 +16,7 @@ public protocol ImageListViewPresenterProtocol {
     func didTapLike(index: Int, completion: @escaping (Result<Photo, Error>) -> Void)
 }
 
-final class ImageListViewPresenter: ImageListViewPresenterProtocol {
+final class ImageListPresenter: ImageListPresenterProtocol {
     weak var view: ImageListViewControllerProtocol?
     
     private(set) var photos: [Photo] = []

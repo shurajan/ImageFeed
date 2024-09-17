@@ -12,7 +12,7 @@ final class ProfileViewTests: XCTestCase {
     
     func testViewControllerCallsViewDidLoad() {
         //given
-        let presenter = ProfileViewPreseneterSpy()
+        let presenter = ProfilePresenterSpy()
         let view = ProfileViewController()
         view.configure(presenter)
         
@@ -24,11 +24,11 @@ final class ProfileViewTests: XCTestCase {
         
     }
     
-    func testProfileViewPresenter() {
+    func testViewPresenter() {
         //given
         let profileService = ProfileServiceStub()
         let profileImageService = ProfileImageServiceStub()
-        let presenter = ProfileViewPresenter(profileService: profileService, profileImageService: profileImageService)
+        let presenter = ProfilePresenter(profileService: profileService, profileImageService: profileImageService)
         let view = ProfileViewControllerSpy()
         view.configure(presenter)
         

@@ -8,14 +8,14 @@
 import UIKit
 
 public protocol ImageListViewControllerProtocol: AnyObject {
-    func configure(_ presenter: ImageListViewPresenterProtocol)
+    func configure(_ presenter: ImageListPresenterProtocol)
     func updateTableViewAnimated(oldNumberOfRows: Int, newNumberOfRows: Int)
 }
 
 final class ImageListViewController: LightStatusBarViewController {
     private let showSingleImageSegueIdentifier = "ShowSingleImage"
     
-    private var presenter: ImageListViewPresenterProtocol?
+    private var presenter: ImageListPresenterProtocol?
     
     // MARK: - IB Outlets
     @IBOutlet private weak var tableView: UITableView!
@@ -29,6 +29,7 @@ final class ImageListViewController: LightStatusBarViewController {
         tableView.contentInset = UIEdgeInsets(top: 12, left: 0, bottom: 12, right: 0)
         
         presenter?.viewDidLoad()
+        
         UIBlockingProgressHUD.show()
         presenter?.loadPhotosNextPage()
     }
@@ -124,7 +125,7 @@ extension ImageListViewController: ImagesListCellDelegate {
 // MARK: - ImagesListViewControllerProtocol Implementation
 extension ImageListViewController: ImageListViewControllerProtocol {
     
-    func configure(_ presenter: any ImageListViewPresenterProtocol) {
+    func configure(_ presenter: any ImageListPresenterProtocol) {
         self.presenter = presenter
         self.presenter?.view = self
     }

@@ -10,13 +10,13 @@ import UIKit
 import Kingfisher
 
 public protocol ProfileViewControllerProtocol: AnyObject {
-    func configure(_ presenter: ProfileViewPresenterProtocol)
+    func configure(_ presenter: ProfilePresenterProtocol)
     func updateProfileDetails(name: String, loginName: String, description: String)
     func updateAvatar(profileImageURL: String?)
 }
 
 final class ProfileViewController: LightStatusBarViewController {
-    private var presenter: ProfileViewPresenterProtocol?
+    private var presenter: ProfilePresenterProtocol?
     
     // MARK: - UI Controls
     private lazy var avatarImageView: UIImageView = {
@@ -158,7 +158,7 @@ final class ProfileViewController: LightStatusBarViewController {
 
 //MARK: - ProfileViewControllerProtocol implementation
 extension ProfileViewController: ProfileViewControllerProtocol {
-    func configure(_ presenter: ProfileViewPresenterProtocol){
+    func configure(_ presenter: ProfilePresenterProtocol){
         self.presenter = presenter
         self.presenter?.view = self
     }

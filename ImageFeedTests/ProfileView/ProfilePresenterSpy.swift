@@ -8,7 +8,7 @@
 import Foundation
 @testable import ImageFeed
 
-final class ProfileViewPreseneterSpy: ProfileViewPresenterProtocol {
+final class ProfilePresenterSpy: ProfilePresenterProtocol {
     var view: ProfileViewControllerProtocol?
     
     var viewDidLoadCalled: Bool = false

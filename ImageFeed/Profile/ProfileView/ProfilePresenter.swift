@@ -7,14 +7,14 @@
 
 import UIKit
 
-public protocol ProfileViewPresenterProtocol{
+public protocol ProfilePresenterProtocol{
     var view: ProfileViewControllerProtocol? { get set }
     
     func viewDidLoad()
     func didPressLogOut()
 }
 
-final class ProfileViewPresenter: ProfileViewPresenterProtocol {
+final class ProfilePresenter: ProfilePresenterProtocol {
     weak var view: ProfileViewControllerProtocol?
     
     private let profileService: ProfileServiceProtocol

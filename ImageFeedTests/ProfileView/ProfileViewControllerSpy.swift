@@ -10,9 +10,9 @@ import Foundation
 @testable import ImageFeed
 
 final class ProfileViewControllerSpy: ProfileViewControllerProtocol {
-    private var presenter: ProfileViewPresenterProtocol?
+    private var presenter: ProfilePresenterProtocol?
     
-    func configure(_ presenter: ProfileViewPresenterProtocol) {
+    func configure(_ presenter: ProfilePresenterProtocol) {
         self.presenter = presenter
         self.presenter?.view = self
     }
