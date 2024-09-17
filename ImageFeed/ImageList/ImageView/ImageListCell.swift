@@ -10,7 +10,7 @@ import UIKit
 import Kingfisher
 
 
-final class ImagesListCell: UITableViewCell {
+final class ImageListCell: UITableViewCell {
     weak var delegate: ImagesListCellDelegate?
     
     // MARK: - Static variables
@@ -52,7 +52,6 @@ final class ImagesListCell: UITableViewCell {
         
         dateLabel.addCharacterSpacing(kernValue: -0.08)
         cellImage.kf.setImage(with: url, placeholder: UIImage(named: "card_stub"))
-        
         
         let likeButtonImage = photo.isLiked ? likeOn : likeOff
         

@@ -156,6 +156,7 @@ final class ProfileViewController: LightStatusBarViewController {
     }
 }
 
+//MARK: - ProfileViewControllerProtocol implementation
 extension ProfileViewController: ProfileViewControllerProtocol {
     func configure(_ presenter: ProfileViewPresenterProtocol){
         self.presenter = presenter

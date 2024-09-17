@@ -26,8 +26,8 @@ final class ProfileViewTests: XCTestCase {
     
     func testProfileViewPresenter() {
         //given
-        let profileService = MockProfileService()
-        let profileImageService = MockProfileImageService()
+        let profileService = ProfileServiceStub()
+        let profileImageService = ProfileImageServiceStub()
         let presenter = ProfileViewPresenter(profileService: profileService, profileImageService: profileImageService)
         let view = ProfileViewControllerSpy()
         view.configure(presenter)

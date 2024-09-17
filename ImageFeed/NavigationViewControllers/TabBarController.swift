@@ -13,9 +13,6 @@ final class TabBarController: UITabBarController {
         super.awakeFromNib()
         let storyboard = UIStoryboard(name: "Main", bundle: .main)
         
-        let imagesListViewController = storyboard.instantiateViewController(
-            withIdentifier: "ImagesListViewController"
-        )
         let profileViewPresenter = ProfileViewPresenter()
         let profileViewController = ProfileViewController()
         profileViewController.configure(profileViewPresenter)
@@ -26,6 +23,16 @@ final class TabBarController: UITabBarController {
             selectedImage: nil
         )
         
-        self.viewControllers = [imagesListViewController, profileViewController]
+        let imageListViewPresenter = ImageListViewPresenter()
+        if let imageListViewController: ImageListViewController = storyboard.instantiateViewController(
+            withIdentifier: "ImageListViewController"
+        ) as? ImageListViewController {
+            imageListViewController.configure(imageListViewPresenter)
+            self.viewControllers = [imageListViewController, profileViewController]
+        } else {
+            Log.warn(message: "Can not instantiate ImageListViewController")
+            self.viewControllers = [profileViewController]
+        }
+        
     }
 }

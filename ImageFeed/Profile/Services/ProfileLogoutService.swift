@@ -21,11 +21,12 @@ final class ProfileLogoutService: ProfileLogoutServiceProtocol {
         ProfileService.shared,
         OAuth2Service.shared,
         OAuth2TokenStorage.shared,
-        ImagesListService.shared
+        ImageListService.shared
     ]
     
     private init() { }
     
+    //MARK: - ProfileLogoutServiceProtocol implementation
     func logout() {
         cleanCookies()
         Log.info(message: "Cleaned cookies")

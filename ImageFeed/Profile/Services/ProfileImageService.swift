@@ -7,7 +7,7 @@
 
 import Foundation
 
-//MARK: - ProfileService Error
+//MARK: - ProfileImageService Error
 enum ProfileImageServiceError: Error {
     case invalidRequest
     
@@ -37,13 +37,12 @@ final class ProfileImageService: ProfileImageServiceProtocol {
     private let urlSession = URLSession.shared
     private let baseURL = AuthConfiguration.standard.defaultBaseURL
     
-    //MARK: - Private(set) variables
-    private (set) var avatarURL: String?
-    
     //MARK: - Private variables
     private var task: URLSessionTask?
         
-    //MARK: - Public functions
+    //MARK: - ProfileImageServiceProtocol protocol implementation
+    private (set) var avatarURL: String?
+    
     func fetchProfileImageURL(_ token: String, completion: @escaping (Result<String, Error>) -> Void) {
         assert(Thread.isMainThread)
         

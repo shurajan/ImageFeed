@@ -21,9 +21,16 @@ enum ImagesListServiceServiceError: Error {
     }
 }
 
+//MARK: - ImageListServiceProtocol
+protocol ImageListServiceProtocol{
+    var photos: [Photo] { get }
+    func fetchPhotosNextPage()
+    func changeLike(photoId: String, isLike: Bool, _ completion: @escaping (Result<Void?, Error>) -> Void)
+}
+
 //MARK: - ImagesListService
-final class ImagesListService {
-    static let shared = ImagesListService()
+final class ImageListService: ImageListServiceProtocol {
+    static let shared = ImageListService()
     static let didChangeNotification = Notification.Name(rawValue: "ImagesListServiceDidChange")
     
     private let urlSession = URLSession.shared
@@ -65,7 +72,7 @@ final class ImagesListService {
             
             NotificationCenter.default
                 .post(
-                    name: ImagesListService.didChangeNotification,
+                    name: ImageListService.didChangeNotification,
                     object: self)
             
             self.loadPhotosTask = nil
@@ -157,7 +164,7 @@ final class ImagesListService {
         return request
     }
     
-    func makeLikeChangeRequest(for token: String, photoId: String, isLike: Bool) -> URLRequest? {
+    private func makeLikeChangeRequest(for token: String, photoId: String, isLike: Bool) -> URLRequest? {
         guard let baseURL,
               let urlComponents = URLComponents(url: makePhotoLikeURL(from: baseURL, for: photoId), resolvingAgainstBaseURL: true)
         else {
@@ -207,7 +214,7 @@ final class ImagesListService {
     
 }
 
-extension ImagesListService: ProfileCleanProtocol {
+extension ImageListService: ProfileCleanProtocol {
     func clean(){
         if changeLikeTask != nil {
             changeLikeTask?.cancel()

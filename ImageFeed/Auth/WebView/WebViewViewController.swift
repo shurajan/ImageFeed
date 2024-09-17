@@ -15,7 +15,9 @@ public protocol WebViewViewControllerProtocol: AnyObject {
     func setProgressHidden(_ isHidden: Bool)
 }
 
-final class WebViewViewController: DarkStatusBarViewController & WebViewViewControllerProtocol {
+final class WebViewViewController: DarkStatusBarViewController {
+    private var presenter: WebViewPresenterProtocol?
+    
     // MARK: - IBOutlets
     @IBOutlet private weak var webView: WKWebView!
     @IBOutlet private weak var progressView: UIProgressView!
@@ -45,26 +47,6 @@ final class WebViewViewController: DarkStatusBarViewController & WebViewViewCont
     @IBAction func didTapBackButton(_ sender: Any) {
         delegate?.webViewViewControllerDidCancel(self)
     }
-    
-    //MARK:  WebViewViewControllerProtocol
-    private var presenter: WebViewPresenterProtocol?
-    
-    func configure(_ presenter: any WebViewPresenterProtocol) {
-        self.presenter = presenter
-        self.presenter?.view = self
-    }
-    
-    func load(request: URLRequest) {
-        webView.load(request)
-    }
-    
-    func setProgressValue(_ newValue: Float) {
-        progressView.progress = newValue
-    }
-    
-    func setProgressHidden(_ isHidden: Bool) {
-        progressView.isHidden = isHidden
-    }
 }
 
 // MARK: - WKNavigationDelegate Extension
@@ -87,5 +69,26 @@ extension WebViewViewController: WKNavigationDelegate {
         } else {
             return nil
         }
+    }
+}
+
+//MARK:  WebViewViewControllerProtocol
+extension WebViewViewController: WebViewViewControllerProtocol {
+    
+    func configure(_ presenter: any WebViewPresenterProtocol) {
+        self.presenter = presenter
+        self.presenter?.view = self
+    }
+    
+    func load(request: URLRequest) {
+        webView.load(request)
+    }
+    
+    func setProgressValue(_ newValue: Float) {
+        progressView.progress = newValue
+    }
+    
+    func setProgressHidden(_ isHidden: Bool) {
+        progressView.isHidden = isHidden
     }
 }

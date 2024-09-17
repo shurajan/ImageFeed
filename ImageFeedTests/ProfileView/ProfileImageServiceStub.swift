@@ -10,7 +10,7 @@ import Foundation
 @testable import ImageFeed
 
 
-final class MockProfileImageService: ProfileImageServiceProtocol {
+final class ProfileImageServiceStub: ProfileImageServiceProtocol {
     var avatarURL: String? = "some.url"
     
     static let didChangeNotification = Notification.Name(rawValue: "ProfileImageProviderDidChange")

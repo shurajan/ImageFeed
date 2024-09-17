@@ -32,14 +32,13 @@ final class ProfileService: ProfileServiceProtocol {
     //MARK: - Dependency injections and constants
     private let urlSession = URLSession.shared
     private let baseURL = AuthConfiguration.standard.defaultBaseURL
-    
-    //MARK: - Private(set) variables
-    private(set) var profile: Profile?
-    
+        
     //MARK: - Private variables
     private var task: URLSessionTask?
     
-    //MARK: - Public functions
+    //MARK: - ProfileServiceProtocol implementation
+    private(set) var profile: Profile?
+    
     func fetchProfile(_ token: String, completion: @escaping (Result<Profile, Error>) -> Void) {
         assert(Thread.isMainThread)
         

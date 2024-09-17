@@ -8,7 +8,7 @@
 import Foundation
 @testable import ImageFeed
 
-final class MockProfileService: ProfileServiceProtocol {
+final class ProfileServiceStub: ProfileServiceProtocol {
     var profile: Profile?
     
     static let didChangeNotification = Notification.Name(rawValue: "ProfileImageProviderDidChange")
