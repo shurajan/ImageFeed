@@ -29,6 +29,8 @@ final class ImageListViewController: LightStatusBarViewController {
         tableView.contentInset = UIEdgeInsets(top: 12, left: 0, bottom: 12, right: 0)
         
         presenter?.viewDidLoad()
+        UIBlockingProgressHUD.show()
+        presenter?.loadPhotosNextPage()
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -128,15 +130,17 @@ extension ImageListViewController: ImageListViewControllerProtocol {
     }
     
     func updateTableViewAnimated(oldNumberOfRows: Int, newNumberOfRows: Int) {
-        var indexPathArray: [IndexPath] = []
-        
-        for i in oldNumberOfRows..<newNumberOfRows {
-            indexPathArray.append(IndexPath(row: i, section: 0))
-        }
-        
-        tableView.performBatchUpdates {
-            self.tableView.insertRows(at: indexPathArray, with: .automatic)
-        } completion: { _ in
+        if newNumberOfRows > oldNumberOfRows {
+            var indexPathArray: [IndexPath] = []
+            
+            for i in oldNumberOfRows..<newNumberOfRows {
+                indexPathArray.append(IndexPath(row: i, section: 0))
+            }
+            
+            tableView.performBatchUpdates {
+                self.tableView.insertRows(at: indexPathArray, with: .automatic)
+            } completion: { _ in
+            }
         }
         UIBlockingProgressHUD.dismiss()
     }

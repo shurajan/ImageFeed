@@ -43,7 +43,6 @@ final class ImageListViewPresenter: ImageListViewPresenterProtocol {
                 self.photos = self.imagesListService.photos
                 view.updateTableViewAnimated(oldNumberOfRows: oldNumberOfRows, newNumberOfRows: newNumberOfRows)
             }
-        imagesListService.fetchPhotosNextPage()
     }
     
     func loadPhotosNextPage(){
