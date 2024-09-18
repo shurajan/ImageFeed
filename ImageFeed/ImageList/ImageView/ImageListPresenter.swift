@@ -25,6 +25,7 @@ final class ImageListPresenter: ImageListPresenterProtocol {
     
     init(imageListService: ImageListServiceProtocol = ImageListService.shared){
         self.imagesListService = imageListService
+        self.photos = self.imagesListService.photos
     }
     
     func viewDidLoad() {
@@ -50,7 +51,10 @@ final class ImageListPresenter: ImageListPresenterProtocol {
     }
     
     func didTapLike(index: Int, completion: @escaping (Result<Photo, Error>) -> Void) {
-        let photo = photos[index]
+        guard let photo = photos[safe: index] else {
+            Log.warn(message: "Tried to change like on image that is out of index")
+            return
+        }
         
         imagesListService.changeLike(photoId: photo.id, isLike: !photo.isLiked) { [weak self] result in
             guard let self else {return}

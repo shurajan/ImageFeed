@@ -61,6 +61,8 @@
 		D9EC2C112C99D02E00618E46 /* ImageListServiceStub.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9EC2C102C99D02E00618E46 /* ImageListServiceStub.swift */; };
 		D9EC2C132C99D05300618E46 /* ImageListViewControllerSpy.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9EC2C122C99D05300618E46 /* ImageListViewControllerSpy.swift */; };
 		D9EC2C152C99D06800618E46 /* ImageListViewTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9EC2C142C99D06800618E46 /* ImageListViewTest.swift */; };
+		D9EC2C172C9ABCD300618E46 /* Array+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9EC2C162C9ABCD300618E46 /* Array+Extension.swift */; };
+		D9EC2C1A2C9AC09000618E46 /* ArrayTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9EC2C192C9AC09000618E46 /* ArrayTest.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -128,6 +130,8 @@
 		D9EC2C102C99D02E00618E46 /* ImageListServiceStub.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageListServiceStub.swift; sourceTree = "<group>"; };
 		D9EC2C122C99D05300618E46 /* ImageListViewControllerSpy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageListViewControllerSpy.swift; sourceTree = "<group>"; };
 		D9EC2C142C99D06800618E46 /* ImageListViewTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageListViewTest.swift; sourceTree = "<group>"; };
+		D9EC2C162C9ABCD300618E46 /* Array+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Extension.swift"; sourceTree = "<group>"; };
+		D9EC2C192C9AC09000618E46 /* ArrayTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrayTest.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -170,6 +174,7 @@
 				D9D7E8062C65389E004CBC66 /* UIBlockingProgressHUD.swift */,
 				D9D7E8142C6BCF37004CBC66 /* Log.swift */,
 				D9B135922C7A10A200756E75 /* UILabel+Extensions.swift */,
+				D9EC2C162C9ABCD300618E46 /* Array+Extension.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -186,6 +191,7 @@
 		D9A1DCE42C944EA800852047 /* ImageFeedTests */ = {
 			isa = PBXGroup;
 			children = (
+				D9EC2C182C9AC07D00618E46 /* HelpersTest */,
 				D9EC2C0D2C99CFF500618E46 /* ImageListView */,
 				D9EC2BFA2C985C1300618E46 /* ProfileView */,
 				D9A1DCF02C945A3900852047 /* WebView */,
@@ -293,7 +299,7 @@
 				D9B135B62C8730F700756E75 /* Auth */,
 				D9B135B72C87313D00756E75 /* Profile */,
 				D9B135B82C87319A00756E75 /* ImageList */,
-				D9D7E8112C6BB73C004CBC66 /* Presentation */,
+				D9D7E8112C6BB73C004CBC66 /* AlertPresenter */,
 				D96D0B222C411AD6008FD358 /* Helpers */,
 				D9B75FED2C3706F10022F490 /* AppDelegate.swift */,
 				D9B75FEF2C3706F10022F490 /* SceneDelegate.swift */,
@@ -315,13 +321,13 @@
 			path = BasicViewControllers;
 			sourceTree = "<group>";
 		};
-		D9D7E8112C6BB73C004CBC66 /* Presentation */ = {
+		D9D7E8112C6BB73C004CBC66 /* AlertPresenter */ = {
 			isa = PBXGroup;
 			children = (
 				D9D7E8122C6BB752004CBC66 /* AlertPresenter.swift */,
 				D9D7E80F2C6BB715004CBC66 /* AlertModel.swift */,
 			);
-			path = Presentation;
+			path = AlertPresenter;
 			sourceTree = "<group>";
 		};
 		D9EC2BF52C9837FB00618E46 /* Configuration */ = {
@@ -353,6 +359,14 @@
 				D9EC2C122C99D05300618E46 /* ImageListViewControllerSpy.swift */,
 			);
 			path = ImageListView;
+			sourceTree = "<group>";
+		};
+		D9EC2C182C9AC07D00618E46 /* HelpersTest */ = {
+			isa = PBXGroup;
+			children = (
+				D9EC2C192C9AC09000618E46 /* ArrayTest.swift */,
+			);
+			path = HelpersTest;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -477,6 +491,7 @@
 				D9EC2C152C99D06800618E46 /* ImageListViewTest.swift in Sources */,
 				D9A1DCEF2C94532B00852047 /* WebViewViewControllerSpy.swift in Sources */,
 				D9EC2C0F2C99D01C00618E46 /* ImageListPresenterSpy.swift in Sources */,
+				D9EC2C1A2C9AC09000618E46 /* ArrayTest.swift in Sources */,
 				D9A1DCED2C944F9D00852047 /* WebViewPresenterSpy.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -515,6 +530,7 @@
 				D9C4F9222C58F509004A08DF /* OAuth2TokenStorage.swift in Sources */,
 				D9B75FF02C3706F10022F490 /* SceneDelegate.swift in Sources */,
 				D9D7E80B2C6A21CC004CBC66 /* ProfileImageService.swift in Sources */,
+				D9EC2C172C9ABCD300618E46 /* Array+Extension.swift in Sources */,
 				D9B135C32C884A6300756E75 /* ProfileCleanProtocol.swift in Sources */,
 				D9A1DCF42C94904C00852047 /* ProfilePresenter.swift in Sources */,
 				D9B135BF2C87634000756E75 /* ImagesListCellDelegate.swift in Sources */,

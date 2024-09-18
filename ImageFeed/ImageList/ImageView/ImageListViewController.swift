@@ -39,18 +39,21 @@ final class ImageListViewController: LightStatusBarViewController {
             segue.identifier == showSingleImageSegueIdentifier,
             let viewController = segue.destination as? SingleImageViewController,
             let indexPath = sender as? IndexPath,
-            let presenter
+            let presenter,
+            let photo = presenter.photos[safe: indexPath.row]
         else {
             super.prepare(for: segue, sender: sender)
             return
         }
-        viewController.photo = presenter.photos[indexPath.row]
+        viewController.photo = photo
     }
     
     // MARK: - Public Functions
     func configCell(for cell: ImageListCell, with indexPath: IndexPath) {
-        guard let presenter else {return}
-        cell.configure(photo: presenter.photos[indexPath.row])
+        guard let presenter,
+              let photo = presenter.photos[safe: indexPath.row]
+        else {return}
+        cell.configure(photo: photo)
     }
 }
 
@@ -61,12 +64,14 @@ extension ImageListViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        guard let presenter else {return 0}
+        guard let presenter,
+              let photo = presenter.photos[safe: indexPath.row]
+        else {return 0}
         
         let imageViewWidth = tableView.bounds.width - 32
-        let imageWidth =  presenter.photos[indexPath.row].size.width
+        let imageWidth =  photo.size.width
         let factor = imageViewWidth / imageWidth
-        let cellHeight = presenter.photos[indexPath.row].size.height * factor + 8
+        let cellHeight = photo.size.height * factor + 8
         return cellHeight
     }
     

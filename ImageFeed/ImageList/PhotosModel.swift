@@ -16,6 +16,16 @@ public struct Photo {
     let largeImageURL: String
     let isLiked: Bool
     
+    init(id: String, size: CGSize, createdAt: Date?, welcomeDescription: String?, thumbImageURL: String, largeImageURL: String, isLiked: Bool) {
+        self.id = id
+        self.size = size
+        self.createdAt = createdAt
+        self.welcomeDescription = welcomeDescription
+        self.thumbImageURL = thumbImageURL
+        self.largeImageURL = largeImageURL
+        self.isLiked = isLiked
+    }
+    
     init(from photoResult: PhotoResult)
     {
         self.id = photoResult.id
@@ -26,6 +36,7 @@ public struct Photo {
         self.largeImageURL = photoResult.urls.full
         self.isLiked = photoResult.likedByUser
     }
+    
 }
 
 struct UrlResult: Codable {

@@ -21,4 +21,8 @@ final class ImageListViewControllerSpy: ImageListViewControllerProtocol  {
     func updateTableViewAnimated(oldNumberOfRows: Int, newNumberOfRows: Int) {
         updateTableViewAnimatedCalled = true
     }
+    
+    func requestNextPage(){
+        presenter?.loadPhotosNextPage()
+    }
 }

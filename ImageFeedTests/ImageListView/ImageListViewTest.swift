@@ -35,19 +35,57 @@ final class ImageListViewTests: XCTestCase {
         
     }
     
-    func testViewPresenter() {
+    func testViewPresenterTapLikeWithEmptyPhotos() {
         //given
-        let imageListService = ImageListServiceStub()
+        let imageListService = ImageListServiceStub(setup: .empty)
         let presenter = ImageListPresenter(imageListService: imageListService)
-
+        
         //when
         presenter.didTapLike(index: 0) { _ in }
-        presenter.loadPhotosNextPage()
         
         //then
-        XCTAssertTrue(imageListService.changeLikeIsCalled)
-        XCTAssertTrue(imageListService.fetchPhotosNextPageCalled)
+        XCTAssertFalse(imageListService.changeLikeIsCalled)
+    }
+    
+    func testViewPresenterTapLikeSuccess() {
+        //given
+        let imageListService = ImageListServiceStub(setup: .withPhotos(number: 10))
+        let presenter = ImageListPresenter(imageListService: imageListService)
         
+        //when
+        presenter.didTapLike(index: 3) { _ in }
+        
+        //then
+        XCTAssertTrue(imageListService.photos[3].isLiked)
+        XCTAssertFalse(imageListService.photos[2].isLiked)
+    }
+    
+    func testViewPresenterTapLikeOutOfIndex() {
+        //given
+        let imageListService = ImageListServiceStub(setup: .withPhotos(number: 10))
+        let presenter = ImageListPresenter(imageListService: imageListService)
+        
+        //when
+        presenter.didTapLike(index: 11) { _ in }
+        
+        //then
+        XCTAssertFalse(imageListService.changeLikeIsCalled)
+    }
+
+    func testViewPresenterRequestNextPage() {
+        //given
+        let imageListService = ImageListServiceStub(setup: .withPhotos(number: 10))
+        let presenter = ImageListPresenter(imageListService: imageListService)
+        let view = ImageListViewControllerSpy()
+        view.configure(presenter)
+        
+        //when
+        presenter.viewDidLoad()
+        view.requestNextPage()
+        
+        //then
+        XCTAssertEqual(presenter.photos.count, 20)
+        XCTAssertEqual(presenter.photos[19].id, "ID19")
     }
     
 }
