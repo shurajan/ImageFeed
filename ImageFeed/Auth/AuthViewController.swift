@@ -18,13 +18,18 @@ final class AuthViewController: LightStatusBarViewController {
     private let ShowWebViewSegueIdentifier = "ShowWebView"
         
     weak var delegate: AuthViewControllerDelegate?
-
+    
+    // MARK: - IBOutlets
+    @IBOutlet weak var buttonAuthenticate: UIButton!
+    
+    // MARK: - Private variables
     private var alertPresenter: AlertPresenter?
     private var oAuth2Service: OAuth2ServiceProtocol = OAuth2Service.shared
     
     // MARK: - View Life Cycles
     override func viewDidLoad() {
         super.viewDidLoad()
+        setAccessibilityIdentifiers()
         
         let alertPresenter = AlertPresenter()
         alertPresenter.delegate = self
@@ -43,6 +48,11 @@ final class AuthViewController: LightStatusBarViewController {
         let webViewPresenter = WebViewPresenter(authHelper: authHelper)
         webViewViewController.delegate = self
         webViewViewController.configure(webViewPresenter)
+    }
+        
+    // MARK: - private functions
+    private func setAccessibilityIdentifiers() {
+        buttonAuthenticate.accessibilityIdentifier = "Authenticate"
     }
     
     private func showAuthErrorAlert() {

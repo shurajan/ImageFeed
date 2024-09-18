@@ -31,6 +31,7 @@ final class WebViewViewController: DarkStatusBarViewController {
     // MARK: - View Life Cycles
     override func viewDidLoad() {
         super.viewDidLoad()
+        setAccessibilityIdentifiers()
         estimatedProgressObservation = webView.observe(
             \.estimatedProgress,
              options: [],
@@ -41,6 +42,11 @@ final class WebViewViewController: DarkStatusBarViewController {
         
         presenter?.viewDidLoad()
         webView.navigationDelegate = self
+    }
+    
+    // MARK: - private functions
+    private func setAccessibilityIdentifiers() {
+        webView.accessibilityIdentifier = "UnsplashWebView"
     }
         
     // MARK: - Actions
