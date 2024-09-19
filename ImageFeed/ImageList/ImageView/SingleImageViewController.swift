@@ -26,6 +26,8 @@ final class SingleImageViewController: LightStatusBarViewController {
     // MARK: - View Life Cycles
     override func viewDidLoad() {
         super.viewDidLoad()
+        setAccessibilityIdentifiers()
+        
         scrollView.delegate = self
         scrollView.minimumZoomScale = 0.1
         scrollView.maximumZoomScale = 1.25
@@ -42,6 +44,10 @@ final class SingleImageViewController: LightStatusBarViewController {
     }
     
     // MARK: - Private functions
+    private func setAccessibilityIdentifiers() {
+        backButton.accessibilityIdentifier = "backButton"
+    }
+    
     private func loadPhoto(photo: Photo){
         guard let photoURL = URL(string: photo.largeImageURL)
         else {return}

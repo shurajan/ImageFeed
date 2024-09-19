@@ -6,6 +6,7 @@
 //
 
 import XCTest
+import Foundation
 
 final class ImageFeedUITests: XCTestCase {
 
@@ -18,6 +19,9 @@ final class ImageFeedUITests: XCTestCase {
     }
     
     func testAuth() throws {
+        let login = ProcessInfo.processInfo.environment["LOGIN"] ?? "YOUR_LOGIN"
+        let password = ProcessInfo.processInfo.environment["PASSWORD"] ?? "YOUR_PASSWORD"
+        
         app.buttons["Authenticate"].tap()
         
         let webView = app.webViews["UnsplashWebView"]
@@ -28,14 +32,14 @@ final class ImageFeedUITests: XCTestCase {
         XCTAssertTrue(loginTextField.waitForExistence(timeout: 5))
         
         loginTextField.tap()
-        loginTextField.typeText("EMAIL")
+        loginTextField.typeText(login)
         webView.swipeUp()
         
         let passwordTextField = webView.descendants(matching: .secureTextField).element
         XCTAssertTrue(passwordTextField.waitForExistence(timeout: 5))
         
         passwordTextField.tap()
-        passwordTextField.typeText("LOGIN")
+        passwordTextField.typeText(password)
         webView.swipeUp()
         
         webView.buttons["Login"].tap()
@@ -47,7 +51,40 @@ final class ImageFeedUITests: XCTestCase {
     }
     
     func testFeed() throws {
-        // тестируем сценарий ленты
+        let tablesQuery = app.tables
+        let cell = tablesQuery.children(matching: .cell).element(boundBy: 0)
+        XCTAssertTrue(cell.waitForExistence(timeout: 5))
+
+        cell.swipeUp()
+        sleep(3)
+        
+        tablesQuery.children(matching: .cell).
+        
+        print(tablesQuery.children(matching: .cell).ele)
+        
+        let cellToLike = tablesQuery.children(matching: .cell).element(boundBy: 1)
+        XCTAssertTrue(cell.waitForExistence(timeout: 5))
+        
+        let likeButton = cellToLike.buttons["likeButton"]
+ 
+        XCTAssertTrue(likeButton.waitForExistence(timeout: 5))
+        likeButton.tap()
+        sleep(5)
+        likeButton.tap()
+        sleep(5)
+        
+        cellToLike.tap()
+        
+        let image = app.scrollViews.images.element(boundBy: 0)
+        XCTAssertTrue(cell.waitForExistence(timeout: 10))
+        
+        image.pinch(withScale: 3, velocity: 1)
+        sleep(1)
+        image.pinch(withScale: 0.5, velocity: -1)
+        
+        let backButton = app.buttons["backButton"]
+        backButton.tap()
+        
     }
     
     func testProfile() throws {

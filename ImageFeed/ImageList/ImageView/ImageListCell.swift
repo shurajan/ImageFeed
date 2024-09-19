@@ -34,6 +34,8 @@ final class ImageListCell: UITableViewCell {
     }
     
     func configure(photo: Photo) {
+        likeButton.accessibilityIdentifier = "likeButton"
+        
         guard
             let url = URL(string: photo.thumbImageURL)
         else {
@@ -54,7 +56,6 @@ final class ImageListCell: UITableViewCell {
         cellImage.kf.setImage(with: url, placeholder: UIImage(named: "card_stub"))
         
         let likeButtonImage = photo.isLiked ? likeOn : likeOff
-        
         likeButton.setImage(likeButtonImage, for: UIControl.State.normal)
     }
     
