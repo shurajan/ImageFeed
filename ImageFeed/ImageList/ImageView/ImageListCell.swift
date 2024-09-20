@@ -60,6 +60,8 @@ final class ImageListCell: UITableViewCell {
     }
     
     func update(photo: Photo) {
+        likeButton.accessibilityIdentifier = "likeButton"
+        
         guard let currentPhoto else {return}
         
         if currentPhoto.thumbImageURL != photo.thumbImageURL, 

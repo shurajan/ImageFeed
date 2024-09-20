@@ -46,7 +46,7 @@ final class WebViewViewController: DarkStatusBarViewController {
     
     // MARK: - private functions
     private func setAccessibilityIdentifiers() {
-        webView.accessibilityIdentifier = "UnsplashWebView"
+        webView.accessibilityIdentifier = "unsplashWebView"
     }
         
     // MARK: - Actions

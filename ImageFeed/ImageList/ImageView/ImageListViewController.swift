@@ -23,6 +23,7 @@ final class ImageListViewController: LightStatusBarViewController {
     // MARK: - View Life Cycles
     override func viewDidLoad() {
         super.viewDidLoad()
+        setAccessibilityIdentifiers()
         
         tableView.delegate = self
         tableView.dataSource = self
@@ -54,6 +55,11 @@ final class ImageListViewController: LightStatusBarViewController {
               let photo = presenter.photos[safe: indexPath.row]
         else {return}
         cell.configure(photo: photo)
+    }
+    
+    // MARK: - Private Functions
+    private func setAccessibilityIdentifiers() {
+        tableView.accessibilityIdentifier = "imageListTable"
     }
 }
 

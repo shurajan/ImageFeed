@@ -30,7 +30,7 @@ final class ImageFeedUITests: XCTestCase {
         
         app.buttons["authenticateButton"].tap()
         
-        let webView = app.webViews["UnsplashWebView"]
+        let webView = app.webViews["unsplashWebView"]
         
         XCTAssertTrue(webView.waitForExistence(timeout: 5))
         
@@ -56,25 +56,27 @@ final class ImageFeedUITests: XCTestCase {
         XCTAssertTrue(cell.waitForExistence(timeout: 5))
     }
     
+    
     func testFeed() throws {
-        let tablesQuery = app.tables
-        print(tablesQuery.cells.count)
-        let cell = tablesQuery.children(matching: .cell).element(boundBy: 0)
-        XCTAssertTrue(cell.waitForExistence(timeout: 5))
+        sleep(5)
         
-        app.swipeUp()
-        sleep(3)
-        
-        let cellToLike = tablesQuery.children(matching: .cell).element(boundBy: 1)
+        let cell = app.tables["imageListTable"].children(matching: .cell).element(boundBy: 0)
         XCTAssertTrue(cell.waitForExistence(timeout: 5))
+        cell.swipeUp()
+        
+        sleep(10)
+        
+        let cellToLike = app.tables["imageListTable"].children(matching: .cell).element(boundBy: 1)
+        XCTAssertTrue(cellToLike.waitForExistence(timeout: 5))
         
         let likeButton = cellToLike.buttons["likeButton"]
  
         XCTAssertTrue(likeButton.waitForExistence(timeout: 5))
         likeButton.tap()
-        sleep(5)
+        
+        sleep(3)
         likeButton.tap()
-        sleep(5)
+        sleep(3)
         
         cellToLike.tap()
         
