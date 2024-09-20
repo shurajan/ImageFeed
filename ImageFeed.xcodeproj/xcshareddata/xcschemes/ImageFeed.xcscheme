@@ -85,6 +85,16 @@
             value = "!Avb75123!"
             isEnabled = "YES">
          </EnvironmentVariable>
+         <EnvironmentVariable
+            key = "USERNAME"
+            value = "@shurajan"
+            isEnabled = "YES">
+         </EnvironmentVariable>
+         <EnvironmentVariable
+            key = "FULLNAME"
+            value = "Alexander Bralnin"
+            isEnabled = "YES">
+         </EnvironmentVariable>
       </EnvironmentVariables>
    </LaunchAction>
    <ProfileAction

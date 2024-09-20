@@ -32,6 +32,7 @@ final class ProfileViewController: LightStatusBarViewController {
         let view = UIButton()
         view.setImage(UIImage(named: "exit"), for: UIControl.State.normal)
         view.addTarget(self, action: #selector(exitButtonTapped(_:)), for: .touchUpInside)
+        view.accessibilityIdentifier = "exitButton"
         return view
     }()
     
@@ -146,7 +147,7 @@ final class ProfileViewController: LightStatusBarViewController {
             Log.info(message: "Staying authenticated")
         }
         
-        let alertModel = AlertModel(id: "AuthErrorAlert",
+        let alertModel = AlertModel(id: "exitAlert",
                                     title: "Пока, пока!",
                                     message: "Уверены что хотите выйти?",
                                     buttons: [buttonYes, buttonNo])

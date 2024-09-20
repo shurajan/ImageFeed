@@ -52,7 +52,7 @@ final class AuthViewController: LightStatusBarViewController {
         
     // MARK: - private functions
     private func setAccessibilityIdentifiers() {
-        buttonAuthenticate.accessibilityIdentifier = "Authenticate"
+        buttonAuthenticate.accessibilityIdentifier = "authenticateButton"
     }
     
     private func showAuthErrorAlert() {

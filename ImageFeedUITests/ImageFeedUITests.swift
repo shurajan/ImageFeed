@@ -11,6 +11,12 @@ import Foundation
 final class ImageFeedUITests: XCTestCase {
 
     private let app = XCUIApplication() // переменная приложения
+    private let login = ProcessInfo.processInfo.environment["LOGIN"] ?? "YOUR_LOGIN"
+    private let password = ProcessInfo.processInfo.environment["PASSWORD"] ?? "YOUR_PASSWORD"
+    private let fullName = ProcessInfo.processInfo.environment["FULLNAME"] ?? "YOUR_FULLNAME"
+    //USERNAME MUST BE WITH SYMBOL '@'
+    private let userName = ProcessInfo.processInfo.environment["USERNAME"] ?? "@YOUR_USERNAME"
+    
     
     override func setUpWithError() throws {
         continueAfterFailure = false // настройка выполнения тестов, которая прекратит выполнения тестов, если в тесте что-то пошло не так
@@ -22,7 +28,7 @@ final class ImageFeedUITests: XCTestCase {
         let login = ProcessInfo.processInfo.environment["LOGIN"] ?? "YOUR_LOGIN"
         let password = ProcessInfo.processInfo.environment["PASSWORD"] ?? "YOUR_PASSWORD"
         
-        app.buttons["Authenticate"].tap()
+        app.buttons["authenticateButton"].tap()
         
         let webView = app.webViews["UnsplashWebView"]
         
@@ -52,15 +58,12 @@ final class ImageFeedUITests: XCTestCase {
     
     func testFeed() throws {
         let tablesQuery = app.tables
+        print(tablesQuery.cells.count)
         let cell = tablesQuery.children(matching: .cell).element(boundBy: 0)
         XCTAssertTrue(cell.waitForExistence(timeout: 5))
-
-        cell.swipeUp()
+        
+        app.swipeUp()
         sleep(3)
-        
-        tablesQuery.children(matching: .cell).
-        
-        print(tablesQuery.children(matching: .cell).ele)
         
         let cellToLike = tablesQuery.children(matching: .cell).element(boundBy: 1)
         XCTAssertTrue(cell.waitForExistence(timeout: 5))
@@ -88,6 +91,18 @@ final class ImageFeedUITests: XCTestCase {
     }
     
     func testProfile() throws {
-        // тестируем сценарий профиля
+        let profileButton = app.tabBars.buttons.element(boundBy: 1)
+        XCTAssertTrue(profileButton.waitForExistence(timeout: 5))
+        profileButton.tap()
+        
+        XCTAssertTrue(app.staticTexts[fullName].exists)
+        XCTAssertTrue(app.staticTexts[userName].exists)
+        
+        app.buttons["exitButton"].tap()
+        
+        app.alerts["exitAlert"].scrollViews.otherElements.buttons["Да"].tap()
+        
+        let authenticateButton = app.buttons["authenticateButton"]
+        XCTAssertTrue(authenticateButton.waitForExistence(timeout: 5))
     }
 }
