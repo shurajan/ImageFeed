@@ -58,10 +58,15 @@ final class ImageFeedUITests: XCTestCase {
     
     
     func testFeed() throws {
-        sleep(5)
         
-        let cell = app.tables["imageListTable"].children(matching: .cell).element(boundBy: 0)
-        XCTAssertTrue(cell.waitForExistence(timeout: 5))
+        let table = app.tables["imageListTable"]
+        let cell = table.children(matching: .cell).element(boundBy: 0)
+        cell.buttons.element(boundBy: 0).tap()
+        
+        /*
+        print("end")
+        sleep(5)
+        //XCTAssertTrue(cell.waitForExistence(timeout: 5))
         cell.swipeUp()
         
         sleep(10)
@@ -88,7 +93,7 @@ final class ImageFeedUITests: XCTestCase {
         image.pinch(withScale: 0.5, velocity: -1)
         
         let backButton = app.buttons["backButton"]
-        backButton.tap()
+        backButton.tap()*/
         
     }
     

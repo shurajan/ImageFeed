@@ -29,13 +29,11 @@ final class ImageListCell: UITableViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
-        
+        likeButton.accessibilityIdentifier = "likeButton"
         cellImage.kf.cancelDownloadTask()
     }
     
     func configure(photo: Photo) {
-        likeButton.accessibilityIdentifier = "likeButton"
-        
         guard
             let url = URL(string: photo.thumbImageURL)
         else {
@@ -60,8 +58,6 @@ final class ImageListCell: UITableViewCell {
     }
     
     func update(photo: Photo) {
-        likeButton.accessibilityIdentifier = "likeButton"
-        
         guard let currentPhoto else {return}
         
         if currentPhoto.thumbImageURL != photo.thumbImageURL, 
