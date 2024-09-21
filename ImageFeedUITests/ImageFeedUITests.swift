@@ -19,7 +19,8 @@ final class ImageFeedUITests: XCTestCase {
     
     
     override func setUpWithError() throws {
-        continueAfterFailure = false 
+        continueAfterFailure = false
+        app.launchArguments = ["UITEST"]
         app.launch()
     }
     
@@ -58,6 +59,7 @@ final class ImageFeedUITests: XCTestCase {
 
         let firstCell = app.tables["imageListTable"].children(matching: .cell).element(boundBy: 0)
         XCTAssertTrue(firstCell.waitForExistence(timeout: 5))
+        sleep(3)
         firstCell.swipeUp()
         
         let secondCell = app.tables["imageListTable"].children(matching: .cell).element(boundBy: 1)

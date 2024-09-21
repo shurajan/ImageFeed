@@ -50,6 +50,15 @@ final class ImageListService: ImageListServiceProtocol {
             return
         }
         let nextPage = (lastLoadedPage ?? 0) + 1
+        
+        if nextPage == 3 {
+            Log.info(message: "reached max page")
+            NotificationCenter.default
+                .post(
+                    name: ImageListService.didChangeNotification,
+                    object: self)
+            return
+        }
                 
         guard
             let token = OAuth2TokenStorage.shared.token,
