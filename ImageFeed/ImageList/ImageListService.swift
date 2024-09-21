@@ -51,7 +51,7 @@ final class ImageListService: ImageListServiceProtocol {
         }
         let nextPage = (lastLoadedPage ?? 0) + 1
         
-        if nextPage == 3 {
+        if nextPage == AppConfig.maxPages {
             Log.info(message: "reached max page")
             NotificationCenter.default
                 .post(
