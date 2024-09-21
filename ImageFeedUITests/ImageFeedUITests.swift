@@ -19,9 +19,8 @@ final class ImageFeedUITests: XCTestCase {
     
     
     override func setUpWithError() throws {
-        continueAfterFailure = false // настройка выполнения тестов, которая прекратит выполнения тестов, если в тесте что-то пошло не так
-        
-        app.launch() // запускаем приложение перед каждым тестом
+        continueAfterFailure = false 
+        app.launch()
     }
     
     func testAuth() throws {
@@ -58,9 +57,12 @@ final class ImageFeedUITests: XCTestCase {
         //po app.tables["imageListTable"].children(matching: .cell).element(boundBy: 0).buttons["likeButton"].tap()
 
         let firstCell = app.tables["imageListTable"].children(matching: .cell).element(boundBy: 0)
+        XCTAssertTrue(firstCell.waitForExistence(timeout: 5))
         firstCell.swipeUp()
         
         let secondCell = app.tables["imageListTable"].children(matching: .cell).element(boundBy: 1)
+        XCTAssertTrue(secondCell.waitForExistence(timeout: 5))
+        
         secondCell.buttons["likeButton"].tap()
         sleep(3)
         secondCell.buttons["likeButton"].tap()
