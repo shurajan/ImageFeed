@@ -84,6 +84,7 @@ final class ImageListCell: UITableViewCell {
     
     
     @IBAction private func likeButtonClicked(_ sender: UIButton) {
+        Log.info(message: "like button clicked on \(currentPhoto?.id ?? "unknown id")")
         delegate?.imageListCellDidTapLike(self)
     }
     

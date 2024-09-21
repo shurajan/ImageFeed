@@ -44,13 +44,13 @@ final class ImageListService: ImageListServiceProtocol {
     //MARK: - Public functions
     func fetchPhotosNextPage() {
         assert(Thread.isMainThread)
-        
+                
         if loadPhotosTask != nil {
             Log.info(message: "Task is in progress")
             return
         }
         let nextPage = (lastLoadedPage ?? 0) + 1
-        
+                
         guard
             let token = OAuth2TokenStorage.shared.token,
             let request = makeNextPageRequest(for: token, page: nextPage) else {
