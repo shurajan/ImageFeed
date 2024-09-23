@@ -55,8 +55,6 @@ final class ImageFeedUITests: XCTestCase {
     
     
     func testFeed() throws {
-        //po app.tables["imageListTable"].children(matching: .cell).element(boundBy: 0).buttons["likeButton"].tap()
-
         let firstCell = app.tables["imageListTable"].children(matching: .cell).element(boundBy: 0)
         XCTAssertTrue(firstCell.waitForExistence(timeout: 5))
         sleep(3)
