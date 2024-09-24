@@ -21,13 +21,20 @@ enum ImagesListServiceServiceError: Error {
     }
 }
 
+//MARK: - ImageListServiceProtocol
+protocol ImageListServiceProtocol{
+    var photos: [Photo] { get }
+    func fetchPhotosNextPage()
+    func changeLike(photoId: String, isLike: Bool, _ completion: @escaping (Result<Void?, Error>) -> Void)
+}
+
 //MARK: - ImagesListService
-final class ImagesListService {
-    static let shared = ImagesListService()
+final class ImageListService: ImageListServiceProtocol {
+    static let shared = ImageListService()
     static let didChangeNotification = Notification.Name(rawValue: "ImagesListServiceDidChange")
     
     private let urlSession = URLSession.shared
-    private let baseURL = URLConstants.defaultBaseURL
+    private let baseURL = AuthConfiguration.standard.defaultBaseURL
     
     private (set) var photos: [Photo] = []
     private var lastLoadedPage: Int?
@@ -37,13 +44,22 @@ final class ImagesListService {
     //MARK: - Public functions
     func fetchPhotosNextPage() {
         assert(Thread.isMainThread)
-        
+                
         if loadPhotosTask != nil {
             Log.info(message: "Task is in progress")
             return
         }
         let nextPage = (lastLoadedPage ?? 0) + 1
         
+        if nextPage == AppConfig.maxPages {
+            Log.info(message: "reached max page")
+            NotificationCenter.default
+                .post(
+                    name: ImageListService.didChangeNotification,
+                    object: self)
+            return
+        }
+                
         guard
             let token = OAuth2TokenStorage.shared.token,
             let request = makeNextPageRequest(for: token, page: nextPage) else {
@@ -59,13 +75,15 @@ final class ImagesListService {
             switch result {
             case .success(let result):
                 self.appendNewPhotos(items: result)
-                NotificationCenter.default
-                    .post(
-                        name: ImagesListService.didChangeNotification,
-                        object: self)
             case .failure(let error):
                 Log.error(error: error)
             }
+            
+            NotificationCenter.default
+                .post(
+                    name: ImageListService.didChangeNotification,
+                    object: self)
+            
             self.loadPhotosTask = nil
             lastLoadedPage = nextPage
         }
@@ -155,7 +173,7 @@ final class ImagesListService {
         return request
     }
     
-    func makeLikeChangeRequest(for token: String, photoId: String, isLike: Bool) -> URLRequest? {
+    private func makeLikeChangeRequest(for token: String, photoId: String, isLike: Bool) -> URLRequest? {
         guard let baseURL,
               let urlComponents = URLComponents(url: makePhotoLikeURL(from: baseURL, for: photoId), resolvingAgainstBaseURL: true)
         else {
@@ -205,7 +223,7 @@ final class ImagesListService {
     
 }
 
-extension ImagesListService: ProfileCleanProtocol {
+extension ImageListService: ProfileCleanProtocol {
     func clean(){
         if changeLikeTask != nil {
             changeLikeTask?.cancel()

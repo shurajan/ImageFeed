@@ -7,6 +7,12 @@
 
 import Foundation
 
+//MARK: - ProfileServiceProtocol
+protocol ProfileServiceProtocol{
+    var profile: Profile? { get }
+    func fetchProfile(_ token: String, completion: @escaping (Result<Profile, Error>) -> Void)
+}
+
 //MARK: - ProfileService Error
 enum ProfileServiceError: Error {
     case invalidRequest
@@ -20,20 +26,19 @@ enum ProfileServiceError: Error {
 }
 
 //MARK: - ProfileService class
-final class ProfileService {
+final class ProfileService: ProfileServiceProtocol {
     static let shared = ProfileService()
     
     //MARK: - Dependency injections and constants
     private let urlSession = URLSession.shared
-    private let baseURL = URLConstants.defaultBaseURL
-    
-    //MARK: - Private(set) variables
-    private(set) var profile: Profile?
-    
+    private let baseURL = AuthConfiguration.standard.defaultBaseURL
+        
     //MARK: - Private variables
     private var task: URLSessionTask?
     
-    //MARK: - Public functions
+    //MARK: - ProfileServiceProtocol implementation
+    private(set) var profile: Profile?
+    
     func fetchProfile(_ token: String, completion: @escaping (Result<Profile, Error>) -> Void) {
         assert(Thread.isMainThread)
         

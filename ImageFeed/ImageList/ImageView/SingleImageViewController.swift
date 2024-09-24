@@ -26,6 +26,8 @@ final class SingleImageViewController: LightStatusBarViewController {
     // MARK: - View Life Cycles
     override func viewDidLoad() {
         super.viewDidLoad()
+        setAccessibilityIdentifiers()
+        
         scrollView.delegate = self
         scrollView.minimumZoomScale = 0.1
         scrollView.maximumZoomScale = 1.25
@@ -42,6 +44,10 @@ final class SingleImageViewController: LightStatusBarViewController {
     }
     
     // MARK: - Private functions
+    private func setAccessibilityIdentifiers() {
+        backButton.accessibilityIdentifier = "backButton"
+    }
+    
     private func loadPhoto(photo: Photo){
         guard let photoURL = URL(string: photo.largeImageURL)
         else {return}
@@ -135,16 +141,9 @@ extension SingleImageViewController: UIScrollViewDelegate {
     }
     
     func scrollViewDidZoom(_ scrollView: UIScrollView){
-        guard let image = imageView.image else {return}
-        
-        let visibleRectSize = scrollView.bounds.size
-        let imageSize = image.size
-        let scale = scrollView.zoomScale
-        
-        let left = max((visibleRectSize.width - imageSize.width*scale) / 2, 0)
-        let top = max((visibleRectSize.height - imageSize.height*scale) / 2, 0)
-        
-        scrollView.contentInset = UIEdgeInsets(top: top, left: left, bottom: top, right: left)
+        let offsetX = max((scrollView.bounds.width - scrollView.contentSize.width) * 0.5, 0)
+        let offsetY = max((scrollView.bounds.height - scrollView.contentSize.height) * 0.5, 0)
+        scrollView.contentInset = UIEdgeInsets(top: offsetY, left: offsetX, bottom: 0, right: 0)
     }
 }
 

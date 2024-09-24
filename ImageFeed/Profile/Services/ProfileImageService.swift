@@ -7,7 +7,7 @@
 
 import Foundation
 
-//MARK: - ProfileService Error
+//MARK: - ProfileImageService Error
 enum ProfileImageServiceError: Error {
     case invalidRequest
     
@@ -19,24 +19,30 @@ enum ProfileImageServiceError: Error {
     }
 }
 
+//MARK: - ProfileImageServiceProtocol
+
+public protocol ProfileImageServiceProtocol {
+    var avatarURL: String? { get }
+    func fetchProfileImageURL(_ token: String, completion: @escaping (Result<String, Error>) -> Void)
+}
+
 //MARK: - ProfileImageService class
-final class ProfileImageService {
+final class ProfileImageService: ProfileImageServiceProtocol {
     static let shared = ProfileImageService()
-    static let didChangeNotification = Notification.Name(rawValue: "ProfileImageProviderDidChange")
     
+    static let didChangeNotification = Notification.Name(rawValue: "ProfileImageProviderDidChange")
     
     //MARK: - Dependency injections and constants
     private let username = ProfileService.shared.profile?.username
     private let urlSession = URLSession.shared
-    private let baseURL = URLConstants.defaultBaseURL
-    
-    //MARK: - Private(set) variables
-    private (set) var avatarURL: String?
+    private let baseURL = AuthConfiguration.standard.defaultBaseURL
     
     //MARK: - Private variables
     private var task: URLSessionTask?
         
-    //MARK: - Public functions
+    //MARK: - ProfileImageServiceProtocol protocol implementation
+    private (set) var avatarURL: String?
+    
     func fetchProfileImageURL(_ token: String, completion: @escaping (Result<String, Error>) -> Void) {
         assert(Thread.isMainThread)
         

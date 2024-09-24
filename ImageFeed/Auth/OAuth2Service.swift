@@ -23,10 +23,13 @@ enum AuthServiceError: Error {
     }
 }
 
+protocol OAuth2ServiceProtocol {
+    func fetchOAuthToken(for code: String, completion: @escaping (Result<String, Error>) -> Void)
+}
+
 //MARK: - OAuth2Service
-final class OAuth2Service {
+final class OAuth2Service: OAuth2ServiceProtocol {
     static let shared = OAuth2Service()
-    
     //MARK: - Dependency injections and constants
     private let urlSession = URLSession.shared
     
@@ -82,7 +85,7 @@ final class OAuth2Service {
     
     //MARK: - Private functions
     private func makeOAuthTokenRequest(for code: String) -> URLRequest? {
-        guard var urlComponents = URLComponents(string: URLConstants.tokenURLString) else {
+        guard var urlComponents = URLComponents(string: AuthConfiguration.standard.tokenURLString) else {
             let message = "Can not build url components"
             Log.warn(message: message)
             assertionFailure(message)
@@ -90,9 +93,9 @@ final class OAuth2Service {
         }
         
         urlComponents.queryItems = [
-            URLQueryItem(name: "client_id", value: Constants.accessKey),
-            URLQueryItem(name: "client_secret", value: Constants.secretKey),
-            URLQueryItem(name: "redirect_uri", value: Constants.redirectURI),
+            URLQueryItem(name: "client_id", value: AuthConfiguration.standard.accessKey),
+            URLQueryItem(name: "client_secret", value: AuthConfiguration.standard.secretKey),
+            URLQueryItem(name: "redirect_uri", value: AuthConfiguration.standard.redirectURI),
             URLQueryItem(name: "code", value: code),
             URLQueryItem(name: "grant_type", value: "authorization_code")
         ]

@@ -16,6 +16,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         ProgressHUD.colorHUD = .ypBlackIOS
         ProgressHUD.colorAnimation = .lightGray
         
+        Log.info(message: "Max page limit set to : \(AppConfig.maxPages)")
+    
         return true
     }
 

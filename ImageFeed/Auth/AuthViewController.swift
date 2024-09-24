@@ -18,27 +18,43 @@ final class AuthViewController: LightStatusBarViewController {
     private let ShowWebViewSegueIdentifier = "ShowWebView"
         
     weak var delegate: AuthViewControllerDelegate?
-
+    
+    // MARK: - IBOutlets
+    @IBOutlet weak var buttonAuthenticate: UIButton!
+    
+    // MARK: - Private variables
     private var alertPresenter: AlertPresenter?
+    private var oAuth2Service: OAuth2ServiceProtocol?
     
     // MARK: - View Life Cycles
     override func viewDidLoad() {
         super.viewDidLoad()
+        setAccessibilityIdentifiers()
         
         let alertPresenter = AlertPresenter()
         alertPresenter.delegate = self
         self.alertPresenter = alertPresenter
+        
+        oAuth2Service = OAuth2Service.shared
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         guard
             segue.identifier == ShowWebViewSegueIdentifier,
-            let viewController = segue.destination as? WebViewViewController
+            let webViewViewController = segue.destination as? WebViewViewController
         else {
             super.prepare(for: segue, sender: sender)
             return
         }
-        viewController.delegate = self
+        let authHelper = AuthHelper()
+        let webViewPresenter = WebViewPresenter(authHelper: authHelper)
+        webViewViewController.delegate = self
+        webViewViewController.configure(webViewPresenter)
+    }
+        
+    // MARK: - private functions
+    private func setAccessibilityIdentifiers() {
+        buttonAuthenticate.accessibilityIdentifier = "authenticateButton"
     }
     
     private func showAuthErrorAlert() {
@@ -57,8 +73,10 @@ final class AuthViewController: LightStatusBarViewController {
 extension AuthViewController: WebViewViewControllerDelegate {
     func webViewViewController(_ vc: WebViewViewController, didAuthenticateWithCode code: String) {
         vc.dismiss(animated: true)
+        guard let oAuth2Service else { return }
+        
         UIBlockingProgressHUD.show()
-        OAuth2Service.shared.fetchOAuthToken(for: code) {[weak self] result in
+        oAuth2Service.fetchOAuthToken(for: code) {[weak self] result in
             guard let self = self else {return}
             switch result{
             case .success(let token):

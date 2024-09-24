@@ -10,7 +10,7 @@ import UIKit
 import Kingfisher
 
 
-final class ImagesListCell: UITableViewCell {
+final class ImageListCell: UITableViewCell {
     weak var delegate: ImagesListCellDelegate?
     
     // MARK: - Static variables
@@ -29,7 +29,7 @@ final class ImagesListCell: UITableViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
-        
+        likeButton.accessibilityIdentifier = "likeButton"
         cellImage.kf.cancelDownloadTask()
     }
     
@@ -53,9 +53,7 @@ final class ImagesListCell: UITableViewCell {
         dateLabel.addCharacterSpacing(kernValue: -0.08)
         cellImage.kf.setImage(with: url, placeholder: UIImage(named: "card_stub"))
         
-        
         let likeButtonImage = photo.isLiked ? likeOn : likeOff
-        
         likeButton.setImage(likeButtonImage, for: UIControl.State.normal)
     }
     
@@ -85,7 +83,8 @@ final class ImagesListCell: UITableViewCell {
     }
     
     
-    @IBAction private func likeButtonClicked(_ sender: Any) {
+    @IBAction private func likeButtonClicked(_ sender: UIButton) {
+        Log.info(message: "like button clicked on \(currentPhoto?.id ?? "unknown id")")
         delegate?.imageListCellDidTapLike(self)
     }
     

@@ -9,7 +9,11 @@
 import Foundation
 import WebKit
 
-final class ProfileLogoutService {
+protocol ProfileLogoutServiceProtocol{
+    func logout()
+}
+
+final class ProfileLogoutService: ProfileLogoutServiceProtocol {
     static let shared = ProfileLogoutService()
     
     private let services: [ProfileCleanProtocol] = [
@@ -17,11 +21,12 @@ final class ProfileLogoutService {
         ProfileService.shared,
         OAuth2Service.shared,
         OAuth2TokenStorage.shared,
-        ImagesListService.shared
+        ImageListService.shared
     ]
     
     private init() { }
     
+    //MARK: - ProfileLogoutServiceProtocol implementation
     func logout() {
         cleanCookies()
         Log.info(message: "Cleaned cookies")
