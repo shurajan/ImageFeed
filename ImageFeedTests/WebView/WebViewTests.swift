@@ -82,7 +82,7 @@ final class WebViewTests: XCTestCase {
         XCTAssertTrue(urlString.contains(configuration.authorizeURLString))
         XCTAssertTrue(urlString.contains(configuration.accessKey))
         XCTAssertTrue(urlString.contains(configuration.redirectURI))
-        XCTAssertTrue(urlString.contains("code"))
+        XCTAssertTrue(urlString.contains(configuration.codeItemName))
         XCTAssertTrue(urlString.contains(configuration.accessScope))
     }
     
@@ -92,12 +92,12 @@ final class WebViewTests: XCTestCase {
         let authHelper = AuthHelper(configuration: configuration)
         
         //when
-        guard var urlComponents = URLComponents(string: "https://unsplash.com/oauth/authorize/native") else {
+        guard var urlComponents = URLComponents(string: configuration.domainName + configuration.codePath) else {
             XCTFail("Failed to build url components")
             return
         }
         
-        urlComponents.queryItems = [URLQueryItem(name: "code", value: "test code")]
+        urlComponents.queryItems = [URLQueryItem(name: configuration.codeItemName, value: "test code")]
         
         guard let url = urlComponents.url else {
             XCTFail("Failed to get url from a url components")

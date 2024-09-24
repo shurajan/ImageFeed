@@ -28,9 +28,9 @@ final class AuthHelper: AuthHelperProtocol {
     
     func code(from url: URL) -> String? {
         if  let urlComponents = URLComponents(string: url.absoluteString),
-            urlComponents.path == "/oauth/authorize/native",
+            urlComponents.path == configuration.codePath,
             let items = urlComponents.queryItems,
-            let codeItem = items.first(where: { $0.name == "code" })
+            let codeItem = items.first(where: { $0.name == configuration.codeItemName})
         {
             return codeItem.value
         } else {
@@ -46,7 +46,7 @@ final class AuthHelper: AuthHelperProtocol {
         urlComponents.queryItems = [
             URLQueryItem(name: "client_id", value: configuration.accessKey),
             URLQueryItem(name: "redirect_uri", value: configuration.redirectURI),
-            URLQueryItem(name: "response_type", value: "code"),
+            URLQueryItem(name: "response_type", value: configuration.codeItemName),
             URLQueryItem(name: "scope", value: configuration.accessScope)
         ]
         

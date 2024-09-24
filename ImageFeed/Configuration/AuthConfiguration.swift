@@ -13,21 +13,28 @@ fileprivate enum Constants {
     static let redirectURI = "urn:ietf:wg:oauth:2.0:oob"
     static let accessScope = "public+read_user+write_likes"
     
+    static let domainName = "https://unsplash.com"
     static let defaultBaseURL = URL(string: "https://api.unsplash.com")
     static let tokenURLString = "https://unsplash.com/oauth/token"
     static let authorizeURLString = "https://unsplash.com/oauth/authorize"
+    
+    static let codeItemName = "code"
+    static let codePath = "/oauth/authorize/native"
 }
-
 
 struct AuthConfiguration {
     static var standard: AuthConfiguration {
-        return AuthConfiguration(accessKey: Constants.accessKey,
-                                 secretKey: Constants.secretKey,
-                                 redirectURI: Constants.redirectURI,
-                                 accessScope: Constants.accessScope,
-                                 defaultBaseURL: Constants.defaultBaseURL,
-                                 tokenURLString: Constants.tokenURLString,
-                                 authorizeURLString: Constants.authorizeURLString
+        return AuthConfiguration(
+            accessKey: Constants.accessKey,
+            secretKey: Constants.secretKey,
+            redirectURI: Constants.redirectURI,
+            accessScope: Constants.accessScope,
+            domainName: Constants.domainName,
+            defaultBaseURL: Constants.defaultBaseURL,
+            tokenURLString: Constants.tokenURLString,
+            authorizeURLString: Constants.authorizeURLString,
+            codeItemName: Constants.codeItemName,
+            codePath: Constants.codePath
         )
     }
     
@@ -36,23 +43,10 @@ struct AuthConfiguration {
     let secretKey: String
     let redirectURI: String
     let accessScope: String
+    let domainName: String
     let defaultBaseURL: URL?
     let tokenURLString: String
     let authorizeURLString: String
-    
-    init(accessKey: String,
-         secretKey: String,
-         redirectURI: String,
-         accessScope: String,
-         defaultBaseURL: URL?,
-         tokenURLString: String,
-         authorizeURLString: String) {
-        self.accessKey = accessKey
-        self.secretKey = secretKey
-        self.redirectURI = redirectURI
-        self.accessScope = accessScope
-        self.defaultBaseURL = defaultBaseURL
-        self.tokenURLString = tokenURLString
-        self.authorizeURLString = authorizeURLString
-    }
+    let codeItemName: String
+    let codePath: String
 }

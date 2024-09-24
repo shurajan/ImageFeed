@@ -24,7 +24,7 @@ final class AuthViewController: LightStatusBarViewController {
     
     // MARK: - Private variables
     private var alertPresenter: AlertPresenter?
-    private var oAuth2Service: OAuth2ServiceProtocol = OAuth2Service.shared
+    private var oAuth2Service: OAuth2ServiceProtocol?
     
     // MARK: - View Life Cycles
     override func viewDidLoad() {
@@ -34,6 +34,8 @@ final class AuthViewController: LightStatusBarViewController {
         let alertPresenter = AlertPresenter()
         alertPresenter.delegate = self
         self.alertPresenter = alertPresenter
+        
+        oAuth2Service = OAuth2Service.shared
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -71,6 +73,8 @@ final class AuthViewController: LightStatusBarViewController {
 extension AuthViewController: WebViewViewControllerDelegate {
     func webViewViewController(_ vc: WebViewViewController, didAuthenticateWithCode code: String) {
         vc.dismiss(animated: true)
+        guard let oAuth2Service else { return }
+        
         UIBlockingProgressHUD.show()
         oAuth2Service.fetchOAuthToken(for: code) {[weak self] result in
             guard let self = self else {return}
